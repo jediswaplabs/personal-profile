@@ -1,0 +1,54 @@
+{
+  "activitiesList": {
+    "errors": {
+      "fetching": "An error occurred during the request.",
+      "empty": "All activities will be listed here"
+    },
+    "titles": {
+      "title": "Recent activities"
+    },
+    "controls": {
+      "showMore": "Show more",
+      "showLess": "Show less"
+    }
+  },
+  "wallet": {
+    "errors": {
+      "fetching": "An error occurred during the request.",
+      "empty": "Your wallet is empty."
+    },
+    "title": "Wallet Balance"
+  },
+  "profileCard": {
+    "errors": {
+      "fetching": "An error occurred during the request."
+    },
+    "controls": {
+      "editProfile": "Edit Profile",
+      "copyAddress": "Copy address",
+      "switchAccount": "Switch account"
+    }
+  },
+  "guildsList": {
+    "errors": {
+      "fetching": "An error occurred during the request.",
+      "empty": "An error occurred during the request."
+    }
+  },
+  "leaderboard": {
+    "title": "Leaderboard",
+    "controls": {
+      "prev": "Prev",
+      "next": "Next"
+    },
+    "errors": {
+      "fetching": "An error occurred during the request.",
+      "unselected": "Select guild from above to see respective leaderboard"
+    },
+    "columns": {
+      "address": "Address",
+      "rank": "Overall rank",
+      "points": "Total points"
+    }
+  }
+}

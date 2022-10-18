@@ -1,0 +1,32 @@
+{
+  "activitiesList": {
+    "errors": {
+      "fetching": "अनुरोध के दौरान एक त्रुटि हुई ।",
+      "empty": "आपके पास अभी तक कोई हालिया गतिविधि नहीं है ।"
+    },
+    "titles": {
+      "title": "हाल की गतिविधियाँ"
+    },
+    "controls": {
+      "showMore": "अधिक दिखाएं",
+      "showLess": "कम दिखाओ"
+    }
+  },
+  "wallet": {
+    "errors": {
+      "fetching": "अनुरोध के दौरान एक त्रुटि हुई ।",
+      "empty": "आपका बटुआ खाली है ।"
+    },
+    "title": "वॉलेट बैलेंस"
+  },
+  "profileCard": {
+    "errors": {
+      "fetching": "अनुरोध के दौरान एक त्रुटि हुई ।"
+    },
+    "controls": {
+      "editProfile": "प्रोफ़ाइल संपादित करें",
+      "copyAddress": "पता कॉपी करें",
+      "switchAccount": "खाता स्विच करें"
+    }
+  }
+}
