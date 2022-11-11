@@ -23,20 +23,26 @@ const Template = (args) => (
 );
 
 const Default = Template.bind({});
-Default.args = { storyTitle: 'Default',
-  userId: '0xfoo' };
+Default.args = {
+  storyTitle: 'Default',
+  userId: '0xfoo',
+};
 Default.decorators = [
   (Story) => {
     const MockStore = renderWithProviders({ preloadedState: { profile: defaultProfileState } });
     return <MockStore><Story /></MockStore>;
   },
 ];
-Default.parameters = { msw: { handlers: [
-  graphql.query('GetWallet', (req, res, ctx) => res(
-    ctx.delay(ARTIFICIAL_DELAY_MS),
-    ctx.data(defaultCurrenciesList),
-  )),
-] } };
+Default.parameters = {
+  msw: {
+    handlers: [
+      graphql.query('GetWallet', (req, res, ctx) => res(
+        ctx.delay(ARTIFICIAL_DELAY_MS),
+        ctx.data(defaultCurrenciesList),
+      )),
+    ],
+  },
+};
 Default.play = async ({ canvasElement }) => {};
 
 const Loading = Template.bind({});
@@ -47,11 +53,15 @@ Loading.decorators = [
     return <MockStore><Story /></MockStore>;
   },
 ];
-Loading.parameters = { msw: { handlers: [
-  graphql.query('GetWallet', (req, res, ctx) => res(
-    ctx.delay('infinite'),
-  )),
-] } };
+Loading.parameters = {
+  msw: {
+    handlers: [
+      graphql.query('GetWallet', (req, res, ctx) => res(
+        ctx.delay('infinite'),
+      )),
+    ],
+  },
+};
 Loading.play = async ({ canvasElement }) => {};
 
 const Error = Template.bind({});
@@ -62,13 +72,17 @@ Error.decorators = [
     return <MockStore><Story /></MockStore>;
   },
 ];
-Error.parameters = { msw: { handlers: [
-  graphql.query('GetWallet', (req, res, ctx) => res(
-    ctx.delay(ARTIFICIAL_DELAY_MS),
-    ctx.errors([
-      { message: 'Failed to get data' }]),
-  )),
-] } };
+Error.parameters = {
+  msw: {
+    handlers: [
+      graphql.query('GetWallet', (req, res, ctx) => res(
+        ctx.delay(ARTIFICIAL_DELAY_MS),
+        ctx.errors([
+          { message: 'Failed to get data' }]),
+      )),
+    ],
+  },
+};
 Error.play = async ({ canvasElement }) => {};
 
 const Empty = Template.bind({});
@@ -79,18 +93,24 @@ Empty.decorators = [
     return <MockStore><Story /></MockStore>;
   },
 ];
-Empty.parameters = { msw: { handlers: [
-  graphql.query('GetWallet', (req, res, ctx) => res(
-    ctx.delay(ARTIFICIAL_DELAY_MS),
-    ctx.data(emptyCurrenciesList),
-  )),
-] } };
+Empty.parameters = {
+  msw: {
+    handlers: [
+      graphql.query('GetWallet', (req, res, ctx) => res(
+        ctx.delay(ARTIFICIAL_DELAY_MS),
+        ctx.data(emptyCurrenciesList),
+      )),
+    ],
+  },
+};
 Empty.play = async ({ canvasElement }) => {};
 
-const stories = { title: 'Components/Wallet',
+const stories = {
+  title: 'Components/Wallet',
   component: Wallet,
   parameters: { actions: { argTypesRegex: '^on.*' } },
-  argTypes: {} };
+  argTypes: {},
+};
 
 export {
   Default,

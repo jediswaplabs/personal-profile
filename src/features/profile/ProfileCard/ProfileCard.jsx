@@ -30,11 +30,13 @@ const ProfileCard = () => {
   const profileId = useSelector((state) => state.profile.address);
   const isReadOnlyModeEnabled = useSelector((state) => state.profile.readOnly);
 
-  const [getUserById, { data: user,
+  const [getUserById, {
+    data: user,
     isLoading,
     isSuccess,
     isError,
-    isUninitialized }] = useLazyGetUserByIdQuery();
+    isUninitialized,
+  }] = useLazyGetUserByIdQuery();
 
   useEffect(() => {
     if (!profileId) { return; }
@@ -79,9 +81,8 @@ const ProfileCard = () => {
                 : (
                   <>
                     <div className="account-controls-item">
-                      <GradientButton variant="outlined"
-                        size="small"
-                      >{t('profileCard.controls.editProfile')}
+                      <GradientButton variant="outlined" size="small">
+                        {t('profileCard.controls.editProfile')}
                       </GradientButton>
                     </div>
                     <div className="account-controls-item">

@@ -2,10 +2,14 @@ import { createApi } from '@reduxjs/toolkit/query/react';
 import { graphqlRequestBaseQuery } from '@rtk-query/graphql-request-base-query';
 import { request, gql, ClientError } from 'graphql-request';
 
-export const apiSlice = createApi({ reducerPath: 'api',
+export const apiSlice = createApi({
+  reducerPath: 'api',
   baseQuery: graphqlRequestBaseQuery({ baseUrl: '/' }),
-  tagTypes: ['Activities', 'Wallet', 'Profile', 'Guilds'],
-  endpoints: (builder) => ({ getActivitiesByUserId: builder.query({ query: () => ({ document: gql`
+  tagTypes: ['Activities', 'Wallet', 'Profile', 'Guilds', 'MeshNft'],
+  endpoints: (builder) => ({
+    getActivitiesByUserId: builder.query({
+      query: () => ({
+        document: gql`
           query GetActivities {
             activities {
               id
@@ -13,30 +17,42 @@ export const apiSlice = createApi({ reducerPath: 'api',
               title
             }
           }
-        ` }),
-  transformResponse: (responseData) => responseData,
-  providesTags: ['Activities', 'Profile'] }),
-  getWalletByUserId: builder.query({ query: () => ({ document: gql`
+        `,
+      }),
+      transformResponse: (responseData) => responseData,
+      providesTags: ['Activities', 'Profile'],
+    }),
+    getWalletByUserId: builder.query({
+      query: () => ({
+        document: gql`
           query GetWallet {
             currencies {
               name
               amount
             }
           }
-        ` }),
-  transformResponse: (responseData) => responseData,
-  providesTags: ['Wallet', 'Profile'] }),
-  getUserById: builder.query({ query: (userId) => ({ document: gql`
+        `,
+      }),
+      transformResponse: (responseData) => responseData,
+      providesTags: ['Wallet', 'Profile'],
+    }),
+    getUserById: builder.query({
+      query: (userId) => ({
+        document: gql`
           query GetUser {
             user {
               avatar
               address
             }
           }
-        ` }),
-  transformResponse: (responseData) => responseData,
-  providesTags: ['Profile'] }),
-  getGuildsScoreByUserId: builder.query({ query: () => ({ document: gql`
+        `,
+      }),
+      transformResponse: (responseData) => responseData,
+      providesTags: ['Profile'],
+    }),
+    getGuildsScoreByUserId: builder.query({
+      query: () => ({
+        document: gql`
           query GetGuilds {
             guilds {
               id
@@ -44,21 +60,41 @@ export const apiSlice = createApi({ reducerPath: 'api',
               score
             }
           }
-        ` }),
-  transformResponse: (responseData) => responseData,
-  providesTags: ['Profile', 'Guilds'] }),
-  getGuildLeaderboardBuGuildId: builder.query({ query: (guildId) => ({ document: gql`
+        `,
+      }),
+      transformResponse: (responseData) => responseData,
+      providesTags: ['Profile', 'Guilds'],
+    }),
+    getGuildLeaderboardBuGuildId: builder.query({
+      query: (guildId) => ({
+        document: gql`
           query GetGuildLeaderboard {
               address
               rank
               points
               positionTrend
           }
-        ` }),
-  transformResponse: (responseData) => responseData,
-  providesTags: ['Guilds'] }) }) });
+        `,
+      }),
+      transformResponse: (responseData) => responseData,
+      providesTags: ['Guilds'],
+    }),
+    getMeshNftByUserId: builder.query({
+      query: (userId) => ({
+        document: gql`
+          query GetMeshNftByUserId {
+              foo
+          }
+        `,
+      }),
+      transformResponse: (responseData) => responseData,
+      providesTags: ['MeshNft'],
+    }),
+  }),
+});
 
-export const { useGetActivitiesByUserIdQuery,
+export const {
+  useGetActivitiesByUserIdQuery,
   useLazyGetActivitiesByUserIdQuery,
   useGetWalletByUserIdQuery,
   useLazyGetWalletByUserIdQuery,
@@ -67,4 +103,7 @@ export const { useGetActivitiesByUserIdQuery,
   useGetGuildsScoreByUserIdQuery,
   useLazyGetGuildsScoreByUserIdQuery,
   useGetGuildLeaderboardBuGuildIdQuery,
-  useLazyGetGuildLeaderboardBuGuildIdQuery } = apiSlice;
+  useLazyGetGuildLeaderboardBuGuildIdQuery,
+  useGetMeshNftByUserIdQuery,
+  useLazyGetMeshNftByUserIdQuery,
+} = apiSlice;

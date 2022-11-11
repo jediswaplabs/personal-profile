@@ -2,8 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 
 export const initialState = {
   avatar: '',
-  address: '',
-  readOnly: true,
+  address: '0x00000000000000',
+  readOnly: false,
 };
 
 export const reducers = {

@@ -13,7 +13,9 @@ const noop = () => {};
 
 const START_CONTRIBUTIONS_URL = 'https://jediswap.xyz/';
 
-const Guild = ({ isMock = false, id = '', name = '', score = 0, isSelected = false, onGuildSelected = noop }) => {
+const Guild = ({
+  isMock = false, id = '', name = '', score = 0, isSelected = false, onGuildSelected = noop,
+}) => {
   const { t } = useTranslation();
   const isGuildActive = (score && score > 0);
   const handleGuildClick = useCallback(() => {
@@ -40,7 +42,7 @@ const Guild = ({ isMock = false, id = '', name = '', score = 0, isSelected = fal
             </Typography>
             <div className="contribution-link">
               {/* TODO разрбоаться как выровнить и как добавить ссылку */}
-              <Link href={START_CONTRIBUTIONS_URL} underline="none" variant="body2" sx={{ lineHeight: 1 }}>Start Contributing</Link>
+              <Link href={START_CONTRIBUTIONS_URL} target="_blank" rel="noopener noreferrer" underline="none" variant="body2" sx={{ lineHeight: 1, fontSize: '12px' }}>Start Contributing</Link>
               <ArrowForwardIosRoundedIcon color="primary" />
             </div>
           </>
@@ -57,11 +59,13 @@ const MockGuild = () => (
   </GuildItemBoxContainer>
 );
 
-Guild.propTypes = { isMock: PropTypes.bool,
+Guild.propTypes = {
+  isMock: PropTypes.bool,
   id: PropTypes.string,
   name: PropTypes.string,
   score: PropTypes.number,
   isSelected: PropTypes.bool,
-  onGuildSelected: PropTypes.func };
+  onGuildSelected: PropTypes.func,
+};
 
 export default Guild;

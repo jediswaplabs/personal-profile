@@ -14,11 +14,13 @@ const GuildsList = ({ }) => {
   const dispatch = useDispatch();
   const profileId = useSelector(selectProfileAddress);
   const activeGuildId = useSelector(selectActiveGuildId);
-  const [getGuildsScoreByUserId, { data: guilds = {},
+  const [getGuildsScoreByUserId, {
+    data: guilds = {},
     isLoading,
     isSuccess,
     isError,
-    isUninitialized }] = useLazyGetGuildsScoreByUserIdQuery();
+    isUninitialized,
+  }] = useLazyGetGuildsScoreByUserIdQuery();
 
   useEffect(() => {
     if (!profileId) { return; }
@@ -51,9 +53,9 @@ const GuildsList = ({ }) => {
     );
   }
   return (
-    <Grid sx={{ flexGrow: 1 }} container spacing={2}>
+    <Grid sx={{ flexGrow: 1 }} container spacing={3}>
       <Grid item xs={12}>
-        <Grid container justifyContent="left" spacing={2}>
+        <Grid container justifyContent="left" spacing={3}>
           {content}
         </Grid>
       </Grid>

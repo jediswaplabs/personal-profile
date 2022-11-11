@@ -14,11 +14,13 @@ const Cover = styled.div`
   background: ${getLinearGradientProperty({ angle: 240, baseColor1: '#1E075F', baseColor2: '#FF00E9' })};
   border-image-slice: 1;
   border-bottom: 2px solid;
-  border-image-source: ${getLinearGradientProperty({ angle: 95,
+  border-image-source: ${getLinearGradientProperty({
+    angle: 95,
     baseColor1: '#29AAFD',
     baseColor1Start: '8%',
     baseColor2: '#FF00E9',
-    baseColor2Start: '105%' })};
+    baseColor2Start: '105%',
+  })};
 `;
 
 const AccountInfoContainer = styled.div`
@@ -58,11 +60,13 @@ const WalletContainer = styled.div`
 
   border-image-slice: 1;
   border-top: 2px solid;
-  border-image-source: ${getLinearGradientProperty({ angle: 95,
+  border-image-source: ${getLinearGradientProperty({
+    angle: 95,
     baseColor1: '#29AAFD',
     baseColor1Start: '8%',
     baseColor2: '#FF00E9',
-    baseColor2Start: '105%' })};
+    baseColor2Start: '105%',
+  })};
 `;
 
 const Foo = styled.div`

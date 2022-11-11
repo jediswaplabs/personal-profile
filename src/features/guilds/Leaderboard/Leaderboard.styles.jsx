@@ -5,6 +5,7 @@ import TableCell from '@mui/material/TableCell';
 import IconButton from '@mui/material/IconButton';
 
 import { guildStyling } from '../Guild/Guild.styles';
+import { widgetBoxMixin } from '../../../resources/styles/mixins';
 
 const LeaderboardHeader = styled.div`
   display: flex;
@@ -25,7 +26,7 @@ const LeaderboardContent = styled.div`
 `;
 
 const LeaderboardContainer = styled.div`
-
+  ${widgetBoxMixin};
 `;
 
 export const StyledTableContainer = styled(TableContainer)(({ theme }) => ({ background: 'transparent' }));

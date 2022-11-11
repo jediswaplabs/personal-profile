@@ -21,14 +21,20 @@ const Template = (args) => (
 );
 
 const Default = Template.bind({});
-Default.args = { storyTitle: 'Default',
-  userId: '0xfoo' };
-Default.parameters = { msw: { handlers: [
-  graphql.query('GetGuilds', (req, res, ctx) => res(
-    ctx.delay(ARTIFICIAL_DELAY_MS),
-    ctx.data(defaultGuildsList),
-  )),
-] } };
+Default.args = {
+  storyTitle: 'Default',
+  userId: '0xfoo',
+};
+Default.parameters = {
+  msw: {
+    handlers: [
+      graphql.query('GetGuilds', (req, res, ctx) => res(
+        ctx.delay(ARTIFICIAL_DELAY_MS),
+        ctx.data(defaultGuildsList),
+      )),
+    ],
+  },
+};
 Default.decorators = [
   (Story) => {
     const MockStore = renderWithProviders({ preloadedState: { profile: defaultProfileState } });
@@ -38,20 +44,26 @@ Default.decorators = [
 Default.play = async ({ canvasElement }) => {};
 
 const WithScores = Template.bind({});
-WithScores.args = { storyTitle: 'WithScores',
-  userId: '0xfoo' };
+WithScores.args = {
+  storyTitle: 'WithScores',
+  userId: '0xfoo',
+};
 WithScores.decorators = [
   (Story) => {
     const MockStore = renderWithProviders({ preloadedState: { profile: defaultProfileState } });
     return <MockStore><Story /></MockStore>;
   },
 ];
-WithScores.parameters = { msw: { handlers: [
-  graphql.query('GetGuilds', (req, res, ctx) => res(
-    ctx.delay(ARTIFICIAL_DELAY_MS),
-    ctx.data(guildsListWithScore),
-  )),
-] } };
+WithScores.parameters = {
+  msw: {
+    handlers: [
+      graphql.query('GetGuilds', (req, res, ctx) => res(
+        ctx.delay(ARTIFICIAL_DELAY_MS),
+        ctx.data(guildsListWithScore),
+      )),
+    ],
+  },
+};
 WithScores.play = async ({ canvasElement }) => {};
 
 const Loading = Template.bind({});
@@ -62,11 +74,15 @@ Loading.decorators = [
     return <MockStore><Story /></MockStore>;
   },
 ];
-Loading.parameters = { msw: { handlers: [
-  graphql.query('GetGuilds', (req, res, ctx) => res(
-    ctx.delay('infinite'),
-  )),
-] } };
+Loading.parameters = {
+  msw: {
+    handlers: [
+      graphql.query('GetGuilds', (req, res, ctx) => res(
+        ctx.delay('infinite'),
+      )),
+    ],
+  },
+};
 Loading.play = async ({ canvasElement }) => {};
 
 const Empty = Template.bind({});
@@ -77,12 +93,16 @@ Empty.decorators = [
     return <MockStore><Story /></MockStore>;
   },
 ];
-Empty.parameters = { msw: { handlers: [
-  graphql.query('GetGuilds', (req, res, ctx) => res(
-    ctx.delay(ARTIFICIAL_DELAY_MS),
-    ctx.data(emptyGuildsList),
-  )),
-] } };
+Empty.parameters = {
+  msw: {
+    handlers: [
+      graphql.query('GetGuilds', (req, res, ctx) => res(
+        ctx.delay(ARTIFICIAL_DELAY_MS),
+        ctx.data(emptyGuildsList),
+      )),
+    ],
+  },
+};
 Empty.play = async ({ canvasElement }) => {};
 
 const Error = Template.bind({});
@@ -93,20 +113,26 @@ Error.decorators = [
     return <MockStore><Story /></MockStore>;
   },
 ];
-Error.parameters = { msw: { handlers: [
-  graphql.query('GetGuilds', (req, res, ctx) => res(
-    ctx.delay(ARTIFICIAL_DELAY_MS),
-    ctx.errors([
-      { message: 'Failed to get data' },
-    ]),
-  )),
-] } };
+Error.parameters = {
+  msw: {
+    handlers: [
+      graphql.query('GetGuilds', (req, res, ctx) => res(
+        ctx.delay(ARTIFICIAL_DELAY_MS),
+        ctx.errors([
+          { message: 'Failed to get data' },
+        ]),
+      )),
+    ],
+  },
+};
 Error.play = async ({ canvasElement }) => {};
 
-const stories = { title: 'Components/GuildsList',
+const stories = {
+  title: 'Components/GuildsList',
   component: GuildsList,
   parameters: { actions: { argTypesRegex: '^on.*' } },
-  argTypes: {} };
+  argTypes: {},
+};
 
 export {
   Default,

@@ -1,7 +1,7 @@
 import React from 'react';
 import { graphql } from 'msw';
 
-import Leaderboard from './Leaderboard';
+import { LeaderboardTable } from './Leaderboard';
 import { defaultLeaderboardData } from './Leaderboard.testData';
 import { renderWithProviders } from '../../../common/testsHelper';
 
@@ -12,7 +12,7 @@ const Template = (args) => (
     <h3 style={{ borderBottom: 'solid 1px #fff', color: '#fff' }}>{args.storyTitle} Example</h3>
     <br />
     <div>
-      <Leaderboard {...args} />
+      <LeaderboardTable {...args} />
     </div>
   </>
 );
@@ -21,6 +21,7 @@ const Default = Template.bind({});
 Default.args = {
   storyTitle: 'Default',
   guildId: 'growth',
+  guildName: 'Growth',
 };
 Default.decorators = [
   (Story) => {
@@ -43,7 +44,6 @@ Default.play = async ({ canvasElement }) => {};
 const UnselectedGuild = Template.bind({});
 UnselectedGuild.args = {
   storyTitle: 'UnselectedGuild',
-  guildId: null,
 };
 UnselectedGuild.decorators = [
   (Story) => {
@@ -67,6 +67,7 @@ const Loading = Template.bind({});
 Loading.args = {
   storyTitle: 'Loading',
   guildId: 'growth',
+  guildName: 'Growth',
 };
 Loading.decorators = [
   (Story) => {
@@ -89,6 +90,7 @@ const Error = Template.bind({});
 Error.args = {
   storyTitle: 'Error',
   guildId: 'growth',
+  guildName: 'Growth',
 };
 Error.decorators = [
   (Story) => {
@@ -112,7 +114,7 @@ Error.play = async ({ canvasElement }) => {};
 
 const stories = {
   title: 'Components/Leaderboard',
-  component: Leaderboard,
+  component: LeaderboardTable,
   parameters: { actions: { argTypesRegex: '^on.*' } },
   argTypes: {},
 };
