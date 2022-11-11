@@ -23,11 +23,13 @@ const ActivitiesList = () => {
   const { t } = useTranslation();
   const profileId = useSelector(selectProfileAddress);
 
-  const [getActivitiesByUserId, { data: activities = {},
+  const [getActivitiesByUserId, {
+    data: activities = {},
     isLoading,
     isSuccess,
     isError,
-    isUninitialized }] = useLazyGetActivitiesByUserIdQuery();
+    isUninitialized,
+  }] = useLazyGetActivitiesByUserIdQuery();
 
   useEffect(() => {
     if (!profileId) { return; }
@@ -50,8 +52,10 @@ const ActivitiesList = () => {
     if (isEmpty) { return {}; }
     const copiedActivities = deepcopy(activities);
     const sortedIds = copiedActivities.ids.sort((a, b) => (copiedActivities.entities[b].date - copiedActivities.entities[a].date));
-    return { ids: sortedIds,
-      entities: copiedActivities.entities };
+    return {
+      ids: sortedIds,
+      entities: copiedActivities.entities,
+    };
   }, [activities]);
 
   let content;
@@ -59,7 +63,7 @@ const ActivitiesList = () => {
     content = <MockActivitiesList />;
   } else if (isError) {
     content = <ErrorActivitiesList />;
-  } else if (isEmpty) {
+  } else if (isEmpty || !profileId) {
     content = <EmptyActivitiesList />;
   } else if (isSuccess) {
     const [visibleItemsIds, hiddenItemsIds] = getVisibleAndHiddenItems(sortedActivities.ids);

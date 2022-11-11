@@ -16,7 +16,7 @@ const GuildItemBoxContainer = styled.div`
   padding: 16px;
 
   .title {
-    margin-bottom: 15px;
+    height: 3.1em;
     font-weight: bold;
   }
 
@@ -72,15 +72,20 @@ const GuildItemBoxContainer = styled.div`
     &:before {
       width: calc(100% + 16px);
       height: calc(100% + 16px);
-      transform: translate(-10px, -10px);
+      transform: translate(-8px, -8px);
     }
   `};
 `;
 
-export const guildStyling = { default: getLinearGradientProperty({ angle: 180, baseColor1: '#F86BDF', baseColor2: '#6B6BF8' }),
-  design: getLinearGradientProperty({ angle: 180, baseColor1: '#F86BDF', baseColor2: '#6B6BF8' }),
-  development: getLinearGradientProperty({ angle: 180, baseColor1: '#FC8E51', baseColor2: '#F05C58' }),
-  growth: getLinearGradientProperty({ angle: 180, baseColor1: '#FC8E51', baseColor2: '#F05C58' }) };
+export const guildStyling = {
+  default: 'linear-gradient(180deg, #F86BDF 0%, #6B6BF8 100%)',
+  design: 'linear-gradient(180deg, #F86BDF 0%, #6B6BF8 100%)',
+  development: 'linear-gradient(180deg, #3A937E 0%, #00E3AE 100%)',
+  growth: 'linear-gradient(180deg, #FC8E51 0%, #F05C58 100%)',
+  problemSolving: 'linear-gradient(180deg, #3086FF 0%, #6EC7CD 100%)',
+  communityManagement: 'linear-gradient(180deg, #A157FF 0%, #7088E6 100%)',
+  contentWriting: 'linear-gradient(180deg, #EB2FD8 0%, #DC5D5D 100%)',
+};
 
 export {
   GuildItemBoxContainer,

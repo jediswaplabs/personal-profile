@@ -29,12 +29,16 @@ Default.decorators = [
     return <MockStore><Story /></MockStore>;
   },
 ];
-Default.parameters = { msw: { handlers: [
-  graphql.query('GetActivities', (req, res, ctx) => res(
-    ctx.delay(ARTIFICIAL_DELAY_MS),
-    ctx.data(defaultListItems),
-  )),
-] } };
+Default.parameters = {
+  msw: {
+    handlers: [
+      graphql.query('GetActivities', (req, res, ctx) => res(
+        ctx.delay(ARTIFICIAL_DELAY_MS),
+        ctx.data(defaultListItems),
+      )),
+    ],
+  },
+};
 Default.play = async ({ canvasElement }) => {};
 
 const FewItems = Template.bind({});
@@ -45,12 +49,16 @@ FewItems.decorators = [
     return <MockStore><Story /></MockStore>;
   },
 ];
-FewItems.parameters = { msw: { handlers: [
-  graphql.query('GetActivities', (req, res, ctx) => res(
-    ctx.delay(ARTIFICIAL_DELAY_MS),
-    ctx.data(fewListItems),
-  )),
-] } };
+FewItems.parameters = {
+  msw: {
+    handlers: [
+      graphql.query('GetActivities', (req, res, ctx) => res(
+        ctx.delay(ARTIFICIAL_DELAY_MS),
+        ctx.data(fewListItems),
+      )),
+    ],
+  },
+};
 FewItems.play = async ({ canvasElement }) => {};
 
 const Loading = Template.bind({});
@@ -61,11 +69,15 @@ Loading.decorators = [
     return <MockStore><Story /></MockStore>;
   },
 ];
-Loading.parameters = { msw: { handlers: [
-  graphql.query('GetActivities', (req, res, ctx) => res(
-    ctx.delay('infinite'),
-  )),
-] } };
+Loading.parameters = {
+  msw: {
+    handlers: [
+      graphql.query('GetActivities', (req, res, ctx) => res(
+        ctx.delay('infinite'),
+      )),
+    ],
+  },
+};
 Loading.play = async ({ canvasElement }) => {};
 
 const Empty = Template.bind({});
@@ -76,12 +88,16 @@ Empty.decorators = [
     return <MockStore><Story /></MockStore>;
   },
 ];
-Empty.parameters = { msw: { handlers: [
-  graphql.query('GetActivities', (req, res, ctx) => res(
-    ctx.delay(ARTIFICIAL_DELAY_MS),
-    ctx.data(emptyItems),
-  )),
-] } };
+Empty.parameters = {
+  msw: {
+    handlers: [
+      graphql.query('GetActivities', (req, res, ctx) => res(
+        ctx.delay(ARTIFICIAL_DELAY_MS),
+        ctx.data(emptyItems),
+      )),
+    ],
+  },
+};
 Empty.play = async ({ canvasElement }) => {};
 
 const Error = Template.bind({});
@@ -92,19 +108,25 @@ Error.decorators = [
     return <MockStore><Story /></MockStore>;
   },
 ];
-Error.parameters = { msw: { handlers: [
-  graphql.query('GetActivities', (req, res, ctx) => res(
-    ctx.delay(ARTIFICIAL_DELAY_MS),
-    ctx.errors([
-      { message: 'Failed to get data' }]),
-  )),
-] } };
+Error.parameters = {
+  msw: {
+    handlers: [
+      graphql.query('GetActivities', (req, res, ctx) => res(
+        ctx.delay(ARTIFICIAL_DELAY_MS),
+        ctx.errors([
+          { message: 'Failed to get data' }]),
+      )),
+    ],
+  },
+};
 Error.play = async ({ canvasElement }) => {};
 
-const stories = { title: 'Components/ActivitiesList',
+const stories = {
+  title: 'Components/ActivitiesList',
   component: ActivitiesList,
   parameters: { actions: { argTypesRegex: '^on.*' } },
-  argTypes: {} };
+  argTypes: {},
+};
 
 export {
   Default,

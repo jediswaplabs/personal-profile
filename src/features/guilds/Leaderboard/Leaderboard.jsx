@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Typography from '@mui/material/Typography';
 import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
@@ -18,9 +18,11 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import Box from '@mui/material/Box';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
+import { useSelector } from 'react-redux';
 
 import { LeaderboardContainer, LeaderboardHeader, LeaderboardContent, StyledTableContainer, StyledTableHead, StyledTableCell, StyledPaginationIconButton } from './Leaderboard.styles';
-import { useGetGuildLeaderboardBuGuildIdQuery } from '../../api/apiSlice';
+import { useLazyGetGuildLeaderboardBuGuildIdQuery } from '../../api/apiSlice';
+import { selectActiveGuildData } from '../guildsSlice';
 
 const noop = () => {};
 
@@ -42,7 +44,6 @@ const getComparator = (order, orderBy, data) => (
     : (a, b) => -descendingComparator(a, b, orderBy, data)
 );
 
-// TODO обработка данных из стейта
 // TODO My rank
 
 const trendLookup = {
@@ -52,12 +53,13 @@ const trendLookup = {
 
 const ROWS_PER_PAGE = 3;
 
-const LeaderboardWrapper = ({ guildId = '', guildName = '' }) => {
-  const isActive = !!(guildId);
-  return (isActive) ? <Leaderboard guildId={guildId} guildName={guildName} /> : <UnselectedLeaderboard />;
+const WithStateComponent = (WrappedComponent) => ({}) => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const { id, name } = useSelector(selectActiveGuildData) ?? {};
+  return <WrappedComponent guildId={id} guildName={name} />;
 };
 
-const Leaderboard = ({ guildId = '', guildName = '' }) => {
+const LeaderboardTable = ({ title = '', guildId = '', guildName = '' }) => {
   const { t } = useTranslation();
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('desc');
@@ -73,13 +75,25 @@ const Leaderboard = ({ guildId = '', guildName = '' }) => {
     setOrderBy(property);
   };
 
-  const { data: leaderboardData = {},
+  const [getGuildsScoreByUserId, {
+    data: leaderboardData = {},
     isLoading,
     isSuccess,
-    isError } = useGetGuildLeaderboardBuGuildIdQuery(guildId);
+    isError,
+    isUninitialized,
+  }] = useLazyGetGuildLeaderboardBuGuildIdQuery();
+
+  useEffect(() => {
+    if (!guildId) { return; }
+    getGuildsScoreByUserId(guildId);
+  }, [guildId]);
+
+  if (!guildId) {
+    return <UnselectedLeaderboard />;
+  }
 
   let content;
-  if (isLoading) {
+  if (isLoading || isUninitialized) {
     content = <MockLeaderBoard />;
   } else if (isError) {
     content = <ErrorLeaderBoard />;
@@ -172,7 +186,7 @@ const Leaderboard = ({ guildId = '', guildName = '' }) => {
     <LeaderboardContainer>
       <LeaderboardHeader guildTheme={guildId}>
         <EmojiEventsOutlinedIcon sx={{ color: '#fff', marginRight: '16px', fontSize: '1.8rem' }} />
-        <Typography variant="h6" color="text.primary">{t('leaderboard.title')} {processedGuildName ? `(${processedGuildName})` : ''}</Typography>
+        <Typography variant="h6" color="text.primary">{title || t('leaderboard.title')} {processedGuildName ? `(${processedGuildName})` : ''}</Typography>
       </LeaderboardHeader>
       <LeaderboardContent>
         {content}
@@ -314,9 +328,8 @@ const TrendArrow = ({ trend = '' }) => {
   return null;
 };
 
-LeaderboardWrapper.propTypes = {
-  guildId: PropTypes.string,
-  guildName: PropTypes.string,
-};
+export default WithStateComponent(LeaderboardTable);
 
-export default LeaderboardWrapper;
+export {
+  LeaderboardTable,
+};

@@ -1,7 +1,7 @@
 import * as deepcopy from 'deepcopy';
 
 const defaultGuildsList = {
-  ids: ['design', 'development', 'community', 'growth', 'content'],
+  ids: ['design', 'development', 'growth', 'problemSolving', 'communityManagement', 'contentWriting'],
   entities: {
     design: {
       id: 'design',
@@ -13,18 +13,23 @@ const defaultGuildsList = {
       name: 'Development',
       score: null,
     },
-    community: {
-      id: 'community',
-      name: 'Community',
-      score: null,
-    },
     growth: {
       id: 'growth',
       name: 'Growth',
       score: null,
     },
-    content: {
-      id: 'content',
+    problemSolving: {
+      id: 'problemSolving',
+      name: 'Problem Solving',
+      score: null,
+    },
+    communityManagement: {
+      id: 'communityManagement',
+      name: 'Community Management',
+      score: null,
+    },
+    contentWriting: {
+      id: 'contentWriting',
       name: 'Content Writing',
       score: null,
     },

@@ -18,9 +18,11 @@ const Template = (args) => (
 );
 
 const Default = Template.bind({});
-Default.args = { storyTitle: 'Default',
+Default.args = {
+  storyTitle: 'Default',
   name: 'Guild name',
-  id: 'design' };
+  id: 'design',
+};
 Default.decorators = [
   (Story) => {
     const MockStore = renderWithProviders({ preloadedState: { profile: defaultProfileState } });
@@ -30,10 +32,12 @@ Default.decorators = [
 Default.play = async ({ canvasElement }) => {};
 
 const WithPoints = Template.bind({});
-WithPoints.args = { storyTitle: 'With points',
+WithPoints.args = {
+  storyTitle: 'With points',
   name: 'Guild name',
   id: 'design',
-  score: 200 };
+  score: 200,
+};
 WithPoints.decorators = [
   (Story) => {
     const MockStore = renderWithProviders({ preloadedState: { profile: defaultProfileState } });
@@ -43,11 +47,13 @@ WithPoints.decorators = [
 WithPoints.play = async ({ canvasElement }) => {};
 
 const SelectedGuild = Template.bind({});
-SelectedGuild.args = { storyTitle: 'Selected',
+SelectedGuild.args = {
+  storyTitle: 'Selected',
   isSelected: true,
   name: 'Guild name',
   id: 'design',
-  score: 200 };
+  score: 200,
+};
 SelectedGuild.decorators = [
   (Story) => {
     const MockStore = renderWithProviders({ preloadedState: { profile: defaultProfileState } });
@@ -73,11 +79,13 @@ const AllTypesTemplate = (args) => (
 );
 
 const AllTypes = AllTypesTemplate.bind({});
-AllTypes.args = { storyTitle: 'All types',
+AllTypes.args = {
+  storyTitle: 'All types',
   isSelected: true,
   name: 'Guild name',
   id: 'design',
-  score: 200 };
+  score: 200,
+};
 AllTypes.decorators = [
   (Story) => {
     const MockStore = renderWithProviders({ preloadedState: { profile: defaultProfileState } });
@@ -87,10 +95,12 @@ AllTypes.decorators = [
 AllTypes.play = async ({ canvasElement }) => {};
 
 const Loading = Template.bind({});
-Loading.args = { storyTitle: 'Loading',
+Loading.args = {
+  storyTitle: 'Loading',
   isMock: true,
   name: 'Guild name',
-  id: 'design' };
+  id: 'design',
+};
 Loading.decorators = [
   (Story) => {
     const MockStore = renderWithProviders({ preloadedState: { profile: defaultProfileState } });
@@ -99,10 +109,12 @@ Loading.decorators = [
 ];
 Loading.play = async ({ canvasElement }) => {};
 
-const stories = { title: 'Components/Guild',
+const stories = {
+  title: 'Components/Guild',
   component: Guild,
   parameters: { actions: { argTypesRegex: '^on.*' } },
-  argTypes: {} };
+  argTypes: {},
+};
 
 export {
   Default,

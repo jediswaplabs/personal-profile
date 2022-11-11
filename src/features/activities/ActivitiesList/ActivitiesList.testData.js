@@ -1,7 +1,4 @@
-const subtractDays = (numOfDays, date = new Date()) => {
-  date.setDate(date.getDate() - numOfDays);
-  return Number(date);
-};
+import { subtractDays } from '../../../common/timeHelper';
 
 const defaultListItems = {
   ids: ['id1', 'id2', 'id3', 'id4', 'id5'],

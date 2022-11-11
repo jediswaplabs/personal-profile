@@ -17,11 +17,13 @@ import { useLazyGetWalletByUserIdQuery } from '../../api/apiSlice';
 const Wallet = () => {
   const { t } = useTranslation();
   const profileId = useSelector((state) => state.profile.address);
-  const [getWalletByUserId, { data: currencies,
+  const [getWalletByUserId, {
+    data: currencies,
     isLoading,
     isSuccess,
     isError,
-    isUninitialized }] = useLazyGetWalletByUserIdQuery();
+    isUninitialized,
+  }] = useLazyGetWalletByUserIdQuery();
 
   useEffect(() => {
     if (!profileId) { return; }
