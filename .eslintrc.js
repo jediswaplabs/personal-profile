@@ -101,10 +101,15 @@ module.exports = {
     'no-use-before-define': 'off',
     'object-curly-newline': ['error', {
       ObjectExpression: {
+        consistent: true,
         multiline: true,
         minProperties: 5,
       },
-      ObjectPattern: 'never',
+      ObjectPattern: {
+        consistent: true,
+        // multiline: true,
+        // minProperties: 5,
+      },
       ImportDeclaration: 'never',
       ExportDeclaration: 'always',
     }],
