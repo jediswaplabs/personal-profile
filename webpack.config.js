@@ -241,6 +241,7 @@ const webpackConfig = {
     new webpack.ProvidePlugin({}),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+      'process.env.NODE_MOCK_BE': JSON.stringify(process.env.NODE_MOCK_BE),
     }),
     new RetryChunkLoadPlugin({ // NOTE: for more info on the options, see: https://github.com/mattlewis92/webpack-retry-chunk-load-plugin
       maxRetries: 4,

@@ -15,7 +15,6 @@ addDecorator((story) => (
 // https://github.com/mswjs/msw-storybook-addon
 export const decorators = [mswDecorator];
 
-
 const parameters = {
   actions: {argTypesRegex: "^on[A-Z].*"},
   i18n,
