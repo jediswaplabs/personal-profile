@@ -20,7 +20,7 @@ import { BoxContainer,
   SwitchAccount } from './ProfileCard.styles';
 import GradientButton from '../../../components/GradientButton/GradientButton';
 import UserAvatar from '../UserAvatar/UserAvatar';
-import Wallet from '../../wallet/Wallet/Wallet';
+import WalletBalance from '../../wallet/WalletBalance/WalletBalance';
 import { useLazyGetUserByIdQuery } from '../../api/apiSlice';
 
 const preventDefault = (event) => event.preventDefault();
@@ -130,7 +130,7 @@ const ProfileCard = () => {
         {content}
       </AccountInfoContainer>
       <WalletContainer>
-        <Wallet />
+        <WalletBalance />
       </WalletContainer>
     </BoxContainer>
   );

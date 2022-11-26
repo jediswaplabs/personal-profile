@@ -15,11 +15,7 @@ i18n.use(initReactI18next)
     interpolation: { escapeValue: false },
     react: { useSuspense: false },
     supportedLngs: ['en'],
-    resources: {
-      en: {
-        translation: enTranslations,
-      },
-    },
+    resources: { en: { translation: enTranslations } },
   });
 
 export default i18n;

@@ -1,4 +1,9 @@
 {
+  "contributorPage": {
+    "titles": {
+      "title": "JediSwap Contributor Profile"
+    }
+  },
   "activitiesList": {
     "errors": {
       "fetching": "An error occurred during the request.",
@@ -49,6 +54,21 @@
       "address": "Address",
       "rank": "Overall rank",
       "points": "Total points"
+    }
+  },
+  "meshNftsCarousel": {
+    "title": "Mesh NFTs",
+    "card": {
+      "level": "Level {{level}}",
+      "score":  "{{score}} pts",
+      "earnedDate": "Earned on",
+      "controls": {
+        "unlock": "Unlock at {{score}} pts"
+      }
+    },
+    "errors": {
+      "fetching": "An error occurred during the request.",
+      "empty": "Empty NFTs list"
     }
   }
 }

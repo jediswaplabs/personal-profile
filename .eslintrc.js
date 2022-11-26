@@ -15,6 +15,7 @@ module.exports = {
   globals: {
     document: true,
     window: true,
+    localStorage: true,
     Fragment: true,
   },
   overrides: [
@@ -25,7 +26,6 @@ module.exports = {
       ],
       env: { jest: true },
       plugins: ['jest'],
-      rules: { 'no-console': 0 },
     },
   ],
   rules: {
@@ -87,7 +87,7 @@ module.exports = {
     'max-params': ['error', 3],
     'no-await-in-loop': 'off',
     'no-cond-assign': 'off',
-    'no-console': 2,
+    'no-console': ['error', { allow: ['warn', 'error'] }],
     'no-continue': 'off',
     'no-delete-var': 'error',
     'no-empty': 0,
@@ -101,10 +101,15 @@ module.exports = {
     'no-use-before-define': 'off',
     'object-curly-newline': ['error', {
       ObjectExpression: {
+        consistent: true,
         multiline: true,
         minProperties: 5,
       },
-      ObjectPattern: 'never',
+      ObjectPattern: {
+        consistent: true,
+        // multiline: true,
+        // minProperties: 5,
+      },
       ImportDeclaration: 'never',
       ExportDeclaration: 'always',
     }],

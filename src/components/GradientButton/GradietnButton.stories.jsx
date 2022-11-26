@@ -27,6 +27,8 @@ const stories = {
   argTypes: {},
 };
 
-export { Default };
+export {
+  Default,
+};
 
 export default stories;

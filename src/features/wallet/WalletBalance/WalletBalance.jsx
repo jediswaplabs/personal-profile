@@ -11,10 +11,10 @@ import AccountBalanceWalletOutlinedIcon from '@mui/icons-material/AccountBalance
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import RemoveOutlinedIcon from '@mui/icons-material/RemoveOutlined';
 
-import { WalletContainer } from './Wallet.styles';
+import { WalletContainer } from './WalletBalance.styles';
 import { useLazyGetWalletByUserIdQuery } from '../../api/apiSlice';
 
-const Wallet = () => {
+const WalletBalance = () => {
   const { t } = useTranslation();
   const profileId = useSelector((state) => state.profile.address);
   const [getWalletByUserId, {
@@ -80,7 +80,7 @@ const Wallet = () => {
     </WalletContainer>
   );
 };
-Wallet.propTypes = {};
+WalletBalance.propTypes = {};
 
 const MockWallet = () => (<Skeleton variant="rounded" width="100%" height="3rem" />);
 
@@ -98,4 +98,4 @@ const EmptyWallet = () => {
   );
 };
 
-export default Wallet;
+export default WalletBalance;

@@ -93,6 +93,19 @@ const webpackConfig = {
         loader: require.resolve('url-loader'),
         options: { limit: 10000, name: 'static/media/[name].[hash:8].[ext]' },
       },
+
+      {
+        test: /\.svg$/,
+        use: [
+          {
+            loader: '@svgr/webpack',
+            options: {
+              limit: 10000,
+            },
+          },
+        ],
+      },
+
       {
         test: /\.(js|mjs|jsx|ts|tsx)$/,
         loader: 'babel-loader',
@@ -241,6 +254,7 @@ const webpackConfig = {
     new webpack.ProvidePlugin({}),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+      'process.env.NODE_MOCK_BE': JSON.stringify(process.env.NODE_MOCK_BE),
     }),
     new RetryChunkLoadPlugin({ // NOTE: for more info on the options, see: https://github.com/mattlewis92/webpack-retry-chunk-load-plugin
       maxRetries: 4,

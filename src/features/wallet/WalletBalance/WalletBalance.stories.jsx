@@ -3,8 +3,8 @@ import { Provider, useDispatch } from 'react-redux';
 import { graphql } from 'msw';
 import { configureStore, createSlice } from '@reduxjs/toolkit';
 
-import Wallet from './Wallet';
-import { defaultCurrenciesList, emptyCurrenciesList } from './Wallet.testData';
+import WalletBalance from './WalletBalance';
+import { defaultCurrenciesList, emptyCurrenciesList } from './WalletBalance.testData';
 import { zeroAddress } from '../../../common/contansts';
 import { renderWithProviders } from '../../../common/testsHelper';
 
@@ -17,7 +17,7 @@ const Template = (args) => (
     <h3 style={{ borderBottom: 'solid 1px #fff', color: '#fff' }}>{args.storyTitle} Example</h3>
     <br />
     <div style={{ maxWidth: '280px' }}>
-      <Wallet {...args} />
+      <WalletBalance {...args} />
     </div>
   </>
 );
@@ -107,7 +107,7 @@ Empty.play = async ({ canvasElement }) => {};
 
 const stories = {
   title: 'Components/Wallet',
-  component: Wallet,
+  component: WalletBalance,
   parameters: { actions: { argTypesRegex: '^on.*' } },
   argTypes: {},
 };

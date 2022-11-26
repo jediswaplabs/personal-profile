@@ -78,7 +78,7 @@ const jediSwapDark = createTheme({
     button: {
       fontWeight: 500,
       fontSize: '1rem',
-      lineHeight: 1.85,
+      lineHeight: 1.2,
       textTransform: 'none',
     },
     caption: {

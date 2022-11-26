@@ -1,1 +1,3 @@
-export { default as jediSwapDarkTheme } from './jediSwapDark';
+export {
+  default as jediSwapDarkTheme,
+} from './jediSwapDark';
