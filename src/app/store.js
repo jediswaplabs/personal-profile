@@ -5,6 +5,7 @@ import walletReducer from '../features/wallet/walletSlice';
 import guidsReducer from '../features/guilds/guildsSlice';
 import profileReducer from '../features/profile/profileSlice';
 import { apiSlice } from '../features/api/apiSlice';
+import { nftSlice } from '../features/nft/nftSlice';
 
 export default function setupStore(preloadedState = {}) {
   return configureStore({
@@ -14,6 +15,7 @@ export default function setupStore(preloadedState = {}) {
       profile: profileReducer,
       wallet: walletReducer,
       guilds: guidsReducer,
+      nfts: nftSlice,
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiSlice.middleware),
     preloadedState,

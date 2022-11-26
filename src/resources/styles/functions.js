@@ -6,4 +6,6 @@ const getLinearGradientProperty = ({
   baseColor2Start = '',
 }) => `linear-gradient(${angle}deg, ${baseColor1} ${baseColor1Start}, ${baseColor2} ${baseColor2Start})`;
 
-export { getLinearGradientProperty };
+export {
+  getLinearGradientProperty,
+};

@@ -93,6 +93,19 @@ const webpackConfig = {
         loader: require.resolve('url-loader'),
         options: { limit: 10000, name: 'static/media/[name].[hash:8].[ext]' },
       },
+
+      {
+        test: /\.svg$/,
+        use: [
+          {
+            loader: '@svgr/webpack',
+            options: {
+              limit: 10000,
+            },
+          },
+        ],
+      },
+
       {
         test: /\.(js|mjs|jsx|ts|tsx)$/,
         loader: 'babel-loader',

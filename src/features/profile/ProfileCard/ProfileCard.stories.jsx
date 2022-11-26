@@ -2,7 +2,7 @@ import React from 'react';
 import { graphql } from 'msw';
 
 import ProfileCard from './ProfileCard';
-import { defaultCurrenciesList } from '../../wallet/Wallet/Wallet.testData';
+import { defaultCurrenciesList } from '../../wallet/WalletBalance/WalletBalance.testData';
 import { defaultUserData, userDataWithoutAvatar } from './ProfileCard.testData';
 import { renderWithProviders } from '../../../common/testsHelper';
 

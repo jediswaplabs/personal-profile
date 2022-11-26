@@ -5,7 +5,7 @@ import { guildsListWithScore as guildsList } from '../src/features/guilds/Guilds
 import { defaultLeaderboardData as leaderboardData } from '../src/features/guilds/Leaderboard/Leaderboard.testData';
 import { defaultNftListItems as nftListItems } from '../src/features/nft/NftCarousel/NftCarousel.testData';
 import { defaultUserData } from '../src/features/profile/ProfileCard/ProfileCard.testData';
-import { defaultCurrenciesList } from '../src/features/wallet/Wallet/Wallet.testData';
+import { defaultCurrenciesList } from '../src/features/wallet/WalletBalance/WalletBalance.testData';
 
 const ARTIFICIAL_DELAY_MS = 600;
 

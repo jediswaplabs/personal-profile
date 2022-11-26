@@ -1,22 +1,43 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
+
+import './app/i18next';
 import { ThemeProvider } from '@mui/material/styles';
 import { Provider } from 'react-redux';
+// import { Router } from '@reach/router';
+import { StarknetReactProvider, createStarknetReactRoot } from '@web3-starknet-react/core';
 
-import setupStore from './app/store';
-import './app/i18next';
+import { NetworkContextName } from './common/contansts';
+import getLibrary from './utils/getLibrary';
 import { jediSwapDarkTheme } from './resources/themes';
-import ActivitiesList from './features/activities/ActivitiesList/ActivitiesList';
-import Wallet from './features/wallet/Wallet/Wallet';
+import setupStore from './app/store';
+import GlobalStyle, { ApplicationContainer } from './index.styles';
+import MainPage from './pages/MainPage/MainPage';
+import PersonalProfilePage from './pages/PersonalProfilePage/PersonalProfilePage';
+
+const StarknetProviderNetwork = createStarknetReactRoot(NetworkContextName);
+
+if (process.env.NODE_MOCK_BE) {
+  // eslint-disable-next-line global-require
+  const { worker } = require('../mocks/mockBe');
+  worker.start();
+}
 
 const App = () => (
   <ThemeProvider theme={jediSwapDarkTheme}>
-    <Provider store={setupStore()}>
-      <div style={{ background: '#000' }}>
-        <ActivitiesList userId="0xfoo" />
-        <Wallet userId="0xfoo" />
-      </div>
-    </Provider>
+    <StarknetReactProvider getLibrary={getLibrary}>
+      <StarknetProviderNetwork getLibrary={getLibrary}>
+        <Provider store={setupStore()}>
+          <GlobalStyle />
+          <ApplicationContainer>
+            {/* <Router basepath="/"> */}
+            <PersonalProfilePage path="/" />
+            {/* <MainPage path="/" /> */}
+            {/* </Router> */}
+          </ApplicationContainer>
+        </Provider>
+      </StarknetProviderNetwork>
+    </StarknetReactProvider>
   </ThemeProvider>
 );
 

@@ -10,9 +10,7 @@ const GradientTypeButton = styled(Button)(({ theme }) => ({
   }),
   color: theme.palette.common.white,
   transition: 'background-position 0.1s',
-  '&:hover': {
-    backgroundPosition: '100%',
-  },
+  '&:hover': { backgroundPosition: '100%' },
 }));
 
 const GradientButton = ({ children, ...props }) => (<GradientTypeButton {...props} variant="contained">{children}</GradientTypeButton>);

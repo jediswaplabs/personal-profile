@@ -3,6 +3,10 @@ module.exports = {
   features: {
     interactionsDebugger: true,
   },
+  babel: async (options) => {
+    options.plugins.push('babel-plugin-inline-react-svg');
+    return options;
+  },
   core: {
     builder: "webpack5",
   },
@@ -12,7 +16,8 @@ module.exports = {
     '@storybook/addon-contexts/register',
     '@storybook/addon-interactions',
     'storybook-addon-designs',
-    'storybook-react-i18next'
+    'storybook-react-i18next',
+    'storybook-addon-manual-mocks'
   ],
   framework: '@storybook/react',
   staticDirs: ['../public'],

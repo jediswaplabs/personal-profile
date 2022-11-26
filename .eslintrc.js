@@ -15,6 +15,7 @@ module.exports = {
   globals: {
     document: true,
     window: true,
+    localStorage: true,
     Fragment: true,
   },
   overrides: [
@@ -25,7 +26,6 @@ module.exports = {
       ],
       env: { jest: true },
       plugins: ['jest'],
-      rules: { 'no-console': 0 },
     },
   ],
   rules: {
@@ -87,7 +87,7 @@ module.exports = {
     'max-params': ['error', 3],
     'no-await-in-loop': 'off',
     'no-cond-assign': 'off',
-    'no-console': 2,
+    'no-console': ['error', { allow: ['warn', 'error'] }],
     'no-continue': 'off',
     'no-delete-var': 'error',
     'no-empty': 0,
