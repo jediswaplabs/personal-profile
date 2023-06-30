@@ -4,7 +4,7 @@ import { request, gql, ClientError } from 'graphql-request';
 
 export const apiSlice = createApi({
   reducerPath: 'api',
-  baseQuery: graphqlRequestBaseQuery({ baseUrl: '/' }),
+  baseQuery: graphqlRequestBaseQuery({ url: '/' }),
   tagTypes: ['Activities', 'Wallet', 'Profile', 'Guilds', 'MeshNft'],
   endpoints: (builder) => ({
     getActivitiesByUserId: builder.query({

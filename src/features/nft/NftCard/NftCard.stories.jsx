@@ -1,11 +1,10 @@
 import React from 'react';
 
 import NftCard from './NftCard';
-import { zeroAddress } from '../../../common/contansts';
-import { renderWithProviders } from '../../../common/testsHelper';
 import { defaultCard } from './NftCard.testData';
+import { renderWithProviders } from '../../../common/testsHelper';
 
-const defaultProfileState = { address: zeroAddress };
+const defaultProfileState = { };
 
 const Template = (args) => (
   <>

@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-export const initialState = { };
-
+export const initialState = {};
 export const reducers = {};
 
 export const nftSlice = createSlice({

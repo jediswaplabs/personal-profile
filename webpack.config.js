@@ -19,6 +19,7 @@ const webpackConfig = {
   entry: `${path.resolve(__dirname)}/src/index.jsx`,
   devServer: {
     open: true,
+    historyApiFallback: true,
   },
   output: {
     path: `${path.resolve(__dirname)}/dist`,

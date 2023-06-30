@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+import { Link as RouterLink } from 'react-router-dom';
 
 const HeaderContainer = styled.div`
   padding: 1rem 32px;
@@ -12,7 +13,7 @@ const HeaderWallet = styled.div`
   display: flex;
 `;
 
-const HeaderLogo = styled.a`
+const HeaderLogo = styled(RouterLink)`
   display: inline-block;
   font-size: 0;
 `;

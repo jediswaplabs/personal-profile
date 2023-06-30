@@ -96,11 +96,15 @@ const jediSwapDark = createTheme({
     // },
   },
   palette: {
+    type: 'dark',
+
     common: {
       black: '#000',
       white: '#fff',
     },
-    type: 'dark',
+
+    accent: '#FF00E9',
+
     primary: { main: '#50D5FF' },
     secondary: {
       main: 'rgba(255, 255, 255, 0.15)',

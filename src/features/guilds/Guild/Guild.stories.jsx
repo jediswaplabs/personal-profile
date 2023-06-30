@@ -1,8 +1,9 @@
 import React from 'react';
+import { within, userEvent } from '@storybook/testing-library';
+import { expect } from '@storybook/jest';
 
 import Guild from './Guild';
-import { guildStyling } from './Guild.styles';
-import { zeroAddress } from '../../../common/contansts';
+import { guildTypesLookup, zeroAddress } from '../../../common/contansts';
 import { renderWithProviders } from '../../../common/testsHelper';
 
 const defaultProfileState = { address: zeroAddress };
@@ -29,7 +30,12 @@ Default.decorators = [
     return <MockStore><Story /></MockStore>;
   },
 ];
-Default.play = async ({ canvasElement }) => {};
+Default.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  const title = canvas.getByTestId('guild-title');
+
+  await expect(title).toBeInTheDocument();
+};
 
 const WithPoints = Template.bind({});
 WithPoints.args = {
@@ -67,7 +73,7 @@ const AllTypesTemplate = (args) => (
     <h3 style={{ borderBottom: 'solid 1px #fff', color: '#fff' }}>{args.storyTitle} Example</h3>
     <br />
     <div>
-      {Object.keys(guildStyling).map((guildId) => (
+      {Object.keys(guildTypesLookup).map((guildId) => (
         <div key={guildId} style={{ margin: '0 20px 20px' }}>
           <div style={{ color: '#fff' }}>{guildId}:</div>
           <br />
@@ -108,6 +114,10 @@ Loading.decorators = [
   },
 ];
 Loading.play = async ({ canvasElement }) => {};
+
+// const meta = {
+//   component: Guild,
+// };
 
 const stories = {
   title: 'Components/Guild',

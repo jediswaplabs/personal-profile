@@ -1,17 +1,9 @@
-/* eslint-disable */
-import React, { } from 'react';
-import { graphql } from 'msw';
+import React from 'react';
 
-import WalletModal from './WalletModal';
-import {WalletConnectOptionsView, WalletAccountOverview} from './WalletModal';
+import WalletModal, { WalletConnectOptionsView, WalletAccountOverview } from './WalletModal';
+import { supportedWallets } from './WalletModal.testData';
 import { renderWithProviders } from '../../../common/testsHelper';
-import {supportedWallets} from "./WalletModal.testData";
-
-const noop = () => {};
-
-// const ARTIFICIAL_DELAY_MS = 600;
-
-const defaultAddress = '0x00000000000000';
+import { zeroAddress } from '../../../common/contansts';
 
 const TemplateWithComponent = (Component) => (args) => (
   <>
@@ -40,8 +32,8 @@ WalletsList.play = async ({ canvasElement }) => {};
 const AccountOverview = TemplateWithComponent.bind({})(WalletAccountOverview);
 AccountOverview.args = {
   storyTitle: 'AccountOverview',
-  connectedWallet: supportedWallets['ArgentX'],
-  connectedAddress: defaultAddress,
+  connectedWallet: supportedWallets.ArgentX,
+  connectedAddress: zeroAddress,
   onWalletDisconnect: () => {},
 };
 AccountOverview.decorators = [
@@ -71,7 +63,6 @@ AccountOverview.play = async ({ canvasElement }) => {};
 // WalletConnection.parameters = {};
 // WalletConnection.play = async ({ canvasElement }) => {};
 //
-
 
 const stories = {
   title: 'Components/WalletModal',

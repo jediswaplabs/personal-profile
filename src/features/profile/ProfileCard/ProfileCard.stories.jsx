@@ -2,15 +2,14 @@ import React from 'react';
 import { graphql } from 'msw';
 
 import ProfileCard from './ProfileCard';
-import { defaultCurrenciesList } from '../../wallet/WalletBalance/WalletBalance.testData';
 import { defaultUserData, userDataWithoutAvatar } from './ProfileCard.testData';
+import { defaultCurrenciesList } from '../../wallet/WalletBalance/WalletBalance.testData';
 import { renderWithProviders } from '../../../common/testsHelper';
+import { zeroAddress } from '../../../common/contansts';
 
 const ARTIFICIAL_DELAY_MS = 600;
 
-const defaultProfileState = {
-  address: '0x00000000000000',
-};
+const defaultProfileState = {};
 
 const Template = (args) => (
   <>
@@ -25,6 +24,7 @@ const Template = (args) => (
 const Default = Template.bind({});
 Default.args = {
   storyTitle: 'Default',
+  account: zeroAddress,
   readOnly: false,
 };
 Default.decorators = [
@@ -52,6 +52,7 @@ Default.play = async ({ canvasElement }) => {};
 const NoAvatar = Template.bind({});
 NoAvatar.args = {
   storyTitle: 'No avatar',
+  account: zeroAddress,
   readOnly: false,
 };
 NoAvatar.decorators = [
@@ -77,17 +78,14 @@ NoAvatar.parameters = {
 NoAvatar.play = async ({ canvasElement }) => {};
 
 const ReadOnly = Template.bind({});
-ReadOnly.args = { storyTitle: 'Read only mode' };
+ReadOnly.args = {
+  storyTitle: 'Read only mode',
+  account: zeroAddress,
+  readOnly: true,
+};
 ReadOnly.decorators = [
   (Story) => {
-    const MockStore = renderWithProviders({
-      preloadedState: {
-        profile: {
-          ...defaultProfileState,
-          readOnly: true,
-        },
-      },
-    });
+    const MockStore = renderWithProviders({ preloadedState: { profile: defaultProfileState } });
     return <MockStore><Story /></MockStore>;
   },
 ];
@@ -110,6 +108,7 @@ ReadOnly.play = async ({ canvasElement }) => {};
 const Error = Template.bind({});
 Error.args = {
   storyTitle: 'Error',
+  account: zeroAddress,
   readOnly: false,
 };
 Error.decorators = [
@@ -141,6 +140,7 @@ Error.play = async ({ canvasElement }) => {};
 const Loading = Template.bind({});
 Loading.args = {
   storyTitle: 'Loading',
+  account: zeroAddress,
   readOnly: false,
 };
 Loading.decorators = [

@@ -1,4 +1,4 @@
-import * as deepcopy from 'deepcopy';
+import deepcopy from 'deepcopy';
 
 const defaultGuildsList = {
   ids: ['design', 'development', 'growth', 'problemSolving', 'communityManagement', 'contentWriting'],
@@ -36,7 +36,7 @@ const defaultGuildsList = {
   },
 };
 
-const emptyGuildsList = [];
+const emptyGuildsList = {};
 
 const guildsListWithScore = deepcopy(defaultGuildsList);
 

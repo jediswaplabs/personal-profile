@@ -2,13 +2,13 @@ import React from 'react';
 import { graphql } from 'msw';
 
 import NftCarousel from './NftCarousel';
+import { defaultNftListItems, emptyNftListItems, fewNftListItems } from './NftCarousel.testData';
 import { zeroAddress } from '../../../common/contansts';
 import { renderWithProviders } from '../../../common/testsHelper';
-import { defaultNftListItems, emptyNftListItems, fewNftListItems } from './NftCarousel.testData';
 
 const ARTIFICIAL_DELAY_MS = 600;
 
-const defaultProfileState = { address: zeroAddress };
+const defaultProfileState = { };
 
 const Template = (args) => (
   <>
@@ -21,7 +21,10 @@ const Template = (args) => (
 );
 
 const Default = Template.bind({});
-Default.args = { storyTitle: 'Default' };
+Default.args = {
+  storyTitle: 'Default',
+  account: zeroAddress,
+};
 Default.decorators = [
   (Story) => {
     const MockStore = renderWithProviders({ preloadedState: { profile: defaultProfileState } });
@@ -41,7 +44,10 @@ Default.parameters = {
 Default.play = async ({ canvasElement }) => {};
 
 const FewItems = Template.bind({});
-FewItems.args = { storyTitle: 'Few Items' };
+FewItems.args = {
+  storyTitle: 'Few Items',
+  account: zeroAddress,
+};
 FewItems.decorators = [
   (Story) => {
     const MockStore = renderWithProviders({ preloadedState: { profile: defaultProfileState } });
@@ -61,7 +67,10 @@ FewItems.parameters = {
 FewItems.play = async ({ canvasElement }) => {};
 
 const Loading = Template.bind({});
-Loading.args = { storyTitle: 'Loading' };
+Loading.args = {
+  storyTitle: 'Loading',
+  account: zeroAddress,
+};
 Loading.decorators = [
   (Story) => {
     const MockStore = renderWithProviders({ preloadedState: { profile: defaultProfileState } });
@@ -80,7 +89,10 @@ Loading.parameters = {
 Loading.play = async ({ canvasElement }) => {};
 
 const Empty = Template.bind({});
-Empty.args = { storyTitle: 'Empty' };
+Empty.args = {
+  storyTitle: 'Empty',
+  account: zeroAddress,
+};
 Empty.decorators = [
   (Story) => {
     const MockStore = renderWithProviders({ preloadedState: { profile: defaultProfileState } });
@@ -100,7 +112,10 @@ Empty.parameters = {
 Empty.play = async ({ canvasElement }) => {};
 
 const Error = Template.bind({});
-Error.args = { storyTitle: 'Error' };
+Error.args = {
+  storyTitle: 'Error',
+  account: zeroAddress,
+};
 Error.decorators = [
   (Story) => {
     const MockStore = renderWithProviders({ preloadedState: { profile: defaultProfileState } });

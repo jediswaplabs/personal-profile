@@ -1,5 +1,6 @@
-import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { Link as RouterLink } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
@@ -18,11 +19,9 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import Box from '@mui/material/Box';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import { useSelector } from 'react-redux';
 
 import { LeaderboardContainer, LeaderboardHeader, LeaderboardContent, StyledTableContainer, StyledTableHead, StyledTableCell, StyledPaginationIconButton } from './Leaderboard.styles';
 import { useLazyGetGuildLeaderboardBuGuildIdQuery } from '../../api/apiSlice';
-import { selectActiveGuildData } from '../guildsSlice';
 
 const noop = () => {};
 
@@ -53,12 +52,6 @@ const trendLookup = {
 
 const ROWS_PER_PAGE = 3;
 
-const WithStateComponent = (WrappedComponent) => ({}) => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { id, name } = useSelector(selectActiveGuildData) ?? {};
-  return <WrappedComponent guildId={id} guildName={name} />;
-};
-
 const LeaderboardTable = ({ title = '', guildId = '', guildName = '' }) => {
   const { t } = useTranslation();
   const [page, setPage] = useState(0);
@@ -75,9 +68,9 @@ const LeaderboardTable = ({ title = '', guildId = '', guildName = '' }) => {
     setOrderBy(property);
   };
 
-  const [getGuildsScoreByUserId, {
+  const [getGuildsScoreByGuildId, {
     data: leaderboardData = {},
-    isLoading,
+    isFetching,
     isSuccess,
     isError,
     isUninitialized,
@@ -85,7 +78,7 @@ const LeaderboardTable = ({ title = '', guildId = '', guildName = '' }) => {
 
   useEffect(() => {
     if (!guildId) { return; }
-    getGuildsScoreByUserId(guildId);
+    getGuildsScoreByGuildId(guildId);
   }, [guildId]);
 
   if (!guildId) {
@@ -93,7 +86,7 @@ const LeaderboardTable = ({ title = '', guildId = '', guildName = '' }) => {
   }
 
   let content;
-  if (isLoading || isUninitialized) {
+  if (isFetching || isUninitialized) {
     content = <MockLeaderBoard />;
   } else if (isError) {
     content = <ErrorLeaderBoard />;
@@ -149,7 +142,9 @@ const LeaderboardTable = ({ title = '', guildId = '', guildName = '' }) => {
                 .map((id) => (
                   <TableRow key={id}>
                     <StyledTableCell component="th" scope="row">
-                      <Typography variant="body1" color="text.primary">{leaderboardData.entities[id].address}</Typography>
+                      <RouterLink to={`/account/${leaderboardData.entities[id].address}`}>
+                        <Typography variant="body1" color="text.primary">{leaderboardData.entities[id].address}</Typography>
+                      </RouterLink>
                     </StyledTableCell>
                     <StyledTableCell align="center">
                       <Stack direction="row" alignItems="center" justifyContent="center" gap={0.5}>
@@ -195,6 +190,12 @@ const LeaderboardTable = ({ title = '', guildId = '', guildName = '' }) => {
   );
 };
 
+LeaderboardTable.propTypes = {
+  title: PropTypes.string,
+  guildId: PropTypes.string,
+  guildName: PropTypes.string,
+};
+
 const UnselectedLeaderboard = () => {
   const { t } = useTranslation();
   return (
@@ -238,7 +239,7 @@ const ErrorLeaderBoard = () => {
         gap={1}
         sx={{ maxWidth: '220px', textAlign: 'center' }}
       >
-        <Typography variant="subtitle1" color="text.primary"><Typography variant="subtitle1" color="text.primary">{t('leaderboard.errors.fetching')}</Typography></Typography>
+        <Typography variant="subtitle1" color="text.primary">{t('leaderboard.errors.fetching')}</Typography>
       </Stack>
     </Stack>
   );
@@ -328,8 +329,4 @@ const TrendArrow = ({ trend = '' }) => {
   return null;
 };
 
-export default WithStateComponent(LeaderboardTable);
-
-export {
-  LeaderboardTable,
-};
+export default LeaderboardTable;

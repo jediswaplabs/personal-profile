@@ -1,7 +1,6 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Collapse from '@mui/material/Collapse';
@@ -14,21 +13,20 @@ import RemoveOutlinedIcon from '@mui/icons-material/RemoveOutlined';
 import { WalletContainer } from './WalletBalance.styles';
 import { useLazyGetWalletByUserIdQuery } from '../../api/apiSlice';
 
-const WalletBalance = () => {
+const WalletBalance = ({ account }) => {
   const { t } = useTranslation();
-  const profileId = useSelector((state) => state.profile.address);
   const [getWalletByUserId, {
     data: currencies,
-    isLoading,
+    isFetching,
     isSuccess,
     isError,
     isUninitialized,
   }] = useLazyGetWalletByUserIdQuery();
 
   useEffect(() => {
-    if (!profileId) { return; }
-    getWalletByUserId(profileId);
-  }, [profileId]);
+    if (!account) { return; }
+    getWalletByUserId(account);
+  }, [account]);
 
   const [isWalletOpen, setIsWalletOpen] = useState(false);
   const handleWalletButtonClick = useCallback(() => {
@@ -38,7 +36,7 @@ const WalletBalance = () => {
   const isEmpty = !currencies?.length;
 
   let content;
-  if (isLoading || isUninitialized) {
+  if (isFetching || isUninitialized) {
     content = <MockWallet />;
   } else if (isError) {
     content = <ErrorWallet />;
@@ -80,7 +78,10 @@ const WalletBalance = () => {
     </WalletContainer>
   );
 };
-WalletBalance.propTypes = {};
+
+WalletBalance.propTypes = {
+  account: PropTypes.string,
+};
 
 const MockWallet = () => (<Skeleton variant="rounded" width="100%" height="3rem" />);
 

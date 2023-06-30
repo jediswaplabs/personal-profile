@@ -1,41 +1,41 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@mui/material/Grid';
 import { useTranslation } from 'react-i18next';
 import Typography from '@mui/material/Typography';
-import { useDispatch, useSelector } from 'react-redux';
 
 import Guild from '../Guild/Guild';
 import { useLazyGetGuildsScoreByUserIdQuery } from '../../api/apiSlice';
-import { selectProfileAddress } from '../../profile/profileSlice';
-import { selectActiveGuildId, selectAllGuilds, setActiveGuild } from '../guildsSlice';
 
-const GuildsList = ({ }) => {
-  const dispatch = useDispatch();
-  const profileId = useSelector(selectProfileAddress);
-  const activeGuildId = useSelector(selectActiveGuildId);
+const GuildsList = ({ account, onActiveGuildSelect }) => {
+  const [activeGuildId, setActiveGuildId] = useState(null);
   const [getGuildsScoreByUserId, {
     data: guilds = {},
-    isLoading,
+    isFetching,
     isSuccess,
     isError,
     isUninitialized,
   }] = useLazyGetGuildsScoreByUserIdQuery();
 
   useEffect(() => {
-    if (!profileId) { return; }
-    getGuildsScoreByUserId(profileId);
-  }, [profileId]);
+    if (!account) { return; }
+    getGuildsScoreByUserId(account);
+  }, [account]);
 
-  const handleOnGuildSelected = useCallback((id) => {
-    if (activeGuildId === id) { return; }
-    dispatch(setActiveGuild(id));
+  useEffect(() => {
+    setActiveGuildId(null);
+  }, [account]);
+
+  const handleOnGuildSelected = useCallback((guildData) => {
+    if (activeGuildId === guildData.id) { return; }
+    setActiveGuildId(guildData.id);
+    onActiveGuildSelect(guildData);
   }, [activeGuildId]);
 
   const isEmpty = !guilds?.ids?.length;
 
   let content;
-  if (isLoading || isUninitialized) {
+  if (isFetching || isUninitialized) {
     content = <MockGuildsList />;
   } else if (isError) {
     content = <ErrorGuildsList />;
@@ -46,7 +46,7 @@ const GuildsList = ({ }) => {
       <>
         {guilds.ids.map((id) => (
           <Grid item key={id}>
-            <Guild id={id} name={guilds.entities[id].name} score={guilds.entities[id].score} isSelected={id === activeGuildId} onGuildSelected={() => handleOnGuildSelected(id)} />
+            <Guild id={id} name={guilds.entities[id].name} score={guilds.entities[id].score} isSelected={id === activeGuildId} onGuildSelected={() => handleOnGuildSelected(guilds.entities[id])} />
           </Grid>
         ))}
       </>
@@ -94,6 +94,9 @@ const ErrorGuildsList = () => {
   );
 };
 
-GuildsList.propTypes = {};
+GuildsList.propTypes = {
+  account: PropTypes.string,
+  onActiveGuildSelect: PropTypes.func,
+};
 
 export default GuildsList;

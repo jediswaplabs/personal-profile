@@ -46,3 +46,27 @@ export const STARKSCAN_PREFIXES = {
   5: 'testnet.',
   42: 'testnet.',
 };
+
+export const guildTypesLookup = {
+  all: 'all',
+  design: 'design',
+  development: 'development',
+  growth: 'growth',
+  problemSolving: 'problemSolving',
+  communityManagement: 'communityManagement',
+  contentWriting: 'contentWriting',
+};
+
+export const guildNamesLookup = {
+  [guildTypesLookup.all]: 'Global',
+  [guildTypesLookup.design]: 'Design',
+  [guildTypesLookup.development]: 'Development',
+  [guildTypesLookup.growth]: 'Growth',
+  [guildTypesLookup.problemSolving]: 'Problem Solving',
+  [guildTypesLookup.communityManagement]: 'Community Management',
+  [guildTypesLookup.contentWriting]: 'Content Writing',
+};
+
+export const eventsLookup = {
+  openWalletModal: 'openWalletModal',
+};

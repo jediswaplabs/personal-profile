@@ -32,12 +32,12 @@ const GuildItemBoxContainer = styled.div`
   }
 
   ${(props) => props.active && css`
-      background: ${guildStyling[props.guildTheme] || guildStyling.default};
+      background: ${guildStyling[props.guildTheme] || guildStyling.all};
       box-shadow: none;
   `};
 
   ${(props) => props.selected && css`
-      ${gradientBorderMixin({ gradient: guildStyling[props.guildTheme] || guildStyling.default })}
+      ${gradientBorderMixin({ gradient: guildStyling[props.guildTheme] || guildStyling.all })}
       overflow: visible;
 
       &:before {

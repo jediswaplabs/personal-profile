@@ -27,7 +27,7 @@ const Guild = ({
 
   return (
     <GuildItemBoxContainer className="guild-item-box" active={isGuildActive} selected={isGuildActive && isSelected} guildTheme={id} onClick={handleGuildClick}>
-      <Typography variant="body2" color="text.primary" className="title">{name}</Typography>
+      <Typography variant="body2" color="text.primary" className="title" data-testid="guild-title">{name}</Typography>
       {score
         ? (
           <>

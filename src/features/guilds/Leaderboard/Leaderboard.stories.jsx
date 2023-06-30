@@ -1,7 +1,7 @@
 import React from 'react';
 import { graphql } from 'msw';
 
-import { LeaderboardTable } from './Leaderboard';
+import LeaderboardTable from './Leaderboard';
 import { defaultLeaderboardData } from './Leaderboard.testData';
 import { renderWithProviders } from '../../../common/testsHelper';
 

@@ -32,6 +32,10 @@ const GlobalStyle = createGlobalStyle`
   img {
     max-width: 100%;
   }
+
+  a {
+    text-decoration: none;
+  }
 `;
 
 const ApplicationContainer = styled.div`

@@ -5,18 +5,13 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { SvgIcon } from '@mui/material';
 
-import { HeaderContainer,
-  HeaderLogo,
-  HeaderWallet,
-  AccountElement,
-  Web3StatusConnected,
-  Web3StatusError,
-  Web3StatusConnect } from './Header.styles';
+import { HeaderContainer, HeaderLogo, HeaderWallet, AccountElement, Web3StatusConnected, Web3StatusError, Web3StatusConnect } from './Header.styles';
 import { useActiveStarknetReact } from '../../hooks';
-import { NETWORK_LABELS } from '../../common/contansts';
+import { eventsLookup, NETWORK_LABELS } from '../../common/contansts';
 import { argentX, braavosWallet } from '../../common/connectors';
-import logo from '../../resources/images/logo.png';
 import { getShortenAddress } from '../../common/addressHelper';
+import { EventEmitter } from '../../common/eventEmitter';
+import logo from '../../resources/images/logo.png';
 import argentXIcon from '../../resources/icons/argentx.svg';
 import braavosIcon from '../../resources/icons/braavos.svg';
 import GradientButton from '../GradientButton/GradientButton';
@@ -32,7 +27,7 @@ const Header = () => {
 
       <Grid container columnSpacing={2} alignItems="center">
         <Grid item xs={6} sx={{ display: 'flex', alignItems: 'center' }}>
-          <HeaderLogo>
+          <HeaderLogo to="/home">
             <img width="195px" height="32px" src={logo} />
           </HeaderLogo>
         </Grid>
@@ -70,6 +65,12 @@ const Web3Status = () => {
   const handleCloseWalletModal = useCallback(() => {
     setShowModal(false);
   }, [showModal]);
+
+  const handleOpenWalletModal = useCallback(() => {
+    setShowModal(true);
+  }, [showModal]);
+
+  EventEmitter.subscribe(eventsLookup.openWalletModal, handleOpenWalletModal);
 
   return (
     <>

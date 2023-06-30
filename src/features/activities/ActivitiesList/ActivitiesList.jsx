@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect, useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import Typography from '@mui/material/Typography';
 import Skeleton from '@mui/material/Skeleton';
@@ -14,27 +14,25 @@ import Stack from '@mui/material/Stack';
 
 import { ActivitiesBoxContainer, ActivitiesBoxHeader, ActivitiesBoxItems } from './ActivitiesList.styles';
 import { useLazyGetActivitiesByUserIdQuery } from '../../api/apiSlice';
-import { selectProfileAddress } from '../../profile/profileSlice';
 import { getTimeAgo } from '../../../common/timeHelper';
 
 const MAX_VISIBLE_ITEMS_AMOUNT = 3;
 
-const ActivitiesList = () => {
+const ActivitiesList = ({ account }) => {
   const { t } = useTranslation();
-  const profileId = useSelector(selectProfileAddress);
 
   const [getActivitiesByUserId, {
     data: activities = {},
-    isLoading,
+    isFetching,
     isSuccess,
     isError,
     isUninitialized,
   }] = useLazyGetActivitiesByUserIdQuery();
 
   useEffect(() => {
-    if (!profileId) { return; }
-    getActivitiesByUserId(profileId);
-  }, [profileId]);
+    if (!account) { return; }
+    getActivitiesByUserId(account);
+  }, [account]);
 
   const [isShowMoreActive, setIsShowMoreActive] = useState(false);
   const handleShowMoreClick = useCallback((e) => {
@@ -59,11 +57,11 @@ const ActivitiesList = () => {
   }, [activities]);
 
   let content;
-  if (isLoading || isUninitialized) {
+  if (isFetching || isUninitialized) {
     content = <MockActivitiesList />;
   } else if (isError) {
     content = <ErrorActivitiesList />;
-  } else if (isEmpty || !profileId) {
+  } else if (isEmpty || !account) {
     content = <EmptyActivitiesList />;
   } else if (isSuccess) {
     const [visibleItemsIds, hiddenItemsIds] = getVisibleAndHiddenItems(sortedActivities.ids);
@@ -161,6 +159,8 @@ const EmptyBubblePlaceholder = ({ width = '100%', height = 'auto' }) => (
   </svg>
 );
 
-ActivitiesList.propTypes = {};
+ActivitiesList.propTypes = {
+  account: PropTypes.string,
+};
 
 export default ActivitiesList;

@@ -2,13 +2,13 @@ import React from 'react';
 import { graphql } from 'msw';
 
 import GuildsList from './GuildsList';
-import { zeroAddress } from '../../../common/contansts';
 import { defaultGuildsList, emptyGuildsList, guildsListWithScore } from './GuildsList.testData';
+import { zeroAddress } from '../../../common/contansts';
 import { renderWithProviders } from '../../../common/testsHelper';
 
 const ARTIFICIAL_DELAY_MS = 600;
 
-const defaultProfileState = { address: zeroAddress };
+const defaultProfileState = { };
 
 const Template = (args) => (
   <>
@@ -23,7 +23,7 @@ const Template = (args) => (
 const Default = Template.bind({});
 Default.args = {
   storyTitle: 'Default',
-  userId: '0xfoo',
+  account: zeroAddress,
 };
 Default.parameters = {
   msw: {
@@ -46,7 +46,7 @@ Default.play = async ({ canvasElement }) => {};
 const WithScores = Template.bind({});
 WithScores.args = {
   storyTitle: 'WithScores',
-  userId: '0xfoo',
+  account: zeroAddress,
 };
 WithScores.decorators = [
   (Story) => {
@@ -67,7 +67,10 @@ WithScores.parameters = {
 WithScores.play = async ({ canvasElement }) => {};
 
 const Loading = Template.bind({});
-Loading.args = { storyTitle: 'Loading' };
+Loading.args = {
+  storyTitle: 'Loading',
+  account: zeroAddress,
+};
 Loading.decorators = [
   (Story) => {
     const MockStore = renderWithProviders({ preloadedState: { profile: defaultProfileState } });
@@ -86,7 +89,10 @@ Loading.parameters = {
 Loading.play = async ({ canvasElement }) => {};
 
 const Empty = Template.bind({});
-Empty.args = { storyTitle: 'Empty' };
+Empty.args = {
+  storyTitle: 'Empty',
+  account: zeroAddress,
+};
 Empty.decorators = [
   (Story) => {
     const MockStore = renderWithProviders({ preloadedState: { profile: defaultProfileState } });
@@ -106,7 +112,10 @@ Empty.parameters = {
 Empty.play = async ({ canvasElement }) => {};
 
 const Error = Template.bind({});
-Error.args = { storyTitle: 'Error' };
+Error.args = {
+  storyTitle: 'Error',
+  account: zeroAddress,
+};
 Error.decorators = [
   (Story) => {
     const MockStore = renderWithProviders({ preloadedState: { profile: defaultProfileState } });

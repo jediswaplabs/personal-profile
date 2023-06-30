@@ -1,9 +1,10 @@
-import { useTranslation } from 'react-i18next';
+/* eslint-disable import/no-unresolved */
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import Typography from '@mui/material/Typography';
 import { FreeMode } from 'swiper';
-import { useSelector } from 'react-redux';
 
 import 'swiper/css';
 import 'swiper/css/bundle';
@@ -11,29 +12,27 @@ import 'swiper/css/bundle';
 import { NftCarouselContainer, NftCarouselHeader, NftCarouselContent } from './NftCarousel.styles';
 import NftCard from '../NftCard/NftCard';
 import { useLazyGetMeshNftByUserIdQuery } from '../../api/apiSlice';
-import { selectProfileAddress } from '../../profile/profileSlice';
 
-const NftCarousel = () => {
+const NftCarousel = ({ account }) => {
   const { t } = useTranslation();
-  const profileId = useSelector(selectProfileAddress);
 
   const [getMeshNftByUserId, {
     data: nfts = {},
-    isLoading,
+    isFetching,
     isSuccess,
     isError,
     isUninitialized,
   }] = useLazyGetMeshNftByUserIdQuery();
 
   useEffect(() => {
-    if (!profileId) { return; }
-    getMeshNftByUserId(profileId);
-  }, [profileId]);
+    if (!account) { return; }
+    getMeshNftByUserId(account);
+  }, [account]);
 
   const isEmpty = !nfts?.ids?.length;
 
   let content;
-  if (isLoading || isUninitialized) {
+  if (isFetching || isUninitialized) {
     content = <MockNftCarousel />;
   } else if (isError) {
     content = <ErrorNftCarousel />;
@@ -91,6 +90,8 @@ const EmptyNftCarousel = () => {
   );
 };
 
-NftCarousel.propTypes = {};
+NftCarousel.propTypes = {
+  account: PropTypes.string,
+};
 
 export default NftCarousel;

@@ -17,7 +17,7 @@ const LeaderboardHeader = styled.div`
   }
 
   ${(props) => props.guildTheme && css`
-    background: ${guildStyling[props.guildTheme] || guildStyling.default};
+    background: ${guildStyling[props.guildTheme] || guildStyling.all};
   `}
 `;
 
