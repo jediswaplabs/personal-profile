@@ -231,7 +231,7 @@ const WalletAccountOverview = ({ connectedWallet, chainId, connectedAddress, onW
             </Grid>
             <Grid item>
               {isAddressCopied ? (
-                <Typography variant="body2" component="span" color="grey.400">Copied!</Typography>
+                <Typography variant="body2" component="span" color="grey.400">{t('profileCard.controls.copied')}</Typography>
               ) : (
                 <CopyToClipboard text={connectedAddress} onCopy={() => setIsAddressCopied(true)}>
                   <Link component="button" underline="none" variant="body2" color="grey.400" onClick={preventDefault}>{t('walletModal.copyAddress')}</Link>
