@@ -310,7 +310,6 @@ const ProviderError = ({ error, onClick }) => {
 
   return (
     <Stack direction="row" gap={2} alignItems="center" justifyContent="space-between">
-      <Typography variant="body2" component="span" color="text.primary">{`${isArgentXError ? 'ArgentX' : 'Braavos'} wallet not found.`}</Typography>
       <Typography variant="body2" component="span" color="text.primary">{t('walletModal.walletNotFound', { wallet: isArgentXError ? 'ArgentX' : 'Braavos' })}</Typography>
       <Button variant="outlined" onClick={handleDownloadButtonClick}>{t('walletModal.downloadNow')}
       </Button>
