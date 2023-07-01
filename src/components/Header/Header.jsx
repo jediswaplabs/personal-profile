@@ -4,6 +4,7 @@ import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { SvgIcon } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 import { HeaderContainer, HeaderLogo, HeaderWallet, AccountElement, Web3StatusConnected, Web3StatusError, Web3StatusConnect } from './Header.styles';
 import { useActiveStarknetReact } from '../../hooks';
@@ -81,6 +82,7 @@ const Web3Status = () => {
 };
 
 const Web3StatusInner = ({ onWalletModalToggle = noop }) => {
+  const { t } = useTranslation();
   const { connectedAddress, connector, error } = useActiveStarknetReact();
   if (connectedAddress) {
     return (
@@ -100,7 +102,7 @@ const Web3StatusInner = ({ onWalletModalToggle = noop }) => {
   }
   return (
     <Web3StatusConnect onClick={onWalletModalToggle}>
-      <GradientButton>Connect wallet</GradientButton>
+      <GradientButton>{t('header.connectWallet')}</GradientButton>
     </Web3StatusConnect>
   );
 };

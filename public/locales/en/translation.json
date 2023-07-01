@@ -1,8 +1,16 @@
 {
+  "header": {
+    "connectWallet": "Connect wallet"
+  },
   "contributorPage": {
     "titles": {
       "title": "JediSwap Contributor Profile"
     }
+  },
+  "mainPage": {
+    "header": "Contributors Global Leaderboard",
+    "connectWalletToSee": "Connect Wallet to see Personalised Profile",
+    "seePersonalProfile": "See your Personalised Profile"
   },
   "activitiesList": {
     "errors": {
@@ -24,6 +32,22 @@
     },
     "title": "Wallet Balance"
   },
+  "walletModal": {
+    "titleConnect": "Connect to a wallet",
+    "titleAccountDetails": "Account details",
+    "downloadNow": "Download now",
+    "copyAddress": "Copy address",
+    "viewOnStarkscan": "View on Starkscan",
+    "disconnect": "Disconnect",
+    "connectedWith": "Connected with {{wallet}}",
+    "walletNotFound": "{{wallet}} wallet not found.",
+    "errors": {
+      "wrongNetwork": "Wrong Network",
+      "connectingError": "Error connecting",
+      "connectAppropriateNetwork": "Please connect to the appropriate network.",
+      "tryRefresh": "Try refreshing the page."
+    }
+  },
   "profileCard": {
     "errors": {
       "fetching": "An error occurred during the request."
@@ -31,6 +55,7 @@
     "controls": {
       "editProfile": "Edit Profile",
       "copyAddress": "Copy address",
+      "copied": "Copied!",
       "switchAccount": "Switch account"
     }
   },
@@ -39,6 +64,11 @@
       "fetching": "An error occurred during the request.",
       "empty": "An error occurred during the request."
     }
+  },
+  "guild": {
+    "meshPoints": "Mesh points",
+    "kickStart": "Kick Start Your journey",
+    "startContrib": "Start Contributing"
   },
   "leaderboard": {
     "title": "Leaderboard",
@@ -70,5 +100,6 @@
       "fetching": "An error occurred during the request.",
       "empty": "Empty NFTs list"
     }
-  }
+  },
+  "intlDateTime": "{{val, datetime}}"
 }

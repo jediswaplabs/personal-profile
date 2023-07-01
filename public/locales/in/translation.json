@@ -28,5 +28,6 @@
       "copyAddress": "पता कॉपी करें",
       "switchAccount": "खाता स्विच करें"
     }
-  }
+  },
+  "intlDateTime": "{{val, datetime}}"
 }
