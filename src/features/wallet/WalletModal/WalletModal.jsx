@@ -15,6 +15,7 @@ import Link from '@mui/material/Link';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { NoStarknetProviderError as NoArgentXProviderError } from '@web3-starknet-react/argentx-connector';
 import { NoStarknetProviderError as NoBraavosProviderError } from '@web3-starknet-react/braavos-connector';
+import { useTranslation } from 'react-i18next';
 
 import { getStarkscanLink } from '../../../common/explorerHelper';
 import { getShortenAddress } from '../../../common/addressHelper';
@@ -34,6 +35,7 @@ const WALLET_VIEWS = {
 };
 
 const WalletModal = ({ children, ...props }) => {
+  const { t } = useTranslation();
   const [modalTitle, setModalTitle] = useState();
 
   const { active, connectedAddress, account, connector, activate, error, chainId } = useStarknetReact();
@@ -82,16 +84,16 @@ const WalletModal = ({ children, ...props }) => {
 
   useEffect(() => {
     if (error) {
-      setModalTitle(error instanceof UnsupportedChainIdError ? 'Wrong Network' : 'Error connecting');
+      setModalTitle(error instanceof UnsupportedChainIdError ? t('walletModal.errors.wrongNetwork') : t('walletModal.errors.connectingError'));
       return;
     }
 
     if (account && walletView === WALLET_VIEWS.ACCOUNT) {
-      setModalTitle('Account details');
+      setModalTitle(t('walletModal.titleAccountDetails'));
       return;
     }
 
-    setModalTitle('Connect to a wallet');
+    setModalTitle(t('walletModal.titleConnect'));
   }, [walletView, error, account]);
 
   const handleOnOptionClick = useCallback(async (option) => {
@@ -110,9 +112,9 @@ const WalletModal = ({ children, ...props }) => {
       return (
         <>
           {error instanceof UnsupportedChainIdError ? (
-            <Typography variant="body2" color="text.primary">Please connect to the appropriate network.</Typography>
+            <Typography variant="body2" color="text.primary">{t('walletModal.errors.connectAppropriateNetwork')}</Typography>
           ) : (
-            <Typography variant="body2" component="span" color="text.primary">Try refreshing the page.</Typography>
+            <Typography variant="body2" component="span" color="text.primary">{t('walletModal.errors.tryRefresh')}</Typography>
           )}
         </>
       );
@@ -192,6 +194,7 @@ const WalletConnectOptionsView = ({ onClick = noop, wallets = {} }) => (
 );
 
 const WalletAccountOverview = ({ connectedWallet, chainId, connectedAddress, onWalletDisconnect = noop() }) => {
+  const { t } = useTranslation();
   const [isAddressCopied, setIsAddressCopied] = useState(false);
   useEffect(() => {
     if (!isAddressCopied) {
@@ -205,8 +208,8 @@ const WalletAccountOverview = ({ connectedWallet, chainId, connectedAddress, onW
   return (
     <Stack direction="column" gap={2}>
       <Stack direction="row" gap={2} alignItems="center" justifyContent="space-between">
-        <Typography variant="body2" component="span" color="text.primary">Connected with {connectedWallet?.name}</Typography>
-        <Button variant="outlined" onClick={onWalletDisconnect}>Disconnect</Button>
+        <Typography variant="body2" component="span" color="text.primary">{t('walletModal.connectedWith', { wallet: connectedWallet?.name })}</Typography>
+        <Button variant="outlined" onClick={onWalletDisconnect}>{t('walletModal.disconnect')}</Button>
       </Stack>
 
       <Box component="div" sx={{ p: 2, border: '1px solid rgba(80,213,255,0.5);', color: connectedWallet.color || '', borderRadius: '4px' }}>
@@ -228,10 +231,10 @@ const WalletAccountOverview = ({ connectedWallet, chainId, connectedAddress, onW
             </Grid>
             <Grid item>
               {isAddressCopied ? (
-                <Typography variant="body2" component="span" color="grey.400">Copied!</Typography>
+                <Typography variant="body2" component="span" color="grey.400">{t('profileCard.controls.copied')}</Typography>
               ) : (
                 <CopyToClipboard text={connectedAddress} onCopy={() => setIsAddressCopied(true)}>
-                  <Link component="button" underline="none" variant="body2" color="grey.400" onClick={preventDefault}>Copy address</Link>
+                  <Link component="button" underline="none" variant="body2" color="grey.400" onClick={preventDefault}>{t('walletModal.copyAddress')}</Link>
                 </CopyToClipboard>
               )}
             </Grid>
@@ -243,7 +246,7 @@ const WalletAccountOverview = ({ connectedWallet, chainId, connectedAddress, onW
             <OpenInNewIcon color="primary" fontSize="small" />
           </Grid>
           <Grid item>
-            <Link component="a" underline="none" variant="body2" color="grey.400" target="_blank" rel="noopener noreferrer" href={getStarkscanLink(chainId, connectedAddress, 'contract')}>View on Starkscan</Link>
+            <Link component="a" underline="none" variant="body2" color="grey.400" target="_blank" rel="noopener noreferrer" href={getStarkscanLink(chainId, connectedAddress, 'contract')}>{t('walletModal.viewOnStarkscan')}</Link>
           </Grid>
         </Grid>
       </Stack>
@@ -289,6 +292,7 @@ const WalletPending = ({ connector, error = false, setPendingError, setWalletVie
 };
 
 const ProviderError = ({ error, onClick }) => {
+  const { t } = useTranslation();
   const argentXUrl = 'https://chrome.google.com/webstore/detail/argent-x-starknet-wallet/dlcobpjiigpikoobohmabehhmhfoodbb';
   const braavosUrl = 'https://chrome.google.com/webstore/detail/braavos-wallet/jnlgamecbpmbajjfhmmmlhejkemejdma';
   const downloadArgentX = () => window.open(argentXUrl, '_blank');
@@ -306,8 +310,8 @@ const ProviderError = ({ error, onClick }) => {
 
   return (
     <Stack direction="row" gap={2} alignItems="center" justifyContent="space-between">
-      <Typography variant="body2" component="span" color="text.primary">{`${isArgentXError ? 'ArgentX' : 'Braavos'} wallet not found.`}</Typography>
-      <Button variant="outlined" onClick={handleDownloadButtonClick}>Download now
+      <Typography variant="body2" component="span" color="text.primary">{t('walletModal.walletNotFound', { wallet: isArgentXError ? 'ArgentX' : 'Braavos' })}</Typography>
+      <Button variant="outlined" onClick={handleDownloadButtonClick}>{t('walletModal.downloadNow')}
       </Button>
     </Stack>
   );

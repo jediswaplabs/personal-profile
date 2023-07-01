@@ -10,7 +10,6 @@ import Stack from '@mui/material/Stack';
 
 import { CardIsLockedOverlay, CardWrapper, CardInner, CardFront, CardBack } from './NftCard.styles';
 import GradientButton from '../../../components/GradientButton/GradientButton';
-import { convertDate } from '../../../common/timeHelper';
 
 const DEFAULT_IMAGE = {
   alt: '',
@@ -70,7 +69,12 @@ const NftCard = ({ title = '', level = 1, image = IMAGE_MODEL, score = 0, isLock
                     {t('meshNftsCarousel.card.earnedDate')}
                   </Typography>
                   <Typography variant="body1" color="text.primary" component="div" align="center" sx={{ fontSize: '1.15rem', textTransform: 'uppercase' }}>
-                    {convertDate({ date: unlockedDate, formatString: 'dd MMM yyyy' })}
+                    {t('intlDateTime', {
+                      val: unlockedDate,
+                      formatParams: {
+                        val: { year: 'numeric', month: 'long', day: 'numeric' },
+                      },
+                    })}
                   </Typography>
                 </Stack>
               </CardContent>
