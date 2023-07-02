@@ -72,6 +72,7 @@
   },
   "leaderboard": {
     "title": "Leaderboard",
+    "fullTitle": "{{guildName}} Leaderboard",
     "controls": {
       "prev": "Prev",
       "next": "Next"

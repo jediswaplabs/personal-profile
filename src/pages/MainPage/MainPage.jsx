@@ -54,7 +54,7 @@ const MainPage = () => {
         >
           {guildIds.map((id) => (<Tab value={id} label={guildNamesLookup[id]} key={id} />))}
         </JediSwapTabs>
-        <LeaderboardTable guildId={activeGuildId} guildName="" title={`${guildNamesLookup[activeGuildId]} Leaderboard`} />
+        <LeaderboardTable guildId={activeGuildId} guildName="" title={t('leaderboard.fullTitle', { guildName: guildNamesLookup[activeGuildId] })} />
       </Stack>
     </MainpageContainer>
 
