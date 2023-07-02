@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Select, MenuItem } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
+// TODO create a lookup for languages and add it to constanst.js
 const locales = [
   { name: 'English', code: 'en' },
   { name: 'हिंदी', code: 'hi' },
