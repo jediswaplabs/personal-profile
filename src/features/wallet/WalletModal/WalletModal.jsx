@@ -35,7 +35,7 @@ const WALLET_VIEWS = {
 };
 
 const WalletModal = ({ children, ...props }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [modalTitle, setModalTitle] = useState();
 
   const { active, connectedAddress, account, connector, activate, error, chainId } = useStarknetReact();
@@ -94,7 +94,7 @@ const WalletModal = ({ children, ...props }) => {
     }
 
     setModalTitle(t('walletModal.titleConnect'));
-  }, [walletView, error, account]);
+  }, [walletView, error, account, i18n.language]);
 
   const handleOnOptionClick = useCallback(async (option) => {
     if (option.connector === connector) {

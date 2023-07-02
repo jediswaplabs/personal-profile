@@ -17,6 +17,7 @@ import argentXIcon from '../../resources/icons/argentx.svg';
 import braavosIcon from '../../resources/icons/braavos.svg';
 import GradientButton from '../GradientButton/GradientButton';
 import WalletModal from '../../features/wallet/WalletModal/WalletModal';
+import LanguageSwitcher from '../LanguageSwitcher/LanguageSwitcher';
 
 const noop = () => {};
 
@@ -33,6 +34,7 @@ const Header = () => {
           </HeaderLogo>
         </Grid>
         <Grid item xs={6} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <LanguageSwitcher />
           <HeaderWallet>
             <Stack direction="row" alignItems="center" gap={2}>
               {chainId && NETWORK_LABELS[chainId] && (
