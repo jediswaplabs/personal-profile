@@ -4,10 +4,12 @@ import i18n from 'i18next';
 import enTranslations from '../../public/locales/en/translation.json';
 import inTranslations from '../../public/locales/hi/translation.json';
 
+const initialLocale = localStorage.getItem('locale') || 'hi';
+
 i18n.use(initReactI18next)
   .init({
     debug: true,
-    lng: 'hi',
+    lng: initialLocale,
     fallbackLng: 'en',
     defaultNS: 'translation',
     ns: ['translation'],
