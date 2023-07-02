@@ -51,12 +51,12 @@ const jediSwapDark = createTheme({
       lineHeight: 1.1,
       color: '#fff',
     },
-    // subtitle1: {
+    subtitle1: {
     //   fontFamily: '"Avenir LT Std","Helvetica Neue",Arial,sans-serif',
-    //   fontWeight: 400,
-    //   fontSize: '1rem',
-    //   lineHeight: 1.75,
-    // },
+      fontWeight: 300,
+      fontSize: '1.1rem',
+      lineHeight: 1.75,
+    },
     // subtitle2: {
     //   fontFamily: '"Avenir LT Std","Helvetica Neue",Arial,sans-serif',
     //   fontWeight: 500,
@@ -104,6 +104,8 @@ const jediSwapDark = createTheme({
     },
 
     accent: '#FF00E9',
+
+    jediNavyBlue: '#141451',
 
     primary: { main: '#50D5FF' },
     secondary: {

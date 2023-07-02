@@ -14,13 +14,9 @@ import { useActiveStarknetReact } from '../../hooks';
 import { EventEmitter } from '../../common/eventEmitter';
 
 /*
-TODO поправить локализации
 TODO сделать модалку смены аватара
-TODO добавить seo-фигню
+TODO перенести табы в отдельный компонент
 TODO проверить размер бандлов
-TODO
-TODO
-TODO
  */
 
 const MainPage = () => {

@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import Modal from '@mui/material/Modal';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { UnsupportedChainIdError, useStarknetReact } from '@web3-starknet-react/core';
@@ -16,6 +15,7 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { NoStarknetProviderError as NoArgentXProviderError } from '@web3-starknet-react/argentx-connector';
 import { NoStarknetProviderError as NoBraavosProviderError } from '@web3-starknet-react/braavos-connector';
 
+import JediModal from '../../../components/JediModal/JediModal';
 import { getStarkscanLink } from '../../../common/explorerHelper';
 import { getShortenAddress } from '../../../common/addressHelper';
 import { argentX, braavosWallet } from '../../../common/connectors';
@@ -153,7 +153,7 @@ const WalletModal = ({ children, ...props }) => {
 
   return (
     <ModalContainer>
-      <Modal {...props} onClose={handleOnClose}>
+      <JediModal {...props} onClose={handleOnClose}>
         <ModalInner>
           <Stack direction="column" gap={1}>
             <Grid container direction="row" alignItems="center" justifyContent="space-between">
@@ -169,7 +169,7 @@ const WalletModal = ({ children, ...props }) => {
             </WalletConnectorContainer>
           </Stack>
         </ModalInner>
-      </Modal>
+      </JediModal>
     </ModalContainer>
   );
 };

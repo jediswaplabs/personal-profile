@@ -1,9 +1,8 @@
 import React from 'react';
-// eslint-disable-next-line import/no-named-default
-import { default as MaterialModal } from '@mui/material/Modal';
+import MaterialModal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 
-import { ModalContainer } from './Modal.styles';
+import { ModalContainer } from './JediModal.styles';
 
 const defaultBoxStyles = {
   width: '100%',
@@ -15,12 +14,10 @@ const defaultBoxStyles = {
   backgroundColor: '#141451',
   padding: '2rem',
   border: '1px solid #fff',
-  // background: 'linear-gradient(to top right,#50d5ff,#ef35ff)',
-  // padding: '2px',
   borderRadius: '8px',
 };
 
-const Modal = ({ children, ...props }) => (
+const JediModal = ({ children, ...props }) => (
   <ModalContainer>
     <MaterialModal {...props}>
       <Box sx={{ ...defaultBoxStyles, ...(props.contentSx || {}) }}>
@@ -30,4 +27,4 @@ const Modal = ({ children, ...props }) => (
   </ModalContainer>
 );
 
-export default Modal;
+export default JediModal;

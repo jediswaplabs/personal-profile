@@ -1,26 +1,32 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { glassEffectMixin, gradientBorderMixin } from '../../../resources/styles/mixins';
 
-const BoxContainer = styled.div`
-  ${glassEffectMixin({})}
-  ${gradientBorderMixin({})}
-
+const AvatarWrapper = styled.div`
   display: flex;
-  padding: 8px;
   width: 100px;
   height: 100px;
-  border-radius: 8px;
 
-  .avatar {
+  ${(props) => !props.isMock && css`
+    ${glassEffectMixin({})}
+    ${gradientBorderMixin({})}
+    padding: 8px;
+    border-radius: 8px;
+  `}
+
+  ${(props) => props.size && css`
+    width: ${props.size};
+    height: ${props.size};
+  `}
+
+  .MuiAvatar-root {
     border-radius: 10px;
     width: 100%;
     height: 100%;
     user-select: none;
-    //dragable:
   }
 `;
 
 export {
-  BoxContainer,
+  AvatarWrapper,
 };
