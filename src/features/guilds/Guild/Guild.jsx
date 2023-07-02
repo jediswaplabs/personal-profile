@@ -32,17 +32,17 @@ const Guild = ({
         ? (
           <>
             <Typography variant="body2" color="text.primary" className="points">{score}</Typography>
-            <Typography variant="body2" color="text.primary" className="points-label">Mesh points</Typography>
+            <Typography variant="body2" color="text.primary" className="points-label">{t('guild.meshPoints')}</Typography>
           </>
         )
         : (
           <>
-            <Typography variant="body2" color="text.primary" className="subtitle">Kick Start Your journey &nbsp;
+            <Typography variant="body2" color="text.primary" className="subtitle">{t('guild.kickStart')} &nbsp;
               <RocketLaunchIcon sx={{ fontSize: '1.3em' }} />
             </Typography>
             <div className="contribution-link">
               {/* TODO разрбоаться как выровнить и как добавить ссылку */}
-              <Link href={START_CONTRIBUTIONS_URL} target="_blank" rel="noopener noreferrer" underline="none" variant="body2" sx={{ lineHeight: 1, fontSize: '12px' }}>Start Contributing</Link>
+              <Link href={START_CONTRIBUTIONS_URL} target="_blank" rel="noopener noreferrer" underline="none" variant="body2" sx={{ lineHeight: 1, fontSize: '12px' }}>{t('guild.startContrib')}</Link>
               <ArrowForwardIosRoundedIcon color="primary" />
             </div>
           </>

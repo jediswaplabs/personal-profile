@@ -83,7 +83,7 @@ const ProfileCard = ({ account, readOnly = true }) => {
                     </div>
                     <div className="account-controls-item">
                       {isAddressCopied ? (
-                        <Typography variant="body2" component="span" color="text.primary">Copied!</Typography>
+                        <Typography variant="body2" component="span" color="text.primary">{t('profileCard.controls.copied')}</Typography>
                       ) : (
                         <CopyToClipboard text={userAddress} onCopy={() => setIsAddressCopied(true)}>
                           <Link component="button"

@@ -3,7 +3,7 @@ import { enGB, hi } from 'date-fns/locale';
 
 const locales = {
   en: enGB,
-  in: hi,
+  hi,
 };
 
 const getTimeAgo = (timestamp, locale = 'en') => {

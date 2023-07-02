@@ -36,11 +36,11 @@ const MainPage = () => {
     <MainpageContainer>
       <Stack spacing={3.5}>
         <MainpageContainerHeader>
-          <Typography variant="h5" color="text.primary">Contributors Global Leaderboard</Typography>
-          {!connectedAddress && <Link href="#" underline="none" variant="body1" onClick={handleConnectWallet}>Connect Wallet to see Personalised Profile</Link>}
+          <Typography variant="h5" color="text.primary">{t('mainPage.header')}</Typography>
+          {!connectedAddress && <Link href="#" underline="none" variant="body1" onClick={handleConnectWallet}>{t('mainPage.connectWalletToSee')}</Link>}
           {connectedAddress && (
             <RouterLink to={`/account/${connectedAddress}`}>
-              <Typography variant="body1" color="primary">See your Personalised Profile</Typography>
+              <Typography variant="body1" color="primary">{t('mainPage.seePersonalProfile')}</Typography>
             </RouterLink>
           )}
         </MainpageContainerHeader>
