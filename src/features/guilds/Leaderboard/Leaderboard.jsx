@@ -141,7 +141,7 @@ const LeaderboardTable = ({ title = '', guildId = '', guildName = '' }) => {
                 .slice(page * ROWS_PER_PAGE, page * ROWS_PER_PAGE + ROWS_PER_PAGE)
                 .map((id) => (
                   <TableRow key={id}>
-                    <StyledTableCell component="th" scope="row">
+                    <StyledTableCell scope="row">
                       <RouterLink to={`/account/${leaderboardData.entities[id].address}`}>
                         <Typography variant="body1" color="text.primary">{leaderboardData.entities[id].address}</Typography>
                       </RouterLink>
@@ -330,3 +330,6 @@ const TrendArrow = ({ trend = '' }) => {
 };
 
 export default LeaderboardTable;
+export {
+  ROWS_PER_PAGE,
+};
