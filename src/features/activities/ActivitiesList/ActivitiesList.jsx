@@ -164,3 +164,6 @@ ActivitiesList.propTypes = {
 };
 
 export default ActivitiesList;
+export {
+  MAX_VISIBLE_ITEMS_AMOUNT,
+};

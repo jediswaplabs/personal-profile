@@ -49,6 +49,7 @@ Default.play = async ({ canvasElement, step }) => {
   await step('Sorting ranks ascending', async () => {
     await testRankOrder(canvas, true);
   });
+
   await step('Sorting ranks descending', async () => {
     await testRankOrder(canvas, false);
   });
@@ -144,16 +145,17 @@ const stories = {
   argTypes: {},
 };
 
-function getColumnValues(canvas, column) {
-  const headers = canvas.getAllByRole('columnheader').map((th) => th.textContent);
-  const colNumber = headers.indexOf(column);
-  return canvas.getAllByRole('row').slice(1).map((row) => getAllByRole(row, 'cell')[colNumber].textContent);
+async function getColumnValues(canvas, columnHeader) {
+  const headers = (await canvas.findAllByRole('columnheader')).map((th) => th.textContent);
+  const colNumber = headers.indexOf(columnHeader);
+  const rows = (await canvas.findAllByRole('row')).slice(1);
+  return rows.map((row) => getAllByRole(row, 'cell')[colNumber].textContent);
 }
 
 async function testPointsOrder(canvas, isAsc) {
   const header = await canvas.findByText('Total points');
   await userEvent.click(header);
-  const pointTexts = getColumnValues(canvas, 'Total points');
+  const pointTexts = await getColumnValues(canvas, 'Total points');
   const pointNumbers = pointTexts.map((rank) => Number(rank));
   const sortedPoints = [...points].sort((a, b) => (isAsc ? a - b : b - a));
   expect(pointNumbers).toEqual(sortedPoints.slice(0, ROWS_PER_PAGE));
@@ -162,14 +164,14 @@ async function testPointsOrder(canvas, isAsc) {
 async function testRankOrder(canvas, isAsc) {
   const header = await canvas.findByText('Overall rank');
   await userEvent.click(header);
-  const rankTexts = getColumnValues(canvas, 'Overall rank');
+  const rankTexts = await getColumnValues(canvas, 'Overall rank');
   const rankNumbers = rankTexts.map((rank) => Number(rank.replace('#', '')));
   const sortedRanks = [...ranks].sort((a, b) => (isAsc ? a - b : b - a));
   expect(rankNumbers).toEqual(sortedRanks.slice(0, ROWS_PER_PAGE));
 }
 
-function pointsPagination(canvas, pageNumber) {
-  const pointTexts = getColumnValues(canvas, 'Total points');
+async function pointsPagination(canvas, pageNumber) {
+  const pointTexts = await getColumnValues(canvas, 'Total points');
   const pointNumbers = pointTexts.map((rank) => Number(rank));
   const sortedPoints = [...points].sort((a, b) => b - a);
   expect(pointNumbers).toEqual(sortedPoints.slice(ROWS_PER_PAGE * (pageNumber - 1), ROWS_PER_PAGE * pageNumber));
@@ -180,15 +182,16 @@ async function testPagination(canvas) {
   const next = (await canvas.findByText('Next')).closest('button');
   expect(prev).toBeDisabled();
   if (defaultLeaderboardData.ids.length <= ROWS_PER_PAGE) {
+    expect(next).toBeDisabled();
     return;
   }
   expect(next).toBeEnabled();
-  pointsPagination(canvas, 1);
+  await pointsPagination(canvas, 1);
   await userEvent.click(next);
   expect(prev).toBeEnabled();
-  pointsPagination(canvas, 2);
+  await pointsPagination(canvas, 2);
   await userEvent.click(prev);
-  pointsPagination(canvas, 1);
+  await pointsPagination(canvas, 1);
 }
 
 export {

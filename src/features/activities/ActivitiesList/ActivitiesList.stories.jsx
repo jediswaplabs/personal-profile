@@ -1,7 +1,9 @@
 import React from 'react';
 import { graphql } from 'msw';
+import { within, userEvent, findByText, getByText, getAllByRole, findAllByRole, waitFor } from '@storybook/testing-library';
+import { expect } from '@storybook/jest';
 
-import ActivitiesList from './ActivitiesList';
+import ActivitiesList, { MAX_VISIBLE_ITEMS_AMOUNT } from './ActivitiesList';
 import { defaultListItems,
   fewListItems,
   emptyItems } from './ActivitiesList.testData';
@@ -48,7 +50,27 @@ Default.parameters = {
     ],
   },
 };
-Default.play = async ({ canvasElement }) => {};
+Default.play = async ({ canvasElement, step }) => {
+  const canvas = within(canvasElement);
+  await step('Initial items count', async () => {
+    const items = await canvas.findAllByRole('listitem');
+    expect(items).toHaveLength(MAX_VISIBLE_ITEMS_AMOUNT);
+  });
+  await step('Show more', async () => {
+    const showMore = await canvas.findByText('Show more');
+    await userEvent.click(showMore);
+    const items = await canvas.findAllByRole('listitem');
+    expect(items).toHaveLength(defaultListItems.ids.length);
+  });
+  await step('Show less', async () => {
+    const showLess = await canvas.findByText('Show less');
+    await userEvent.click(showLess);
+    await waitFor(async () => {
+      const items = await canvas.findAllByRole('listitem');
+      expect(items).toHaveLength(MAX_VISIBLE_ITEMS_AMOUNT);
+    });
+  });
+};
 
 const FewItems = Template.bind({});
 FewItems.args = {

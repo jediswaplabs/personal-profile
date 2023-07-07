@@ -1,5 +1,6 @@
 import React from 'react';
 import { graphql } from 'msw';
+import { userEvent, within } from '@storybook/testing-library';
 
 import ProfileCard from './ProfileCard';
 import { defaultUserData, userDataWithoutAvatar } from './ProfileCard.testData';
@@ -47,7 +48,12 @@ Default.parameters = {
     ],
   },
 };
-Default.play = async ({ canvasElement }) => {};
+Default.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  const btn = await canvas.findByText('Copy address');
+  await userEvent.click(btn);
+  await canvas.findByText('Copied!');
+};
 
 const NoAvatar = Template.bind({});
 NoAvatar.args = {

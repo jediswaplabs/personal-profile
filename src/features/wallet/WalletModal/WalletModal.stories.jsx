@@ -1,4 +1,5 @@
 import React from 'react';
+import { userEvent, within } from '@storybook/testing-library';
 
 import WalletModal, { WalletConnectOptionsView, WalletAccountOverview } from './WalletModal';
 import { supportedWallets } from './WalletModal.testData';
@@ -43,7 +44,12 @@ AccountOverview.decorators = [
   },
 ];
 AccountOverview.parameters = {};
-AccountOverview.play = async ({ canvasElement }) => {};
+AccountOverview.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  const btn = await canvas.findByText('Copy address');
+  await userEvent.click(btn);
+  await canvas.findByText('Copied!');
+};
 //
 // const WalletConnection = TemplateWithComponent.bind({})(WalletPending);
 // WalletConnection.args = {
