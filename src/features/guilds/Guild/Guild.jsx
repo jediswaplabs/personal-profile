@@ -25,8 +25,9 @@ const Guild = ({
 
   if (isMock) { return <MockGuild />; }
 
+  const selected = isGuildActive && isSelected;
   return (
-    <GuildItemBoxContainer className="guild-item-box" active={isGuildActive} selected={isGuildActive && isSelected} guildTheme={id} onClick={handleGuildClick}>
+    <GuildItemBoxContainer className="guild-item-box" active={isGuildActive} data-testid={selected ? 'selected_guild' : null} selected={selected} guildTheme={id} onClick={handleGuildClick}>
       <Typography variant="body2" color="text.primary" className="title" data-testid="guild-title">{name}</Typography>
       {score
         ? (
@@ -52,7 +53,7 @@ const Guild = ({
 };
 
 const MockGuild = () => (
-  <GuildItemBoxContainer>
+  <GuildItemBoxContainer data-testid="loading_guild">
     <Typography variant="body2" className="title"><Skeleton /></Typography>
     <Typography variant="body2" className="points"><Skeleton width="50px" /></Typography>
     <Typography variant="body2" className="points-label"><Skeleton /></Typography>

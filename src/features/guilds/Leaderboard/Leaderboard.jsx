@@ -232,6 +232,7 @@ const ErrorLeaderBoard = () => {
       justifyContent="center"
       alignItems="center"
       sx={{ margin: '25px 0 30px' }}
+      data-testid="error"
     >
       <Stack direction="column"
         alignItems="center"
@@ -249,7 +250,7 @@ const MockLeaderBoard = () => {
   const data = Array(3).fill();
 
   return (
-    <StyledTableContainer component={Paper}>
+    <StyledTableContainer component={Paper} data-testid="loading">
       <Table>
         <StyledTableHead>
           <TableRow>

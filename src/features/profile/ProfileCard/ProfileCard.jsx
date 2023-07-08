@@ -60,6 +60,7 @@ const ProfileCard = ({ account, readOnly = true }) => {
   } else {
     content = (
       <>
+        <div data-testid={isFetching || isUninitialized ? 'loading_account' : null} />
         <AccountAvatar>
           <UserAvatar src={userAvatarUrl} isMock={isFetching || isUninitialized} />
         </AccountAvatar>
@@ -136,7 +137,7 @@ const ProfileCard = ({ account, readOnly = true }) => {
 const ErrorProfile = () => {
   const { t } = useTranslation();
   return (
-    <Typography variant="body1" color="text.primary" sx={{ margin: '16px 0' }}>
+    <Typography variant="body1" color="text.primary" sx={{ margin: '16px 0' }} data-testid="error_account">
       {t('profileCard.errors.fetching')}
     </Typography>
   );

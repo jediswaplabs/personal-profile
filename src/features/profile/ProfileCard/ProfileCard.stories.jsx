@@ -1,6 +1,7 @@
 import React from 'react';
 import { graphql } from 'msw';
-import { userEvent, within } from '@storybook/testing-library';
+import { userEvent, waitForElementToBeRemoved, within } from '@storybook/testing-library';
+import { expect } from '@storybook/jest';
 
 import ProfileCard from './ProfileCard';
 import { defaultUserData, userDataWithoutAvatar } from './ProfileCard.testData';
@@ -81,7 +82,11 @@ NoAvatar.parameters = {
     ],
   },
 };
-NoAvatar.play = async ({ canvasElement }) => {};
+NoAvatar.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await waitForElementToBeRemoved(() => canvas.queryByTestId('loading_account'));
+  expect(canvasElement.querySelector('svg')).toBeInTheDocument();
+};
 
 const ReadOnly = Template.bind({});
 ReadOnly.args = {
@@ -109,7 +114,12 @@ ReadOnly.parameters = {
     ],
   },
 };
-ReadOnly.play = async ({ canvasElement }) => {};
+ReadOnly.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await waitForElementToBeRemoved(() => canvas.queryByTestId('loading_account'));
+  expect(canvas.queryByText('Copy address')).toBeNull();
+  expect(canvas.queryByText('Edit Profile')).toBeNull();
+};
 
 const Error = Template.bind({});
 Error.args = {
@@ -141,7 +151,10 @@ Error.parameters = {
     ],
   },
 };
-Error.play = async ({ canvasElement }) => {};
+Error.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await canvas.findByTestId('error_account');
+};
 
 const Loading = Template.bind({});
 Loading.args = {
@@ -167,7 +180,10 @@ Loading.parameters = {
     ],
   },
 };
-Loading.play = async ({ canvasElement }) => {};
+Loading.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await canvas.findByTestId('loading_account');
+};
 
 const stories = {
   title: 'Components/ProfileCard',

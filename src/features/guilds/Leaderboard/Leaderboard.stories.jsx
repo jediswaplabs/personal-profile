@@ -87,7 +87,10 @@ UnselectedGuild.parameters = {
     ],
   },
 };
-UnselectedGuild.play = async ({ canvasElement }) => {};
+UnselectedGuild.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await canvas.findByTestId('CastleOutlinedIcon');
+};
 
 const Loading = Template.bind({});
 Loading.args = {
@@ -110,7 +113,10 @@ Loading.parameters = {
     ],
   },
 };
-Loading.play = async ({ canvasElement }) => {};
+Loading.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await canvas.findByTestId('loading');
+};
 
 const Error = Template.bind({});
 Error.args = {
@@ -136,7 +142,10 @@ Error.parameters = {
     ],
   },
 };
-Error.play = async ({ canvasElement }) => {};
+Error.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await canvas.findByTestId('error');
+};
 
 const stories = {
   title: 'Components/Leaderboard',

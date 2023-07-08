@@ -1,6 +1,6 @@
 import React from 'react';
 import { within, userEvent } from '@storybook/testing-library';
-import { expect } from '@storybook/jest';
+import { expect, jest } from '@storybook/jest';
 
 import Guild from './Guild';
 import { guildTypesLookup, zeroAddress } from '../../../common/contansts';
@@ -33,8 +33,8 @@ Default.decorators = [
 Default.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
   const title = canvas.getByTestId('guild-title');
-
-  await expect(title).toBeInTheDocument();
+  expect(title).toBeInTheDocument();
+  await canvas.findByRole('link');
 };
 
 const WithPoints = Template.bind({});
@@ -43,6 +43,7 @@ WithPoints.args = {
   name: 'Guild name',
   id: 'design',
   score: 200,
+  onGuildSelected: jest.fn(),
 };
 WithPoints.decorators = [
   (Story) => {
@@ -50,7 +51,13 @@ WithPoints.decorators = [
     return <MockStore><Story /></MockStore>;
   },
 ];
-WithPoints.play = async ({ canvasElement }) => {};
+WithPoints.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  const score = await canvas.findByText(WithPoints.args.score);
+  await canvas.findByText(WithPoints.args.name);
+  await userEvent.click(score);
+  expect(WithPoints.args.onGuildSelected).toHaveBeenCalled();
+};
 
 const SelectedGuild = Template.bind({});
 SelectedGuild.args = {
@@ -66,7 +73,10 @@ SelectedGuild.decorators = [
     return <MockStore><Story /></MockStore>;
   },
 ];
-SelectedGuild.play = async ({ canvasElement }) => {};
+SelectedGuild.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await canvas.findByTestId('selected_guild');
+};
 
 const AllTypesTemplate = (args) => (
   <>
@@ -113,7 +123,10 @@ Loading.decorators = [
     return <MockStore><Story /></MockStore>;
   },
 ];
-Loading.play = async ({ canvasElement }) => {};
+Loading.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await canvas.findByTestId('loading_guild');
+};
 
 // const meta = {
 //   component: Guild,

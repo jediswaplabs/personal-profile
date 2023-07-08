@@ -1,6 +1,6 @@
 import React from 'react';
 import { graphql } from 'msw';
-import { within, userEvent, findByText, getByText, getAllByRole, findAllByRole, waitFor } from '@storybook/testing-library';
+import { within, userEvent, findByText, getByText, getAllByRole, findAllByRole, waitFor, waitForElementToBeRemoved } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 
 import ActivitiesList, { MAX_VISIBLE_ITEMS_AMOUNT } from './ActivitiesList';
@@ -96,7 +96,11 @@ FewItems.parameters = {
     ],
   },
 };
-FewItems.play = async ({ canvasElement }) => {};
+FewItems.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await waitForElementToBeRemoved(() => canvas.queryByTestId('loading_activitylist'));
+  expect(canvas.queryByText('Show more')).toBeNull();
+};
 
 const Loading = Template.bind({});
 Loading.args = {
@@ -122,7 +126,10 @@ Loading.parameters = {
     ],
   },
 };
-Loading.play = async ({ canvasElement }) => {};
+Loading.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await canvas.findByTestId('loading_activitylist');
+};
 
 const Empty = Template.bind({});
 Empty.args = {
@@ -148,7 +155,10 @@ Empty.parameters = {
     ],
   },
 };
-Empty.play = async ({ canvasElement }) => {};
+Empty.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await canvas.findByTestId('empty_activitylist');
+};
 
 const Error = Template.bind({});
 Error.args = {
@@ -177,7 +187,10 @@ Error.parameters = {
     ],
   },
 };
-Error.play = async ({ canvasElement }) => {};
+Error.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await canvas.findByTestId('error_activitylist');
+};
 
 const stories = {
   title: 'Components/ActivitiesList',

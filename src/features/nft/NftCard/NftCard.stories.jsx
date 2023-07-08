@@ -1,4 +1,5 @@
 import React from 'react';
+import { within } from '@storybook/testing-library';
 
 import NftCard from './NftCard';
 import { defaultCard } from './NftCard.testData';
@@ -32,7 +33,11 @@ Default.decorators = [
     return <MockStore><Story /></MockStore>;
   },
 ];
-Default.play = async ({ canvasElement }) => {};
+Default.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await canvas.findByText(`Level ${Default.args.level}`);
+  await canvas.findByText(`${Default.args.score} pts`);
+};
 
 const Locked = Template.bind({});
 Locked.args = {
@@ -50,7 +55,10 @@ Locked.decorators = [
     return <MockStore><Story /></MockStore>;
   },
 ];
-Locked.play = async ({ canvasElement }) => {};
+Locked.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await canvas.findByText(`Unlock at ${Locked.args.score} pts`);
+};
 
 const Loading = Template.bind({});
 Loading.args = {
@@ -63,7 +71,10 @@ Loading.decorators = [
     return <MockStore><Story /></MockStore>;
   },
 ];
-Loading.play = async ({ canvasElement }) => {};
+Loading.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await canvas.findByTestId('loading_nftcard');
+};
 
 const stories = {
   title: 'Components/NftCard',

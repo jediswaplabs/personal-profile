@@ -67,7 +67,7 @@ const NftCarousel = ({ account }) => {
 const MockNftCarousel = () => {
   const data = Array(12).fill();
   return (
-    <Swiper enabled={false} spaceBetween={20} slidesPerView="auto">
+    <Swiper enabled={false} spaceBetween={20} slidesPerView="auto" data-testid="loading_carousel">
       {data.map((_, key) => (
         <SwiperSlide key={key}>
           <NftCard isLoading />
@@ -80,13 +80,13 @@ const MockNftCarousel = () => {
 const ErrorNftCarousel = () => {
   const { t } = useTranslation();
   return (
-    <Typography variant="body1" color="text.primary">{t('meshNftsCarousel.errors.fetching')}</Typography>
+    <Typography variant="body1" color="text.primary" data-testid="error_carousel">{t('meshNftsCarousel.errors.fetching')}</Typography>
   );
 };
 const EmptyNftCarousel = () => {
   const { t } = useTranslation();
   return (
-    <Typography variant="body1" color="text.primary">{t('meshNftsCarousel.errors.empty')}</Typography>
+    <Typography variant="body1" color="text.primary" data-testid="empty_carousel">{t('meshNftsCarousel.errors.empty')}</Typography>
   );
 };
 

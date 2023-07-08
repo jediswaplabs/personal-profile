@@ -1,5 +1,7 @@
 import React from 'react';
 import { graphql } from 'msw';
+import { within } from '@storybook/testing-library';
+import { expect } from '@storybook/jest';
 
 import NftCarousel from './NftCarousel';
 import { defaultNftListItems, emptyNftListItems, fewNftListItems } from './NftCarousel.testData';
@@ -41,7 +43,11 @@ Default.parameters = {
     ],
   },
 };
-Default.play = async ({ canvasElement }) => {};
+Default.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  const levels = await canvas.findAllByText(/Level/);
+  expect(levels).toHaveLength(defaultNftListItems.ids.length);
+};
 
 const FewItems = Template.bind({});
 FewItems.args = {
@@ -64,7 +70,11 @@ FewItems.parameters = {
     ],
   },
 };
-FewItems.play = async ({ canvasElement }) => {};
+FewItems.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  const levels = await canvas.findAllByText(/Level/);
+  expect(levels).toHaveLength(fewNftListItems.ids.length);
+};
 
 const Loading = Template.bind({});
 Loading.args = {
@@ -86,7 +96,10 @@ Loading.parameters = {
     ],
   },
 };
-Loading.play = async ({ canvasElement }) => {};
+Loading.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await canvas.findByTestId('loading_carousel');
+};
 
 const Empty = Template.bind({});
 Empty.args = {
@@ -109,7 +122,10 @@ Empty.parameters = {
     ],
   },
 };
-Empty.play = async ({ canvasElement }) => {};
+Empty.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await canvas.findByTestId('empty_carousel');
+};
 
 const Error = Template.bind({});
 Error.args = {
@@ -133,7 +149,10 @@ Error.parameters = {
     ],
   },
 };
-Error.play = async ({ canvasElement }) => {};
+Error.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await canvas.findByTestId('error_carousel');
+};
 
 const stories = {
   title: 'Components/NftCarousel',
