@@ -17,7 +17,9 @@ export default function setupStore(preloadedState = {}) {
       guilds: guidsReducer,
       nfts: nftSlice,
     },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiSlice.middleware),
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+      serializableCheck: false,
+    }).concat(apiSlice.middleware),
     preloadedState,
   });
 }

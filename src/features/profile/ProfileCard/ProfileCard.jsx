@@ -11,16 +11,27 @@ import Skeleton from '@mui/material/Skeleton';
 
 import { BoxContainer, Cover, AccountInfoContainer, WalletContainer, AccountAvatar, AccountAddress, AccountControls, SwitchAccount } from './ProfileCard.styles';
 import UserAvatar from '../UserAvatar/UserAvatar';
+import SelectProfilePictureModal from '../SelectProfilePictureModal/SelectProfilePictureModal';
 import WalletBalance from '../../wallet/WalletBalance/WalletBalance';
 import GradientButton from '../../../components/GradientButton/GradientButton';
 import { useLazyGetUserByIdQuery } from '../../api/apiSlice';
 import { EventEmitter } from '../../../common/eventEmitter';
 import { eventsLookup } from '../../../common/contansts';
+import { getShortenAddress } from '../../../common/addressHelper';
 
 const preventDefault = (event) => event.preventDefault();
 
 const ProfileCard = ({ account, readOnly = true }) => {
   const { t } = useTranslation();
+  const [showEditProfileModal, setShowEditProfileModal] = useState(false);
+
+  const handleToggleEditProfileModal = useCallback(() => {
+    setShowEditProfileModal(!showEditProfileModal);
+  }, [showEditProfileModal]);
+
+  const handleCloseEditProfileModal = useCallback(() => {
+    setShowEditProfileModal(false);
+  }, [showEditProfileModal]);
 
   const [getUserById, {
     data: user,
@@ -43,7 +54,6 @@ const ProfileCard = ({ account, readOnly = true }) => {
 
   const userAvatarUrl = user?.avatar ?? '';
   const userAddress = account ?? '';
-  const getShortWalletAddress = (address = '') => `${address.slice(0, 6)}...${address.slice(-6)}`;
 
   useEffect(() => {
     if (!isAddressCopied) {
@@ -64,7 +74,7 @@ const ProfileCard = ({ account, readOnly = true }) => {
           <UserAvatar src={userAvatarUrl} isMock={isFetching || isUninitialized} />
         </AccountAvatar>
         <AccountAddress>
-          <Typography variant="h5" component="div" color="text.primary">{isFetching || isUninitialized ? <Skeleton width="100%" /> : getShortWalletAddress(userAddress)}</Typography>
+          <Typography variant="h5" component="div" color="text.primary">{isFetching || isUninitialized ? <Skeleton width="100%" /> : getShortenAddress(userAddress)}</Typography>
         </AccountAddress>
         {!readOnly && (
           <AccountControls>
@@ -77,7 +87,7 @@ const ProfileCard = ({ account, readOnly = true }) => {
                 : (
                   <>
                     <div className="account-controls-item">
-                      <GradientButton variant="outlined" size="small">
+                      <GradientButton variant="outlined" size="small" onClick={handleToggleEditProfileModal}>
                         {t('profileCard.controls.editProfile')}
                       </GradientButton>
                     </div>
@@ -86,11 +96,8 @@ const ProfileCard = ({ account, readOnly = true }) => {
                         <Typography variant="body2" component="span" color="text.primary">{t('profileCard.controls.copied')}</Typography>
                       ) : (
                         <CopyToClipboard text={userAddress} onCopy={() => setIsAddressCopied(true)}>
-                          <Link component="button"
-                            underline="none"
-                            variant="body2"
-                            onClick={preventDefault}
-                          >{t('profileCard.controls.copyAddress')}
+                          <Link component="button" underline="none" variant="body2" onClick={preventDefault}>
+                            {t('profileCard.controls.copyAddress')}
                           </Link>
                         </CopyToClipboard>
                       )}
@@ -129,6 +136,8 @@ const ProfileCard = ({ account, readOnly = true }) => {
       <WalletContainer>
         <WalletBalance account={account} />
       </WalletContainer>
+
+      <SelectProfilePictureModal open={showEditProfileModal} onClose={handleCloseEditProfileModal} />
     </BoxContainer>
   );
 };

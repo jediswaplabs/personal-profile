@@ -1,8 +1,8 @@
 import styled, { css } from 'styled-components';
 import { Link as RouterLink } from 'react-router-dom';
+import Box from '@mui/material/Box';
 
-const HeaderContainer = styled.div`
-  padding: 1rem 32px;
+const HeaderContainer = styled(Box)`
 `;
 
 const HeaderInnerContainer = styled.div`

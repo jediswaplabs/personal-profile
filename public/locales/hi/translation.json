@@ -48,6 +48,40 @@
       "tryRefresh": "पृष्ठ को ताज़ा करने का प्रयास करें."
     }
   },
+  "selectProfilePictureModal": {
+    "introductionStep": {
+      "title": "अपना कीमती सामान दिखाओ",
+      "subtitle": "अपनी प्रोफ़ाइल तस्वीर को आपके द्वारा अर्जित एनएफटी पर सेट करें",
+      "controls": {
+        "next": "एनएफटी का चयन करें"
+      }
+    },
+
+    "selectNftStep": {
+      "title": "एनएफटी का चयन करें",
+      "outOf": "{{current}} में से {{total}}",
+      "controls": {
+        "apply": "लागू करें"
+      },
+      "errors": {
+        "noAvailableNfts": "आपके पास उपलब्ध एनएफटी नहीं हैं"
+      }
+    },
+    "finalStep": {
+      "title": "बहुत अच्छा लग रहा है!",
+      "subtitle": "आप इसे बाद में हमेशा बदल सकते हैं",
+
+      "controls": {
+        "done": "आप कर चुके हैं"
+      }
+    },
+
+    "errors": {
+      "noAccount": "कोई खाता जुड़ा नहीं",
+      "fetching": "अनुरोध के दौरान एक त्रुटि हुई",
+      "unknown": "अज्ञात त्रुटि"
+    }
+  },
   "profileCard": {
     "errors": {
       "fetching": "अनुरोध के दौरान एक त्रुटि हुई ।"

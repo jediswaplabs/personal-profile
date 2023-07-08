@@ -32,10 +32,10 @@ const NftCarousel = ({ account }) => {
   const isEmpty = !nfts?.ids?.length;
 
   let content;
-  if (isFetching || isUninitialized) {
-    content = <MockNftCarousel />;
-  } else if (isError) {
+  if (isError || !account) {
     content = <ErrorNftCarousel />;
+  } else if (isFetching || isUninitialized) {
+    content = <MockNftCarousel />;
   } else if (isEmpty) {
     content = <EmptyNftCarousel />;
   } else if (isSuccess) {

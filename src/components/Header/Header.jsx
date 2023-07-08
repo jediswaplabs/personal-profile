@@ -5,6 +5,7 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { SvgIcon } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import Box from '@mui/material/Box';
 
 import { HeaderContainer, HeaderLogo, HeaderWallet, AccountElement, Web3StatusConnected, Web3StatusError, Web3StatusConnect } from './Header.styles';
 import { useActiveStarknetReact } from '../../hooks';
@@ -25,26 +26,44 @@ const Header = () => {
   const { chainId } = useStarknetReact();
 
   return (
-    <HeaderContainer>
-
-      <Grid container columnSpacing={2} alignItems="center">
+    <HeaderContainer py={1}>
+      <Grid container columnSpacing={{ md: 2 }} alignItems="center">
         <Grid item xs={6} sx={{ display: 'flex', alignItems: 'center' }}>
           <HeaderLogo to="/home">
-            <img width="195px" height="32px" src={logo} />
+            <img width="195px" height="32px" src={logo} alt="" />
           </HeaderLogo>
         </Grid>
-        <Grid item xs={6} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <LanguageSwitcher />
-          <HeaderWallet>
-            <Stack direction="row" alignItems="center" gap={2}>
-              {chainId && NETWORK_LABELS[chainId] && (
-                <Typography variant="body1" color="text.primary">Starknet-{NETWORK_LABELS[chainId]}</Typography>
-              )}
-              <AccountElement>
-                <Web3Status />
-              </AccountElement>
-            </Stack>
-          </HeaderWallet>
+        <Grid item
+          xs={12}
+          md={6}
+          sx={{
+            position: { xs: 'fixed', md: 'static' },
+            zIndex: 1,
+            width: { xs: '100%', md: 'auto' },
+            bottom: 0,
+            left: 0,
+          }}
+        >
+          <Box
+            display="flex"
+            width="100%"
+            backgroundColor={{ xs: '#212429', md: 'transparent' }}
+            justifyContent={{ xs: 'flex-start', md: 'flex-end' }}
+            px={{ xs: 2, md: 0 }}
+            py={{ xs: 2, md: 0 }}
+          >
+            <LanguageSwitcher />
+            <HeaderWallet>
+              <Stack direction="row" alignItems="center" gap={2}>
+                {chainId && NETWORK_LABELS[chainId] && (
+                  <Typography variant="body1" color="text.primary">Starknet-{NETWORK_LABELS[chainId]}</Typography>
+                )}
+                <AccountElement>
+                  <Web3Status />
+                </AccountElement>
+              </Stack>
+            </HeaderWallet>
+          </Box>
         </Grid>
       </Grid>
 

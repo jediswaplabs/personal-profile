@@ -11,7 +11,7 @@ const GuildItemBoxContainer = styled.div`
   flex-direction: column;
   flex-shrink: 0;
   position: relative;
-  width: 170px;
+  width: 180px;
   height: 135px;
   padding: 16px;
 
@@ -22,6 +22,7 @@ const GuildItemBoxContainer = styled.div`
 
   .subtitle {
     margin-bottom: 10px;
+    display: flex;
   }
 
   .points {

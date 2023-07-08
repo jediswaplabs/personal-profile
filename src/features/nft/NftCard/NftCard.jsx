@@ -121,4 +121,9 @@ NftCard.propTypes = {
   isLoading: PropTypes.bool,
 };
 
+export {
+  DEFAULT_IMAGE,
+  IMAGE_MODEL,
+};
+
 export default NftCard;
