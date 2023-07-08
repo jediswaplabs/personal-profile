@@ -48,6 +48,38 @@
       "tryRefresh": "Try refreshing the page."
     }
   },
+  "selectProfilePictureModal": {
+    "introductionStep": {
+      "title": "Show off your prized possessions",
+      "subtitle": "Set your profile picture to an NFT you have earned",
+      "controls": {
+        "next": "Select NFT"
+      }
+    },
+    "selectNftStep": {
+      "title": "Select NFT",
+      "outOf": "{{current}} out of {{total}}",
+      "controls": {
+        "apply": "Apply"
+      },
+      "errors": {
+        "noAvailableNfts": "You don't have available NFTs"
+      }
+    },
+    "finalStep": {
+      "title": "Looks Great!",
+      "subtitle": "You can always change it later",
+
+      "controls": {
+        "done": "You're done"
+      }
+    },
+    "errors": {
+      "noAccount": "No account connected",
+      "fetching": "An error occurred during the request",
+      "unknown": "Unknown error"
+    }
+  },
   "profileCard": {
     "errors": {
       "fetching": "An error occurred during the request."

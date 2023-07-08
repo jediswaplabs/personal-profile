@@ -16,7 +16,7 @@
     "lint:fix": "yarn lint --fix",
     "postinstall": "husky install .husky",
     "watch:js": "nodemon --watch src/** -x \"yarn build\"",
-    "analyze": "webpack --profile --json > stats.json && webpack-bundle-analyzer stats.json"
+    "analyze": "NODE_ENV=production webpack --profile --json > stats.json && webpack-bundle-analyzer stats.json"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -119,10 +119,12 @@
     "@web3-starknet-react/braavos-connector": "^2.2.3",
     "@web3-starknet-react/core": "^2.2.2",
     "classnames": "^2.3.2",
+    "copy-webpack-plugin": "^11.0.0",
     "date-fns": "^2.29.3",
     "deepcopy": "^2.1.0",
     "deepmerge": "^4.2.2",
     "eventemitter3": "^5.0.1",
+    "global": "^4.4.0",
     "graphql": "^16.6.0",
     "graphql-request": "^5.0.0",
     "i18next": "^23.2.6",
@@ -143,7 +145,8 @@
     "starknet": "^4.9.0",
     "styled-components": "^5.3.5",
     "swiper": "^8.4.4",
-    "url-loader": "^4.1.1"
+    "url-loader": "^4.1.1",
+    "webpack-bundle-analyzer": "^4.9.0"
   },
   "resolutions": {
     "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest",

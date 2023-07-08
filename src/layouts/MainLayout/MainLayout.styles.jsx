@@ -1,6 +1,7 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
+import Box from '@mui/material/Box';
 
-const MainLayoutHeaderContainer = styled.div`
+const MainLayoutHeaderContainer = styled(Box)`
   .header {
     height: 75px;
     color: #fff;
@@ -8,30 +9,25 @@ const MainLayoutHeaderContainer = styled.div`
   }
 `;
 
-const MainLayoutBodyContainer = styled.div`
-  max-width: 1600px;
+const MainLayoutBodyContainer = styled(Box)`
   width: 100%;
-  padding: 0 32px;
-  margin: 0 auto;
   color: #fff;
 `;
 
-const MainLayoutFooterContainer = styled.div`
+const MainLayoutFooterContainer = styled(Box)`
   color: #fff;
+  height: 85px;
 `;
 
-const MainLayoutContainer = styled.div`
+const MainLayoutContainer = styled(Box)`
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   flex-wrap: nowrap;
-
-  ${MainLayoutHeaderContainer} {
-    margin-bottom: 40px;
-  }
+  max-width: 1600px;
+  margin: 0 auto;
 
   ${MainLayoutBodyContainer} {
-    margin-bottom: 40px;
     flex-grow: 1;
   }
 `;

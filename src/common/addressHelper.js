@@ -20,10 +20,10 @@ export const isStarknetAddress = (address = '', validateLength = false) => {
   }
 };
 
-export const getShortenAddress = (address = '', chars = 4) => {
+export const getShortenAddress = (address = '', charsWithout0X = 4) => {
   const parsed = isStarknetAddress(address);
   if (!parsed) { return address; }
-  return `${parsed.substring(0, chars + 2)}...${parsed.substring(63 - chars)}`;
+  return `${parsed.substring(0, charsWithout0X + 2)}...${parsed.substring(63 - charsWithout0X)}`;
 };
 
 export const areEqualAddresses = (a = '', b = '') => {

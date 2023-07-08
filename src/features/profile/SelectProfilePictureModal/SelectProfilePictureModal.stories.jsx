@@ -1,13 +1,12 @@
 import React from 'react';
+import { graphql } from 'msw';
 
-import SelectProfilePictureModal, { SelectProfilePictureForm as SelectProfilePictureFormComponent,
-  IntroductionStep as IntroductionStepComponent,
-  SelectNftStep as SelectNftStepComponent,
-  FinalStep as FinalStepComponent } from './SelectProfilePictureModal';
+import SelectProfilePictureModal, { SelectProfilePictureForm as SelectProfilePictureFormComponent } from './SelectProfilePictureModal';
 import { renderWithProviders } from '../../../common/testsHelper';
 import { zeroAddress } from '../../../common/contansts';
 import { defaultNftListItems } from '../../nft/NftCarousel/NftCarousel.testData';
 
+const ARTIFICIAL_DELAY_MS = 600;
 const TemplateWithComponent = (Component) => (args) => (
   <>
     <h3 style={{ borderBottom: 'solid 1px #fff', color: '#fff' }}>{args.storyTitle} Example</h3>
@@ -21,6 +20,7 @@ const TemplateWithComponent = (Component) => (args) => (
 const Form = TemplateWithComponent.bind({})(SelectProfilePictureFormComponent);
 Form.args = {
   storyTitle: 'SelectProfilePictureForm',
+  account: zeroAddress,
 };
 Form.decorators = [
   (Story) => {
@@ -28,48 +28,64 @@ Form.decorators = [
     return <MockStore><Story /></MockStore>;
   },
 ];
-Form.parameters = {};
+Form.parameters = {
+  msw: {
+    handlers: [
+      graphql.query('GetMeshNftByUserId', (req, res, ctx) => res(
+        ctx.delay(ARTIFICIAL_DELAY_MS),
+        ctx.data(defaultNftListItems),
+      )),
+    ],
+  },
+};
 Form.play = async ({ canvasElement }) => {};
-//
-const IntroductionStep = TemplateWithComponent.bind({})(IntroductionStepComponent);
-IntroductionStep.args = {
-  storyTitle: 'IntroductionStep',
-};
-IntroductionStep.decorators = [
-  (Story) => {
-    const MockStore = renderWithProviders({ preloadedState: { profile: {} } });
-    return <MockStore><Story /></MockStore>;
-  },
-];
-IntroductionStep.parameters = {};
-IntroductionStep.play = async ({ canvasElement }) => {};
 
-const SelectNftStep = TemplateWithComponent.bind({})(SelectNftStepComponent);
-SelectNftStep.args = {
-  storyTitle: 'SelectNftStep',
-  nfts: defaultNftListItems,
+const LoadingForm = TemplateWithComponent.bind({})(SelectProfilePictureFormComponent);
+LoadingForm.args = {
+  storyTitle: 'LoadingSelectProfilePictureForm',
+  account: zeroAddress,
 };
-SelectNftStep.decorators = [
+LoadingForm.decorators = [
   (Story) => {
     const MockStore = renderWithProviders({ preloadedState: { profile: {} } });
     return <MockStore><Story /></MockStore>;
   },
 ];
-SelectNftStep.parameters = {};
-SelectNftStep.play = async ({ canvasElement }) => {};
-//
-const FinalStep = TemplateWithComponent.bind({})(FinalStepComponent);
-FinalStep.args = {
-  storyTitle: 'FinalStep',
+LoadingForm.parameters = {
+  msw: {
+    handlers: [
+      graphql.query('GetMeshNftByUserId', (req, res, ctx) => res(
+        ctx.delay('infinite'),
+      )),
+    ],
+  },
 };
-FinalStep.decorators = [
+LoadingForm.play = async ({ canvasElement }) => {};
+
+const ErrorForm = TemplateWithComponent.bind({})(SelectProfilePictureFormComponent);
+ErrorForm.args = {
+  storyTitle: 'ErrorSelectProfilePictureForm',
+  account: zeroAddress,
+};
+ErrorForm.decorators = [
   (Story) => {
     const MockStore = renderWithProviders({ preloadedState: { profile: {} } });
     return <MockStore><Story /></MockStore>;
   },
 ];
-FinalStep.parameters = {};
-FinalStep.play = async ({ canvasElement }) => {};
+ErrorForm.parameters = {
+  msw: {
+    handlers: [
+      graphql.query('GetMeshNftByUserId', (req, res, ctx) => res(
+        ctx.delay(ARTIFICIAL_DELAY_MS),
+        ctx.errors([
+          { message: 'Failed to get data' },
+        ]),
+      )),
+    ],
+  },
+};
+ErrorForm.play = async ({ canvasElement }) => {};
 
 const stories = {
   title: 'Components/SelectProfilePictureModal',
@@ -80,9 +96,8 @@ const stories = {
 
 export {
   Form,
-  IntroductionStep,
-  SelectNftStep,
-  FinalStep,
+  LoadingForm,
+  ErrorForm,
 };
 
 export default stories;

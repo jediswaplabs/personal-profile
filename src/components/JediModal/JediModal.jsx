@@ -5,22 +5,27 @@ import Box from '@mui/material/Box';
 import { ModalContainer } from './JediModal.styles';
 
 const defaultBoxStyles = {
-  width: '100%',
-  maxWidth: '400px',
   position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
+  textAlign: 'center',
   backgroundColor: '#141451',
-  padding: '2rem',
+  padding: '1rem',
   border: '1px solid #fff',
   borderRadius: '8px',
+  overflow: 'hidden',
 };
 
-const JediModal = ({ children, ...props }) => (
+const JediModal = ({ children, fullWidth, contentSx = [], ...props }) => (
   <ModalContainer>
     <MaterialModal {...props}>
-      <Box sx={{ ...defaultBoxStyles, ...(props.contentSx || {}) }}>
+      <Box sx={[
+        defaultBoxStyles,
+        ...(fullWidth ? [{ width: '100%' }] : []),
+        ...(Array.isArray(contentSx) ? contentSx : [contentSx]),
+      ]}
+      >
         {children}
       </Box>
     </MaterialModal>

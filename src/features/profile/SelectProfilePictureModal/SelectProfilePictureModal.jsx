@@ -1,90 +1,121 @@
-/* eslint-disable no-useless-return */
+/* eslint-disable import/no-unresolved, no-param-reassign, no-unused-vars */
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
+import Skeleton from '@mui/material/Skeleton';
+import Box from '@mui/material/Box';
 import TrendingFlatIcon from '@mui/icons-material/TrendingFlat';
+import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import { useStarknetReact } from '@web3-starknet-react/core';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useTranslation } from 'react-i18next';
 import { EffectFade, Navigation } from 'swiper';
 import cn from 'classnames';
-
 import 'swiper/css';
 import 'swiper/css/bundle';
 
-import { Cover,
-  ModalContainer,
-  ModalInner,
-  IntroductionStepAvatarGroups,
-  IntroductionStepContainer,
-  IntroductionStepTitles,
-  NextStepButton,
-  SelectNftStepContainer,
-  SelectProfilePictureFormContainer,
-  SelectNftStepTitle,
-  SelectNftStepSlider,
-  SliderNavigationArrowPrev,
-  SliderNavigationArrowNext, SelectNftStepSliderCounter } from './SelectProfilePictureModal.styles';
+import { Cover, ModalInner, IntroductionStepAvatarGroups, IntroductionStepContainer, IntroductionStepTitles, NextStepButton, SelectNftStepContainer, SelectProfilePictureFormContainer, SelectNftStepTitle, SelectNftStepSlider, SliderNavigationArrowPrev, SliderNavigationArrowNext, SelectNftStepSliderCounter, FinalStepContainer, FinalStepAvatar, FinalStepDescription, IntroductionStepContainerInner, SelectNftStepContainerInner, FinalStepContainerInner } from './SelectProfilePictureModal.styles';
 import JediModal from '../../../components/JediModal/JediModal';
 import UserAvatar from '../UserAvatar/UserAvatar';
 import { useLazyGetMeshNftByUserIdQuery } from '../../api/apiSlice';
-import { DEFAULT_IMAGE } from '../../nft/NftCard/NftCard';
+import { IMAGE_MODEL } from '../../nft/NftCard/NftCard';
 
 const noop = () => {};
 
-const SelectProfilePictureModal = ({ children, ...props }) => {
-  const { active, connectedAddress, account, connector, activate, error, chainId } = useStarknetReact();
+const AMOUNT_OF_STEPS = 3;
 
-  const handleOnClose = useCallback(
-    () => {
-      props?.onClose?.();
-    },
-    [],
-  );
+const SelectProfilePictureModal = ({ children, ...props }) => {
+  const { account } = useStarknetReact();
+
+  const handleOnClose = useCallback(() => {
+    props?.onClose?.();
+  }, []);
+
+  const handleOnFormClose = useCallback(() => {
+    props?.onClose?.();
+  }, []);
 
   return (
-    <ModalContainer>
-      <JediModal {...props} onClose={handleOnClose}>
-        <ModalInner>
-          123
-        </ModalInner>
-      </JediModal>
-    </ModalContainer>
+    <JediModal {...props} onClose={handleOnClose} fullWidth contentSx={{ maxWidth: '600px', padding: 0 }}>
+      <ModalInner>
+        <SelectProfilePictureForm account={account} onFormClose={handleOnFormClose} />
+      </ModalInner>
+    </JediModal>
   );
 };
 
-const SelectProfilePictureForm = ({ account }) => {
+const SelectProfilePictureForm = ({ account, onFormClose = noop }) => {
+  const { t } = useTranslation();
   const [activeStep, setActiveStep] = useState(0);
+  const [selectedNftId, setSelectedNftId] = useState(null);
+  const [error, setError] = useState(null);
 
   const handleOnNextStep = useCallback(() => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    if ((activeStep + 1) >= AMOUNT_OF_STEPS) {
+      onFormClose();
+      return;
+    }
+    setActiveStep(activeStep + 1);
+  }, [activeStep]);
+
+  const handleOnNftSelected = useCallback((id) => {
+    setSelectedNftId(id);
+  }, []);
+
+  const handleOnStepError = useCallback((errorMessage = null) => {
+    setError(errorMessage);
   }, []);
 
   const [getMeshNftByUserId, {
     data: nfts = {},
     isFetching,
-    isSuccess,
-    isError,
-    isUninitialized,
+    isSuccess: isFetchSuccess,
+    isError: isFetchError,
+    isUninitialized: isFetchUninitialized,
   }] = useLazyGetMeshNftByUserIdQuery();
 
   useEffect(() => {
-    if (!account) { return; }
+    if (!account) {
+      setError(t('selectProfilePictureModal.errors.noAccount'));
+      return;
+    }
     getMeshNftByUserId(account);
   }, [account]);
 
-  //
+  useEffect(() => {
+    if (!isFetchError) { return; }
+    setError(t('selectProfilePictureModal.errors.fetching'));
+  }, [isFetchError]);
+
   let content;
-  if (isError || !account) {
-  //   content = <ErrorNftCarousel />;
-  } else if (isFetching || isUninitialized) {
-  //   content = <MockNftCarousel />;
-  } else if (isSuccess) {
+  if (error) {
+    content = <ErrorSelectProfilePictureForm errorText={error} />;
+  } else if (isFetching || isFetchUninitialized) {
+    content = <MockSelectProfilePictureForm />;
+  } else if (isFetchSuccess) {
     content = (
       <>
-        {activeStep === 0 && <IntroductionStep onNextStep={handleOnNextStep} /> }
-        {activeStep === 1 && <SelectNftStep onNextStep={handleOnNextStep} nfts={nfts} /> }
-        {activeStep === 2 && <FinalStep /> }
+        {(activeStep === 0) && (
+          <IntroductionStep
+            onNextStep={handleOnNextStep}
+            onError={handleOnStepError}
+          />
+        )}
+        {(activeStep === 1) && (
+          <SelectNftStep
+            nfts={nfts}
+            onNextStep={handleOnNextStep}
+            onError={handleOnStepError}
+            onNftSelected={handleOnNftSelected}
+          />
+        )}
+        {(activeStep === 2) && (
+          <FinalStep
+            nft={nfts?.entities?.[selectedNftId]?.image}
+            onNextStep={handleOnNextStep}
+            onError={handleOnStepError}
+          />
+        )}
       </>
     );
   }
@@ -96,30 +127,65 @@ const SelectProfilePictureForm = ({ account }) => {
   );
 };
 
-const IntroductionStep = ({ onNextStep = noop }) => (
+const MockSelectProfilePictureForm = () => (
   <IntroductionStepContainer>
     <Cover />
-    <IntroductionStepAvatarGroups>
-      <UserAvatar size="90px" />
-      <UserAvatar size="120px" />
-      <UserAvatar size="90px" />
-    </IntroductionStepAvatarGroups>
-
-    <IntroductionStepTitles>
-      <Stack gap={1.5}>
-        <Typography variant="h5" component="span" color="text.primary">Show off your prized possessions</Typography>
-        <Typography variant="subtitle1" component="span" color="text.primary">Set your profile picture to an NFT you have earned</Typography>
-      </Stack>
-    </IntroductionStepTitles>
-
-    <NextStepButton onClick={onNextStep}>
-      <Typography variant="h5" component="span" color="text.primary">Select NFT</Typography>
-    </NextStepButton>
+    <IntroductionStepContainerInner>
+      <IntroductionStepAvatarGroups>
+        <UserAvatar size="90px" isMock />
+        <UserAvatar size="120px" isMock />
+        <UserAvatar size="90px" isMock />
+      </IntroductionStepAvatarGroups>
+      <IntroductionStepTitles>
+        <Stack gap={1.5} alignItems="center">
+          <Typography variant="h5" component="span" color="text.primary"><Skeleton variant="text" width="12em" /></Typography>
+          <Typography variant="subtitle1" component="span" color="text.primary"><Skeleton variant="text" width="8em" /></Typography>
+        </Stack>
+      </IntroductionStepTitles>
+      <Skeleton variant="rectangular" width={390} height={64} />
+    </IntroductionStepContainerInner>
   </IntroductionStepContainer>
 );
 
-const SelectNftStep = ({ onNextStep = noop, onNftSelected = noop, nfts = {} }) => {
+const ErrorSelectProfilePictureForm = ({ errorText = '' }) => {
   const { t } = useTranslation();
+  return (
+    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', p: 2 }}>
+      <Typography variant="body1" color="text.primary">
+        {errorText || t('selectProfilePictureModal.errors.unknown')}
+      </Typography>
+    </Box>
+  );
+};
+
+const IntroductionStep = ({ onNextStep = noop, onError = noop }) => {
+  const { t } = useTranslation();
+  return (
+    <IntroductionStepContainer>
+      <Cover />
+      <IntroductionStepContainerInner>
+        <IntroductionStepAvatarGroups>
+          <UserAvatar size="90px" />
+          <UserAvatar size="120px" />
+          <UserAvatar size="90px" />
+        </IntroductionStepAvatarGroups>
+        <IntroductionStepTitles>
+          <Stack gap={1.5}>
+            <Typography variant="h5" component="span" color="text.primary">{t('selectProfilePictureModal.introductionStep.title')}</Typography>
+            <Typography variant="subtitle1" component="span" color="text.primary">{t('selectProfilePictureModal.introductionStep.subtitle')}</Typography>
+          </Stack>
+        </IntroductionStepTitles>
+        <NextStepButton onClick={onNextStep}>
+          <Typography variant="h5" component="span" color="text.primary">{t('selectProfilePictureModal.introductionStep.controls.next')}</Typography>
+        </NextStepButton>
+      </IntroductionStepContainerInner>
+    </IntroductionStepContainer>
+  );
+};
+
+const SelectNftStep = ({ onNextStep = noop, onNftSelected = noop, onError = noop, nfts = {} }) => {
+  const { t } = useTranslation();
+  const [isUploading, setIsUploading] = useState(false);
   const [selectedNftId, setSelectedNftId] = useState(null);
   const [selectedSlideId, setSelectedSlideId] = useState(-1);
   const [currentSlideId, setCurrentSlideId] = useState(0);
@@ -135,9 +201,14 @@ const SelectNftStep = ({ onNextStep = noop, onNftSelected = noop, nfts = {} }) =
   }, [setSelectedSlideId, selectedSlideId]);
 
   const handleOnSubmitNft = useCallback(() => {
-    if (!selectedNftId) { return; }
-
-    onNextStep();
+    if (!selectedNftId) {
+      return;
+    }
+    setIsUploading(true);
+    setTimeout(() => {
+      setIsUploading(false);
+      onNextStep();
+    }, 1000);
     // TODO отправка на бекенд и loading
   }, [selectedNftId]);
 
@@ -152,94 +223,104 @@ const SelectNftStep = ({ onNextStep = noop, onNftSelected = noop, nfts = {} }) =
 
   return (
     <SelectNftStepContainer>
-      {isEmpty && (
-        <Typography variant="body1" color="text.primary">You don't have available NFTs</Typography>
-      )}
+      <SelectNftStepContainerInner>
+        {isEmpty && (
+          <Typography variant="body1" color="text.primary">
+            {t('selectProfilePictureModal.selectNftStep.errors.noAvailableNfts')}
+          </Typography>
+        )}
 
-      {!isEmpty && (
-        <>
-          <SelectNftStepTitle>
-            <Typography variant="h5" color="text.primary">Select NFT</Typography>
-          </SelectNftStepTitle>
+        {!isEmpty && (
+          <>
+            <SelectNftStepTitle>
+              <Typography variant="h5" color="text.primary">{t('selectProfilePictureModal.selectNftStep.title')}</Typography>
+            </SelectNftStepTitle>
 
-          <SelectNftStepSlider>
-            <SelectNftStepSliderCounter>
-              <Typography variant="body1" color="text.primary" sx={{ fontWeight: 300 }}>{currentSlideId + 1} out of {nfts?.ids?.length}</Typography>
-            </SelectNftStepSliderCounter>
-            <Swiper
-              modules={[Navigation, EffectFade]}
-              spaceBetween={0}
-              effect="fade"
-              speed={0}
-              slidesPerView={1}
-              navigation={{
-                prevEl: navigationPrevRef.current,
-                nextEl: navigationNextRef.current,
-              }}
-              resistanceRatio={0.5}
-              style={{ paddingLeft: '20px', paddingRight: '20px' }}
-              onBeforeInit={(swiper) => {
-                swiper.params.navigation.prevEl = navigationPrevRef.current;
-                swiper.params.navigation.nextEl = navigationNextRef.current;
-              }}
-              onSlideChange={(swiper) => {
-                setCurrentSlideId(swiper.activeIndex);
-              }}
-            >
-              {nfts.ids.map((id, index) => (
-                <SwiperSlide key={id} className={cn({ 'is-selected': (index === selectedSlideId) })}>
-                  <div className="image-wrapper">
-                    <img
-                      src={nfts.entities[id].image.src ?? DEFAULT_IMAGE.src}
-                      alt={nfts.entities[id].image.alt ?? DEFAULT_IMAGE.alt}
-                      title={nfts.entities[id].image.title ?? DEFAULT_IMAGE.title}
-                      onClick={() => handleOnSelectSlide(index, id)}
-                    />
-                  </div>
-                </SwiperSlide>
-              ))}
-              <SliderNavigationArrowPrev ref={navigationPrevRef}>
-                <TrendingFlatIcon fontSize="large" />
-              </SliderNavigationArrowPrev>
-              <SliderNavigationArrowNext ref={navigationNextRef}>
-                <TrendingFlatIcon fontSize="large" />
-              </SliderNavigationArrowNext>
-            </Swiper>
-          </SelectNftStepSlider>
+            <SelectNftStepSlider>
+              <SelectNftStepSliderCounter>
+                <Typography variant="body1" color="text.primary" sx={{ fontWeight: 300 }}>
+                  {t('selectProfilePictureModal.selectNftStep.outOf', {
+                    current: currentSlideId + 1,
+                    total: nfts?.ids?.length,
+                  })}
+                </Typography>
+              </SelectNftStepSliderCounter>
+              <Swiper
+                modules={[Navigation, EffectFade]}
+                spaceBetween={0}
+                effect="fade"
+                speed={0}
+                slidesPerView={1}
+                navigation={{
+                  prevEl: navigationPrevRef.current,
+                  nextEl: navigationNextRef.current,
+                }}
+                resistanceRatio={0.5}
+                style={{ paddingLeft: '20px', paddingRight: '20px' }}
+                onBeforeInit={(swiper) => {
+                  swiper.params.navigation.prevEl = navigationPrevRef.current;
+                  swiper.params.navigation.nextEl = navigationNextRef.current;
+                }}
+                onSlideChange={(swiper) => {
+                  setCurrentSlideId(swiper.activeIndex);
+                }}
+              >
+                {nfts.ids.map((id, index) => (
+                  <SwiperSlide key={id}
+                    className={cn({ 'is-selected': (index === selectedSlideId) })}
+                  >
+                    <div className="image-wrapper">
+                      <img src={nfts.entities[id]?.image?.src} alt={nfts.entities[id]?.image?.alt} title={nfts.entities[id]?.image?.title} onClick={() => handleOnSelectSlide(index, id)} />
+                    </div>
+                  </SwiperSlide>
+                ))}
+                <SliderNavigationArrowPrev ref={navigationPrevRef}>
+                  <TrendingFlatIcon fontSize="large" />
+                </SliderNavigationArrowPrev>
+                <SliderNavigationArrowNext ref={navigationNextRef}>
+                  <TrendingFlatIcon fontSize="large" />
+                </SliderNavigationArrowNext>
+              </Swiper>
+            </SelectNftStepSlider>
 
-          <NextStepButton onClick={handleOnSubmitNft}
-            disabled={!selectedNftId}
-            // loading
-          >
-            <Typography variant="h5" component="span" color="text.primary">Apply</Typography>
-          </NextStepButton>
-        </>
-      )}
+            <NextStepButton onClick={handleOnSubmitNft} disabled={!selectedNftId} loading={isUploading}>
+              {!isUploading && (
+                <Typography variant="h5" component="span" color="text.primary">{t('selectProfilePictureModal.selectNftStep.controls.apply')}</Typography>
+              )}
+            </NextStepButton>
+          </>
+        )}
+      </SelectNftStepContainerInner>
     </SelectNftStepContainer>
   );
 };
 
-const FinalStep = ({ onNextStep = noop }) => (
-  <IntroductionStepContainer>
-    <Cover height="180px" />
-    <IntroductionStepAvatarGroups>
-      <UserAvatar size="90px" />
-      <UserAvatar size="120px" />
-      <UserAvatar size="90px" />
-    </IntroductionStepAvatarGroups>
-
-    <IntroductionStepTitles>
-      <Stack gap={1.5}>
-        <Typography variant="h5" component="span" color="text.primary">Show off your prized possessions</Typography>
-        <Typography variant="subtitle1" component="span" color="text.primary">Set your profile picture to an NFT you have earned</Typography>
-      </Stack>
-    </IntroductionStepTitles>
-
-    <NextStepButton onClick={onNextStep}>
-      <Typography variant="h5" component="span" color="text.primary">Select NFT</Typography>
-    </NextStepButton>
-  </IntroductionStepContainer>
-);
+const FinalStep = ({ onNextStep = noop, onError = noop, nft = IMAGE_MODEL }) => {
+  const { t } = useTranslation();
+  return (
+    <FinalStepContainer>
+      <Cover height="180px" />
+      <FinalStepContainerInner>
+        <FinalStepAvatar>
+          <UserAvatar size="200px" src={nft?.src} />
+        </FinalStepAvatar>
+        <FinalStepDescription>
+          <Stack gap={0.5}>
+            <Typography variant="body1" color="text.primary" sx={{ display: 'flex', justifyContent: 'center' }}>
+              {t('selectProfilePictureModal.finalStep.title')} &nbsp; <RocketLaunchIcon sx={{ fontSize: '1.3em' }} />
+            </Typography>
+            <Typography variant="body1" color="text.primary">
+              {t('selectProfilePictureModal.finalStep.subtitle')}
+            </Typography>
+          </Stack>
+        </FinalStepDescription>
+        <NextStepButton onClick={onNextStep}>
+          <Typography variant="h5" component="span" color="text.primary">{t('selectProfilePictureModal.finalStep.controls.done')}</Typography>
+        </NextStepButton>
+      </FinalStepContainerInner>
+    </FinalStepContainer>
+  );
+};
 
 export default SelectProfilePictureModal;
 

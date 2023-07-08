@@ -66,11 +66,11 @@ const WalletModal = ({ children, ...props }) => {
     try {
       await activate(walletConnector, (e) => console.error('Error activating connector', walletConnector, e), true);
       if (walletConnector === argentX) {
-        localStorage.setItem('auto-injected-wallet', 'argentx');
+        localStorage?.setItem('auto-injected-wallet', 'argentx');
       } else if (walletConnector === braavosWallet) {
-        localStorage.setItem('auto-injected-wallet', 'braavos');
+        localStorage?.setItem('auto-injected-wallet', 'braavos');
       } else {
-        localStorage.removeItem('auto-injected-wallet');
+        localStorage?.removeItem('auto-injected-wallet');
       }
     } catch (e) {
       if (e instanceof UnsupportedChainIdError) {
@@ -154,25 +154,23 @@ const WalletModal = ({ children, ...props }) => {
   );
 
   return (
-    <ModalContainer>
-      <JediModal {...props} onClose={handleOnClose}>
-        <ModalInner>
-          <Stack direction="column" gap={1}>
-            <Grid container direction="row" alignItems="center" justifyContent="space-between">
-              <Grid item>{modalTitle && <Typography variant="h6" component="span" color="text.primary">{modalTitle}</Typography>}</Grid>
-              <Grid item>
-                <IconButton aria-label="delete" size="small" onClick={handleOnClose}>
-                  <CloseIcon color="primary" />
-                </IconButton>
-              </Grid>
+    <JediModal {...props} onClose={handleOnClose} fullWidth contentSx={{ maxWidth: '400px' }}>
+      <ModalInner>
+        <Stack direction="column" gap={1}>
+          <Grid container direction="row" alignItems="center" justifyContent="space-between">
+            <Grid item>{modalTitle && <Typography variant="h6" component="span" color="text.primary">{modalTitle}</Typography>}</Grid>
+            <Grid item>
+              <IconButton aria-label="delete" size="small" onClick={handleOnClose}>
+                <CloseIcon color="primary" />
+              </IconButton>
             </Grid>
-            <WalletConnectorContainer>
-              {getContent()}
-            </WalletConnectorContainer>
-          </Stack>
-        </ModalInner>
-      </JediModal>
-    </ModalContainer>
+          </Grid>
+          <WalletConnectorContainer>
+            {getContent()}
+          </WalletConnectorContainer>
+        </Stack>
+      </ModalInner>
+    </JediModal>
   );
 };
 

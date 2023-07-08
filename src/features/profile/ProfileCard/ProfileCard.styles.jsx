@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
-import { cardHeaderCover, glassEffectMixin, gradientBorderMixin, widgetBoxMixin } from '../../../resources/styles/mixins';
-import { linearGradient1, linearGradient2 } from '../../../resources/styles/constants';
+import { cardHeaderCover, gradientBorderMixin, widgetBoxMixin } from '../../../resources/styles/mixins';
 import { getLinearGradientProperty } from '../../../resources/styles/functions';
 
 const BoxContainer = styled.div`

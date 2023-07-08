@@ -1,29 +1,10 @@
 import styled, { css } from 'styled-components';
 import Box from '@mui/material/Box';
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepContent from '@mui/material/StepContent';
 
 import { cardHeaderCover, gradientBorderMixin, widgetBoxMixin } from '../../../resources/styles/mixins';
 import GradientButton from '../../../components/GradientButton/GradientButton';
 
-const ModalContainer = styled.div`
-  ${widgetBoxMixin({ borderRadius: '16px' })}
-  ${gradientBorderMixin({ borderRadius: '16px' })}
-`;
-
-const ModalInner = styled(Box)`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border: 1px solid #fff;
-  width: 100%;
-  max-width: 400px;
-  border-radius: 8px;
-  background-color: #141451;
-  padding: 1rem;
-`;
+const ModalInner = styled(Box)``;
 
 const NextStepButton = styled(GradientButton)`
   width: 100%;
@@ -66,11 +47,17 @@ const Cover = styled.div`
   `}
 `;
 
+const StepContainerInner = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px;
+`;
+
 const SelectProfilePictureFormContainer = styled.div`
-  //display: flex;
   width: 100%;
   height: 100%;
-  max-height: 500px;
 `;
 
 const IntroductionStepContainer = styled.div`
@@ -79,11 +66,15 @@ const IntroductionStepContainer = styled.div`
   align-items: center;
 `;
 
+const IntroductionStepContainerInner = styled(StepContainerInner)`
+  padding-top: 0;
+`;
+
 const IntroductionStepAvatarGroups = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-top: -50px;
+  margin-top: -60px;
   margin-bottom: 45px;
 
   & .avatar {
@@ -112,12 +103,9 @@ const SelectNftStepContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  //display: flex;
-  //flex-direction: column;
-  //align-items: center;
-  //justify-content: center;
-  //height: 100%;
 `;
+
+const SelectNftStepContainerInner = styled(StepContainerInner)``;
 
 const SelectNftStepTitle = styled.div`
   width: 100%;
@@ -130,10 +118,6 @@ const SelectNftStepSlider = styled.div`
   max-width: 350px;
   margin-bottom: 40px;
   position: relative;
-
-  //.swiper-wrapper {
-  //  width: 200px;
-  //}
 
   .swiper {
     width: 100%;
@@ -173,8 +157,46 @@ const SelectNftStepSliderCounter = styled.div`
   margin-bottom: 20px;
 `;
 
+const FinalStepContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const FinalStepContainerInner = styled(StepContainerInner)`
+  padding-top: 0;
+`;
+
+const FinalStepAvatar = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: -100px;
+  margin-bottom: 30px;
+
+  & .avatar {
+    position: relative;
+    z-index: 1;
+  }
+
+  & .avatar:first-child {
+    z-index: 0;
+    margin-right: -15px;
+  }
+
+  & .avatar:last-child {
+    z-index: 0;
+    margin-left: -15px;
+  }
+`;
+
+const FinalStepDescription = styled.div`
+  text-align: center;
+  max-width: 280px;
+  margin-bottom: 30px;
+`;
+
 export {
-  ModalContainer,
   ModalInner,
   Cover,
   NextStepButton,
@@ -182,11 +204,16 @@ export {
   SliderNavigationArrowNext,
   SelectProfilePictureFormContainer,
   IntroductionStepContainer,
+  IntroductionStepContainerInner,
   IntroductionStepAvatarGroups,
   IntroductionStepTitles,
   SelectNftStepContainer,
+  SelectNftStepContainerInner,
   SelectNftStepTitle,
   SelectNftStepSlider,
   SelectNftStepSliderCounter,
-
+  FinalStepContainer,
+  FinalStepContainerInner,
+  FinalStepAvatar,
+  FinalStepDescription,
 };
