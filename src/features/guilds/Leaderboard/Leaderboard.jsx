@@ -94,17 +94,13 @@ const LeaderboardTable = ({ title = '', guildId = '', guildName = '' }) => {
     content = (
       <>
         <StyledTableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }}>
+          <Table>
             <StyledTableHead>
               <TableRow>
                 <TableCell align="center"
                   style={{ width: '35%' }}
                 >
-                  <Typography variant="body1"
-                    color="text.primary"
-                    sx={{ fontWeight: 'bold' }}
-                  >{t('leaderboard.columns.address')}
-                  </Typography>
+                  <Typography variant="body1" color="text.primary" sx={{ fontWeight: 'bold' }}>{t('leaderboard.columns.address')}</Typography>
                 </TableCell>
                 <TableCell align="center">
                   <TableSortLabel

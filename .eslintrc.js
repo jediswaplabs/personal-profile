@@ -1,34 +1,22 @@
 module.exports = {
   parser: '@babel/eslint-parser',
-  parserOptions: {
-    ecmaFeatures: {
-      jsx: true
-    }
-  },
+  parserOptions: { ecmaFeatures: { jsx: true } },
   extends: ['airbnb', 'plugin:react/recommended', 'plugin:storybook/recommended'],
-  plugins: ['react', 'react-hooks', 'fp'
-  // '@spothero/eslint-plugin-spothero',
+  plugins: ['react', 'react-hooks', 'fp',
+    // '@spothero/eslint-plugin-spothero',
   ],
 
-  settings: {
-    'import/resolver': {
-      node: {
-        extensions: ['.js', '.jsx']
-      }
-    }
-  },
+  settings: { 'import/resolver': { node: { extensions: ['.js', '.jsx'] } } },
   globals: {
     document: true,
     window: true,
     localStorage: true,
-    Fragment: true
+    Fragment: true,
   },
   overrides: [{
     files: ['**/*.test.js', '**/*.test.jsx'],
-    env: {
-      jest: true
-    },
-    plugins: ['jest']
+    env: { jest: true },
+    plugins: ['jest'],
   }],
   rules: {
     // '@spothero/spothero/ternary-parentheses': 'error',
@@ -44,7 +32,7 @@ module.exports = {
     'import/no-named-as-default': 2,
     'import/order': ['error', {
       'newlines-between': 'always',
-      groups: [['builtin', 'external'], ['internal', 'parent', 'sibling', 'index']]
+      groups: [['builtin', 'external'], ['internal', 'parent', 'sibling', 'index']],
     }],
     'import/prefer-default-export': 'off',
     'jest/expect-expect': 'off',
@@ -86,16 +74,14 @@ module.exports = {
     'max-params': ['error', 3],
     'no-await-in-loop': 'off',
     'no-cond-assign': 'off',
-    'no-console': ['error', {
-      allow: ['warn', 'error']
-    }],
+    'no-console': ['error', { allow: ['warn', 'error'] }],
     'no-continue': 'off',
     'no-delete-var': 'error',
     'no-empty': 0,
     'no-extra-boolean-cast': 0,
     'no-param-reassign': ['error', {
       props: true,
-      ignorePropertyModificationsFor: ['state']
+      ignorePropertyModificationsFor: ['state'],
     }],
     'no-plusplus': 'off',
     'no-prototype-builtins': 'off',
@@ -103,23 +89,22 @@ module.exports = {
     'no-restricted-syntax': 'off',
     'no-unused-vars': ['error', {
       varsIgnorePattern: 'Fragment',
-      ignoreRestSiblings: true
+      ignoreRestSiblings: true,
     }],
     'no-use-before-define': 'off',
     'object-curly-newline': ['error', {
+      // consistent: true,
+      // multiline: true,
+      ImportDeclaration: 'never',
+      ExportDeclaration: 'always',
       ObjectExpression: {
         consistent: true,
         multiline: true,
-        minProperties: 5
       },
       ObjectPattern: {
-        consistent: true
-        // multiline: true,
-        // minProperties: 5,
+        consistent: true,
+        multiline: true,
       },
-
-      ImportDeclaration: 'never',
-      ExportDeclaration: 'always'
     }],
     'react-hooks/exhaustive-deps': 0,
     // Checks effect dependencies
@@ -137,19 +122,15 @@ module.exports = {
     'react/no-array-index-key': 'off',
     'react/no-did-update-set-state': 'off',
     'react/no-unused-state': 'off',
-    'react/prop-types': [2, {
-      skipUndeclared: true
-    }],
+    'react/prop-types': [2, { skipUndeclared: true }],
     'react/react-in-jsx-scope': 0,
     'react/require-default-props': 0,
     'require-atomic-updates': 'off',
     'require-await': 2,
     camelcase: 'error',
     curly: ['error', 'all'],
-    indent: ['error', 2, {
-      SwitchCase: 1
-    }],
+    indent: ['error', 2, { SwitchCase: 1 }],
     quotes: ['error', 'single'],
-    semi: ['error', 'always']
-  }
+    semi: ['error', 'always'],
+  },
 };

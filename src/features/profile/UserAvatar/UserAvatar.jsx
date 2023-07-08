@@ -4,27 +4,32 @@ import Avatar from '@mui/material/Avatar';
 import SvgIcon from '@mui/material/SvgIcon';
 import Skeleton from '@mui/material/Skeleton';
 
-import { BoxContainer } from './UserAvatar.styles';
+import { AvatarWrapper } from './UserAvatar.styles';
 
-const UserAvatar = ({ isMock = false, src = '' }) => {
+const UserAvatar = ({ isMock = false, src = '', size = '' }) => {
   if (isMock) {
-    return <MockAvatar />;
+    return (
+      <AvatarWrapper size={size} className="avatar" isMock>
+        <MockAvatar />
+      </AvatarWrapper>
+    );
   }
   return (
-    <BoxContainer>
-      <Avatar className="avatar" imgProps={{ draggable: false }} variant="rounded" src={src} sx={{ bgcolor: 'transparent' }}>
+    <AvatarWrapper size={size} className="avatar">
+      <Avatar imgProps={{ draggable: false }} variant="rounded" src={src} sx={{ bgcolor: 'transparent' }}>
         <DefaultAvatar />
       </Avatar>
-    </BoxContainer>
+    </AvatarWrapper>
   );
 };
 
 UserAvatar.propTypes = {
   isMock: PropTypes.bool,
   src: PropTypes.string,
+  size: PropTypes.string,
 };
 
-const MockAvatar = () => <Skeleton variant="rounded" width="100px" height="100px" className="avatar" data-testid="loading_avatar" />;
+const MockAvatar = () => <Skeleton variant="rounded" width="100px" height="100px" data-testid="loading_avatar" />;
 
 const DefaultAvatar = () => <PermIdentityOutlinedIcon sx={{ fontSize: '5rem' }} />;
 

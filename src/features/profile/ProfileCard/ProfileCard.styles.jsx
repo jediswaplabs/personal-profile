@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
-import { glassEffectMixin, gradientBorderMixin, widgetBoxMixin } from '../../../resources/styles/mixins';
-import { linearGradient1, linearGradient2 } from '../../../resources/styles/constants';
+import { cardHeaderCover, gradientBorderMixin, widgetBoxMixin } from '../../../resources/styles/mixins';
 import { getLinearGradientProperty } from '../../../resources/styles/functions';
 
 const BoxContainer = styled.div`
@@ -10,17 +9,7 @@ const BoxContainer = styled.div`
 `;
 
 const Cover = styled.div`
-  height: 95px;
-  background: ${getLinearGradientProperty({ angle: 240, baseColor1: '#1E075F', baseColor2: '#FF00E9' })};
-  border-image-slice: 1;
-  border-bottom: 2px solid;
-  border-image-source: ${getLinearGradientProperty({
-    angle: 95,
-    baseColor1: '#29AAFD',
-    baseColor1Start: '8%',
-    baseColor2: '#FF00E9',
-    baseColor2Start: '105%',
-  })};
+  ${cardHeaderCover({})}
 `;
 
 const AccountInfoContainer = styled.div`
@@ -69,18 +58,8 @@ const WalletContainer = styled.div`
   })};
 `;
 
-const Foo = styled.div`
-  ${glassEffectMixin({})}
-  ${gradientBorderMixin({})}
-
-  width: 100px;
-  height: 100px;
-  border-radius: 8px;
-`;
-
 export {
   BoxContainer,
-  Foo,
   Cover,
   AccountInfoContainer,
   WalletContainer,

@@ -1,4 +1,5 @@
 const webpack = require('webpack');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
@@ -25,10 +26,6 @@ const webpackConfig = {
     path: `${path.resolve(__dirname)}/dist`,
     pathinfo: false,
     filename: '[name].bundle.js',
-    // filename: (pathData) => ((pathData.chunk.name === 'main')
-    // 	? `static/js/paymentcomponent.${process.env.npm_package_version}.js`
-    // 	: `static/js/vendors.${process.env.npm_package_version}.js`),
-    // chunkFilename: () => `static/js/[name].${process.env.npm_package_version}.chunk.js`,
     publicPath: '/',
     globalObject: 'this',
   },
@@ -249,6 +246,12 @@ const webpackConfig = {
     ],
   },
   plugins: [
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: 'public/favicon', to: 'favicon' },
+        { from: 'public/images', to: 'images' },
+      ],
+    }),
     new HtmlWebPackPlugin({
       template: './public/index.html',
     }),
