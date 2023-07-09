@@ -9,6 +9,7 @@ import { defaultListItems,
   emptyItems } from './ActivitiesList.testData';
 import { zeroAddress } from '../../../common/contansts';
 import { renderWithProviders } from '../../../common/testsHelper';
+import { activitiesList as activitiesListNames } from '../../../../public/locales/en/translation.json';
 
 const ARTIFICIAL_DELAY_MS = 600;
 
@@ -57,13 +58,13 @@ Default.play = async ({ canvasElement, step }) => {
     expect(items).toHaveLength(MAX_VISIBLE_ITEMS_AMOUNT);
   });
   await step('Show more', async () => {
-    const showMore = await canvas.findByText('Show more');
+    const showMore = await canvas.findByText(activitiesListNames.controls.showMore);
     await userEvent.click(showMore);
     const items = await canvas.findAllByRole('listitem');
     expect(items).toHaveLength(defaultListItems.ids.length);
   });
   await step('Show less', async () => {
-    const showLess = await canvas.findByText('Show less');
+    const showLess = await canvas.findByText(activitiesListNames.controls.showLess);
     await userEvent.click(showLess);
     await waitFor(async () => {
       const items = await canvas.findAllByRole('listitem');
@@ -99,7 +100,7 @@ FewItems.parameters = {
 FewItems.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
   await waitForElementToBeRemoved(() => canvas.queryByTestId('loading_activitylist'));
-  expect(canvas.queryByText('Show more')).toBeNull();
+  expect(canvas.queryByText(activitiesListNames.controls.showMore)).toBeNull();
 };
 
 const Loading = Template.bind({});

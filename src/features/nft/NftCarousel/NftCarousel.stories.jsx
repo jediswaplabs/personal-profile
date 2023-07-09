@@ -7,6 +7,7 @@ import NftCarousel from './NftCarousel';
 import { defaultNftListItems, emptyNftListItems, fewNftListItems } from './NftCarousel.testData';
 import { zeroAddress } from '../../../common/contansts';
 import { renderWithProviders } from '../../../common/testsHelper';
+import { meshNftsCarousel as meshNftsCarouselNames } from '../../../../public/locales/en/translation.json';
 
 const ARTIFICIAL_DELAY_MS = 600;
 
@@ -45,7 +46,7 @@ Default.parameters = {
 };
 Default.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
-  const levels = await canvas.findAllByText(/Level/);
+  const levels = await getLevels(canvas);
   expect(levels).toHaveLength(defaultNftListItems.ids.length);
 };
 
@@ -72,7 +73,7 @@ FewItems.parameters = {
 };
 FewItems.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
-  const levels = await canvas.findAllByText(/Level/);
+  const levels = await getLevels(canvas);
   expect(levels).toHaveLength(fewNftListItems.ids.length);
 };
 
@@ -160,6 +161,12 @@ const stories = {
   parameters: { actions: { argTypesRegex: '^on.*' } },
   argTypes: {},
 };
+
+function getLevels(canvas) {
+  const text = meshNftsCarouselNames.card.level.replace(/{{\s*level\s*}}/g, '');
+  const re = new RegExp(text, 'g');
+  return canvas.findAllByText(re);
+}
 
 export {
   Default,

@@ -6,6 +6,7 @@ import SelectProfilePictureModal, { SelectProfilePictureForm as SelectProfilePic
 import { renderWithProviders } from '../../../common/testsHelper';
 import { zeroAddress } from '../../../common/contansts';
 import { defaultNftListItems } from '../../nft/NftCarousel/NftCarousel.testData';
+import { selectProfilePictureModal as selectProfilePictureModalNames } from '../../../../public/locales/en/translation.json';
 
 const ARTIFICIAL_DELAY_MS = 600;
 const TemplateWithComponent = (Component) => (args) => (
@@ -41,13 +42,13 @@ Form.parameters = {
 };
 Form.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
-  const btnSelect = await canvas.findByText('Select NFT');
+  const btnSelect = await canvas.findByText(selectProfilePictureModalNames.introductionStep.controls.next);
   await userEvent.click(btnSelect);
   const imgs = await canvas.findAllByRole('img');
   fireEvent(imgs[0], new window.MouseEvent('click', { bubbles: true }));
-  const btnApply = await canvas.findByText('Apply');
+  const btnApply = await canvas.findByText(selectProfilePictureModalNames.selectNftStep.controls.apply);
   await userEvent.click(btnApply);
-  await canvas.findByText('You\'re done');
+  await canvas.findByText(selectProfilePictureModalNames.finalStep.controls.done);
 };
 
 const LoadingForm = TemplateWithComponent.bind({})(SelectProfilePictureFormComponent);

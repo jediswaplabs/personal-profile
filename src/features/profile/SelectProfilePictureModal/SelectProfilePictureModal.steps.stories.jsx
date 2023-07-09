@@ -7,6 +7,7 @@ import { renderWithProviders } from '../../../common/testsHelper';
 import { sleep } from '../../../common/sleepHelper';
 import { defaultNftListItems } from '../../nft/NftCarousel/NftCarousel.testData';
 import { DEFAULT_IMAGE } from '../../nft/NftCard/NftCard';
+import { selectProfilePictureModal as selectProfilePictureModalNames } from '../../../../public/locales/en/translation.json';
 
 const TemplateWithComponent = (Component) => (args) => (
   <>
@@ -31,7 +32,7 @@ IntroductionStep.decorators = [
 IntroductionStep.parameters = {};
 IntroductionStep.play = async ({ canvasElement, args }) => {
   const canvas = within(canvasElement);
-  const btn = await canvas.findByText('Select NFT');
+  const btn = await canvas.findByText(selectProfilePictureModalNames.introductionStep.controls.next);
   await userEvent.click(btn);
   expect(args.onNextStep).toHaveBeenCalled();
 };
@@ -82,7 +83,7 @@ FinalStep.decorators = [
 FinalStep.parameters = {};
 FinalStep.play = async ({ canvasElement, args }) => {
   const canvas = within(canvasElement);
-  const btn = await canvas.findByText('You\'re done');
+  const btn = await canvas.findByText(selectProfilePictureModalNames.finalStep.controls.done);
   await userEvent.click(btn);
   expect(args.onNextStep).toHaveBeenCalled();
 };

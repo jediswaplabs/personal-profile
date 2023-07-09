@@ -8,6 +8,7 @@ import { defaultUserData, userDataWithoutAvatar } from './ProfileCard.testData';
 import { defaultCurrenciesList } from '../../wallet/WalletBalance/WalletBalance.testData';
 import { renderWithProviders } from '../../../common/testsHelper';
 import { zeroAddress } from '../../../common/contansts';
+import { profileCard as profileCardNames } from '../../../../public/locales/en/translation.json';
 
 const ARTIFICIAL_DELAY_MS = 600;
 
@@ -51,9 +52,9 @@ Default.parameters = {
 };
 Default.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
-  const btn = await canvas.findByText('Copy address');
+  const btn = await canvas.findByText(profileCardNames.controls.copyAddress);
   await userEvent.click(btn);
-  await canvas.findByText('Copied!');
+  await canvas.findByText(profileCardNames.controls.copied);
 };
 
 const NoAvatar = Template.bind({});
@@ -117,8 +118,8 @@ ReadOnly.parameters = {
 ReadOnly.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
   await waitForElementToBeRemoved(() => canvas.queryByTestId('loading_account'));
-  expect(canvas.queryByText('Copy address')).toBeNull();
-  expect(canvas.queryByText('Edit Profile')).toBeNull();
+  expect(canvas.queryByText(profileCardNames.controls.copyAddress)).toBeNull();
+  expect(canvas.queryByText(profileCardNames.controls.editProfile)).toBeNull();
 };
 
 const Error = Template.bind({});

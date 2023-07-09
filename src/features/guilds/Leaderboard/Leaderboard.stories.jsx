@@ -6,6 +6,7 @@ import { expect } from '@storybook/jest';
 import LeaderboardTable, { ROWS_PER_PAGE } from './Leaderboard';
 import { defaultLeaderboardData } from './Leaderboard.testData';
 import { renderWithProviders } from '../../../common/testsHelper';
+import { leaderboard as leaderboardNames } from '../../../../public/locales/en/translation.json';
 
 const ranks = defaultLeaderboardData.ids.map((id) => defaultLeaderboardData.entities[id].rank);
 const points = defaultLeaderboardData.ids.map((id) => defaultLeaderboardData.entities[id].points);
@@ -162,33 +163,33 @@ async function getColumnValues(canvas, columnHeader) {
 }
 
 async function testPointsOrder(canvas, isAsc) {
-  const header = await canvas.findByText('Total points');
+  const header = await canvas.findByText(leaderboardNames.columns.points);
   await userEvent.click(header);
-  const pointTexts = await getColumnValues(canvas, 'Total points');
+  const pointTexts = await getColumnValues(canvas, leaderboardNames.columns.points);
   const pointNumbers = pointTexts.map((rank) => Number(rank));
   const sortedPoints = [...points].sort((a, b) => (isAsc ? a - b : b - a));
   expect(pointNumbers).toEqual(sortedPoints.slice(0, ROWS_PER_PAGE));
 }
 
 async function testRankOrder(canvas, isAsc) {
-  const header = await canvas.findByText('Overall rank');
+  const header = await canvas.findByText(leaderboardNames.columns.rank);
   await userEvent.click(header);
-  const rankTexts = await getColumnValues(canvas, 'Overall rank');
+  const rankTexts = await getColumnValues(canvas, leaderboardNames.columns.rank);
   const rankNumbers = rankTexts.map((rank) => Number(rank.replace('#', '')));
   const sortedRanks = [...ranks].sort((a, b) => (isAsc ? a - b : b - a));
   expect(rankNumbers).toEqual(sortedRanks.slice(0, ROWS_PER_PAGE));
 }
 
 async function pointsPagination(canvas, pageNumber) {
-  const pointTexts = await getColumnValues(canvas, 'Total points');
+  const pointTexts = await getColumnValues(canvas, leaderboardNames.columns.points);
   const pointNumbers = pointTexts.map((rank) => Number(rank));
   const sortedPoints = [...points].sort((a, b) => b - a);
   expect(pointNumbers).toEqual(sortedPoints.slice(ROWS_PER_PAGE * (pageNumber - 1), ROWS_PER_PAGE * pageNumber));
 }
 
 async function testPagination(canvas) {
-  const prev = (await canvas.findByText('Prev')).closest('button');
-  const next = (await canvas.findByText('Next')).closest('button');
+  const prev = (await canvas.findByText(leaderboardNames.controls.prev)).closest('button');
+  const next = (await canvas.findByText(leaderboardNames.controls.next)).closest('button');
   expect(prev).toBeDisabled();
   if (defaultLeaderboardData.ids.length <= ROWS_PER_PAGE) {
     expect(next).toBeDisabled();

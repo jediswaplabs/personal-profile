@@ -4,6 +4,7 @@ import { within } from '@storybook/testing-library';
 import NftCard from './NftCard';
 import { defaultCard } from './NftCard.testData';
 import { renderWithProviders } from '../../../common/testsHelper';
+import { meshNftsCarousel as meshNftsCarouselNames } from '../../../../public/locales/en/translation.json';
 
 const defaultProfileState = { };
 
@@ -35,8 +36,8 @@ Default.decorators = [
 ];
 Default.play = async ({ canvasElement, args }) => {
   const canvas = within(canvasElement);
-  await canvas.findByText(`Level ${args.level}`);
-  await canvas.findByText(`${args.score} pts`);
+  await canvas.findByText(meshNftsCarouselNames.card.level.replace(/{{\s*level\s*}}/, args.level));
+  await canvas.findByText(meshNftsCarouselNames.card.score.replace(/{{\s*score\s*}}/, args.score));
 };
 
 const Locked = Template.bind({});
@@ -57,7 +58,7 @@ Locked.decorators = [
 ];
 Locked.play = async ({ canvasElement, args }) => {
   const canvas = within(canvasElement);
-  await canvas.findByText(`Unlock at ${args.score} pts`);
+  await canvas.findByText(meshNftsCarouselNames.card.controls.unlock.replace(/{{\s*score\s*}}/, args.score));
 };
 
 const Loading = Template.bind({});
