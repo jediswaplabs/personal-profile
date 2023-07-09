@@ -1,6 +1,6 @@
 import React from 'react';
 import { within, userEvent } from '@storybook/testing-library';
-import { expect, jest } from '@storybook/jest';
+import { expect } from '@storybook/jest';
 
 import Guild from './Guild';
 import { guildTypesLookup, zeroAddress } from '../../../common/contansts';
@@ -43,7 +43,6 @@ WithPoints.args = {
   name: 'Guild name',
   id: 'design',
   score: 200,
-  onGuildSelected: jest.fn(),
 };
 WithPoints.decorators = [
   (Story) => {
@@ -51,12 +50,12 @@ WithPoints.decorators = [
     return <MockStore><Story /></MockStore>;
   },
 ];
-WithPoints.play = async ({ canvasElement }) => {
+WithPoints.play = async ({ canvasElement, args }) => {
   const canvas = within(canvasElement);
   const score = await canvas.findByText(WithPoints.args.score);
   await canvas.findByText(WithPoints.args.name);
   await userEvent.click(score);
-  expect(WithPoints.args.onGuildSelected).toHaveBeenCalled();
+  expect(args.onGuildSelected).toHaveBeenCalled();
 };
 
 const SelectedGuild = Template.bind({});

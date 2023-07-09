@@ -1,5 +1,6 @@
 import React from 'react';
 import { graphql } from 'msw';
+import { fireEvent, userEvent, within } from '@storybook/testing-library';
 
 import SelectProfilePictureModal, { SelectProfilePictureForm as SelectProfilePictureFormComponent } from './SelectProfilePictureModal';
 import { renderWithProviders } from '../../../common/testsHelper';
@@ -38,7 +39,16 @@ Form.parameters = {
     ],
   },
 };
-Form.play = async ({ canvasElement }) => {};
+Form.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  const btnSelect = await canvas.findByText('Select NFT');
+  await userEvent.click(btnSelect);
+  const imgs = await canvas.findAllByRole('img');
+  fireEvent(imgs[0], new window.MouseEvent('click', { bubbles: true }));
+  const btnApply = await canvas.findByText('Apply');
+  await userEvent.click(btnApply);
+  await canvas.findByText('You\'re done');
+};
 
 const LoadingForm = TemplateWithComponent.bind({})(SelectProfilePictureFormComponent);
 LoadingForm.args = {
@@ -60,7 +70,10 @@ LoadingForm.parameters = {
     ],
   },
 };
-LoadingForm.play = async ({ canvasElement }) => {};
+LoadingForm.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await canvas.findByTestId('loading_profile_picture_form');
+};
 
 const ErrorForm = TemplateWithComponent.bind({})(SelectProfilePictureFormComponent);
 ErrorForm.args = {
@@ -85,7 +98,10 @@ ErrorForm.parameters = {
     ],
   },
 };
-ErrorForm.play = async ({ canvasElement }) => {};
+ErrorForm.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await canvas.findByTestId('error_profile_picture_form');
+};
 
 const stories = {
   title: 'Components/SelectProfilePictureModal',
