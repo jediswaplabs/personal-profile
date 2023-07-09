@@ -52,8 +52,8 @@ WithPoints.decorators = [
 ];
 WithPoints.play = async ({ canvasElement, args }) => {
   const canvas = within(canvasElement);
-  const score = await canvas.findByText(WithPoints.args.score);
-  await canvas.findByText(WithPoints.args.name);
+  const score = await canvas.findByText(args.score);
+  await canvas.findByText(args.name);
   await userEvent.click(score);
   expect(args.onGuildSelected).toHaveBeenCalled();
 };

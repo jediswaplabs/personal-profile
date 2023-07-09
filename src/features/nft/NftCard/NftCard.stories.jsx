@@ -33,10 +33,10 @@ Default.decorators = [
     return <MockStore><Story /></MockStore>;
   },
 ];
-Default.play = async ({ canvasElement }) => {
+Default.play = async ({ canvasElement, args }) => {
   const canvas = within(canvasElement);
-  await canvas.findByText(`Level ${Default.args.level}`);
-  await canvas.findByText(`${Default.args.score} pts`);
+  await canvas.findByText(`Level ${args.level}`);
+  await canvas.findByText(`${args.score} pts`);
 };
 
 const Locked = Template.bind({});
@@ -55,9 +55,9 @@ Locked.decorators = [
     return <MockStore><Story /></MockStore>;
   },
 ];
-Locked.play = async ({ canvasElement }) => {
+Locked.play = async ({ canvasElement, args }) => {
   const canvas = within(canvasElement);
-  await canvas.findByText(`Unlock at ${Locked.args.score} pts`);
+  await canvas.findByText(`Unlock at ${args.score} pts`);
 };
 
 const Loading = Template.bind({});
