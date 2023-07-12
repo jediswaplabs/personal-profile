@@ -123,7 +123,7 @@ const WalletModal = ({ children, ...props }) => {
     if (account && walletView === WALLET_VIEWS.ACCOUNT) {
       return (
         <>
-          <WalletAccountOverview connectedWallet={getConnectedWalletOptions()} account={account} chainId={chainId} connectedAddress={connectedAddress} onWalletDisconnect={() => { connector?.deactivate(); }} />
+          <WalletAccountOverview connectedWallet={getConnectedWalletOptions()} account={account} chainId={chainId} connectedAddress={connectedAddress} onWalletDisconnect={() => { connector?.deactivate(); localStorage?.removeItem('auto-injected-wallet')}} />
         </>
       );
     }
