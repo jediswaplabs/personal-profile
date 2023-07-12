@@ -137,7 +137,7 @@ const LeaderboardTable = ({ title = '', guildId = '', guildName = '' }) => {
                 .slice(page * ROWS_PER_PAGE, page * ROWS_PER_PAGE + ROWS_PER_PAGE)
                 .map((id) => (
                   <TableRow key={id}>
-                    <StyledTableCell component="th" scope="row">
+                    <StyledTableCell scope="row">
                       <RouterLink to={`/account/${leaderboardData.entities[id].address}`}>
                         <Typography variant="body1" color="text.primary">{leaderboardData.entities[id].address}</Typography>
                       </RouterLink>
@@ -228,6 +228,7 @@ const ErrorLeaderBoard = () => {
       justifyContent="center"
       alignItems="center"
       sx={{ margin: '25px 0 30px' }}
+      data-testid="error"
     >
       <Stack direction="column"
         alignItems="center"
@@ -245,7 +246,7 @@ const MockLeaderBoard = () => {
   const data = Array(3).fill();
 
   return (
-    <StyledTableContainer component={Paper}>
+    <StyledTableContainer component={Paper} data-testid="loading">
       <Table>
         <StyledTableHead>
           <TableRow>
@@ -326,3 +327,6 @@ const TrendArrow = ({ trend = '' }) => {
 };
 
 export default LeaderboardTable;
+export {
+  ROWS_PER_PAGE,
+};

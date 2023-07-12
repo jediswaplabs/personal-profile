@@ -87,7 +87,7 @@ const NftCard = ({ title = '', level = 1, image = IMAGE_MODEL, score = 0, isLock
 };
 
 const MockCard = () => (
-  <CardWrapper isLocked>
+  <CardWrapper isLocked data-testid="loading_nftcard">
     <CardInner>
       <CardFront>
         <Card>

@@ -116,14 +116,14 @@ const ActivitiesListItem = ({ title, date }) => {
 const MockActivitiesList = () => {
   const data = Array(3).fill();
   return (
-    <>
+    <div data-testid="loading_activitylist">
       {data.map((_, key) => (
         <div style={{ marginBottom: '14px' }} key={key}>
           <Skeleton variant="text" sx={{ fontSize: '1rem' }} />
           <Skeleton variant="text" sx={{ fontSize: '0.875rem' }} width="15%" />
         </div>
       ))}
-    </>
+    </div>
   );
 };
 
@@ -131,7 +131,7 @@ const EmptyActivitiesList = () => {
   const { t } = useTranslation();
   return (
     <>
-      <Stack alignItems="center" gap={2.5} sx={{ margin: '60px 0' }}>
+      <Stack alignItems="center" gap={2.5} sx={{ margin: '60px 0' }} data-testid="empty_activitylist">
         <Stack alignItems="center" gap={2}>
           <EmptyBubblePlaceholder />
           <EmptyBubblePlaceholder width="85%" />
@@ -146,7 +146,7 @@ const EmptyActivitiesList = () => {
 const ErrorActivitiesList = () => {
   const { t } = useTranslation();
   return (
-    <Typography variant="body1" color="text.primary">{t('activitiesList.errors.fetching')}</Typography>
+    <Typography variant="body1" color="text.primary" data-testid="error_activitylist">{t('activitiesList.errors.fetching')}</Typography>
   );
 };
 
@@ -164,3 +164,6 @@ ActivitiesList.propTypes = {
 };
 
 export default ActivitiesList;
+export {
+  MAX_VISIBLE_ITEMS_AMOUNT,
+};

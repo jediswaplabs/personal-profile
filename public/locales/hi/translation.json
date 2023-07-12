@@ -37,6 +37,7 @@
     "titleAccountDetails": "खाता विवरण",
     "downloadNow": "अब डाउनलोड करो",
     "copyAddress": "पता कॉपी करें",
+    "copied": "नकल की गई!",
     "viewOnStarkscan": "स्टार्कस्कैन पर देखें",
     "disconnect": "डिस्कनेक्ट",
     "connectedWith": "साथ जुड़े {{wallet}}",

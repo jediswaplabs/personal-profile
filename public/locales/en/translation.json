@@ -37,6 +37,7 @@
     "titleAccountDetails": "Account details",
     "downloadNow": "Download now",
     "copyAddress": "Copy address",
+    "copied": "Copied!",
     "viewOnStarkscan": "View on Starkscan",
     "disconnect": "Disconnect",
     "connectedWith": "Connected with {{wallet}}",

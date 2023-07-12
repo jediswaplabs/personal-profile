@@ -128,7 +128,7 @@ const SelectProfilePictureForm = ({ account, onFormClose = noop }) => {
 };
 
 const MockSelectProfilePictureForm = () => (
-  <IntroductionStepContainer>
+  <IntroductionStepContainer data-testid="loading_profile_picture_form">
     <Cover />
     <IntroductionStepContainerInner>
       <IntroductionStepAvatarGroups>
@@ -150,7 +150,7 @@ const MockSelectProfilePictureForm = () => (
 const ErrorSelectProfilePictureForm = ({ errorText = '' }) => {
   const { t } = useTranslation();
   return (
-    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', p: 2 }}>
+    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', p: 2 }} data-testid="error_profile_picture_form">
       <Typography variant="body1" color="text.primary">
         {errorText || t('selectProfilePictureModal.errors.unknown')}
       </Typography>

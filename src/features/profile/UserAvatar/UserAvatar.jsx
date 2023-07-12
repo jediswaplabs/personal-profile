@@ -29,7 +29,7 @@ UserAvatar.propTypes = {
   size: PropTypes.string,
 };
 
-const MockAvatar = () => <Skeleton variant="rounded" width="100%" height="100%" />;
+const MockAvatar = () => <Skeleton variant="rounded" width="100px" height="100px" data-testid="loading_avatar" />;
 
 const DefaultAvatar = () => <PermIdentityOutlinedIcon sx={{ fontSize: '5rem' }} />;
 

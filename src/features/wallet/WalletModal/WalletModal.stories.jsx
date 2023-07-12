@@ -1,9 +1,11 @@
 import React from 'react';
+import { userEvent, within } from '@storybook/testing-library';
 
 import WalletModal, { WalletConnectOptionsView, WalletAccountOverview } from './WalletModal';
 import { supportedWallets } from './WalletModal.testData';
 import { renderWithProviders } from '../../../common/testsHelper';
 import { zeroAddress } from '../../../common/contansts';
+import { walletModal as walletModalNames } from '../../../../public/locales/en/translation.json';
 
 const TemplateWithComponent = (Component) => (args) => (
   <>
@@ -43,7 +45,12 @@ AccountOverview.decorators = [
   },
 ];
 AccountOverview.parameters = {};
-AccountOverview.play = async ({ canvasElement }) => {};
+AccountOverview.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  const btn = await canvas.findByText(walletModalNames.copyAddress);
+  await userEvent.click(btn);
+  await canvas.findByText(walletModalNames.copied);
+};
 //
 // const WalletConnection = TemplateWithComponent.bind({})(WalletPending);
 // WalletConnection.args = {

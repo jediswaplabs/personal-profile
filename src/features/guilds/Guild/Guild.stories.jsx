@@ -33,8 +33,8 @@ Default.decorators = [
 Default.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
   const title = canvas.getByTestId('guild-title');
-
-  await expect(title).toBeInTheDocument();
+  expect(title).toBeInTheDocument();
+  await canvas.findByRole('link');
 };
 
 const WithPoints = Template.bind({});
@@ -50,7 +50,13 @@ WithPoints.decorators = [
     return <MockStore><Story /></MockStore>;
   },
 ];
-WithPoints.play = async ({ canvasElement }) => {};
+WithPoints.play = async ({ canvasElement, args }) => {
+  const canvas = within(canvasElement);
+  const score = await canvas.findByText(args.score);
+  await canvas.findByText(args.name);
+  await userEvent.click(score);
+  expect(args.onGuildSelected).toHaveBeenCalled();
+};
 
 const SelectedGuild = Template.bind({});
 SelectedGuild.args = {
@@ -66,7 +72,10 @@ SelectedGuild.decorators = [
     return <MockStore><Story /></MockStore>;
   },
 ];
-SelectedGuild.play = async ({ canvasElement }) => {};
+SelectedGuild.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await canvas.findByTestId('selected_guild');
+};
 
 const AllTypesTemplate = (args) => (
   <>
@@ -113,7 +122,10 @@ Loading.decorators = [
     return <MockStore><Story /></MockStore>;
   },
 ];
-Loading.play = async ({ canvasElement }) => {};
+Loading.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await canvas.findByTestId('loading_guild');
+};
 
 // const meta = {
 //   component: Guild,

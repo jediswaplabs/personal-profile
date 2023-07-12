@@ -1,4 +1,6 @@
 import React from 'react';
+import { within } from '@storybook/testing-library';
+import { expect } from '@storybook/jest';
 
 import { defaultAvatar } from './UserAvatar.testData';
 import UserAvatar from './UserAvatar';
@@ -18,21 +20,29 @@ Default.args = {
   storyTitle: 'Default',
   src: defaultAvatar,
 };
-Default.play = async ({ canvasElement }) => {};
+Default.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await canvas.findByRole('img');
+};
 
 const Mock = Template.bind({});
 Mock.args = {
   storyTitle: 'Mock',
   isMock: true,
 };
-Mock.play = async ({ canvasElement }) => {};
+Mock.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await canvas.findByTestId('loading_avatar');
+};
 
 const Empty = Template.bind({});
 Empty.args = {
   storyTitle: 'Empty',
   src: '',
 };
-Empty.play = async ({ canvasElement }) => {};
+Empty.play = ({ canvasElement }) => {
+  expect(canvasElement.querySelector('svg')).toBeInTheDocument();
+};
 
 const stories = {
   title: 'Components/UserAvatar',

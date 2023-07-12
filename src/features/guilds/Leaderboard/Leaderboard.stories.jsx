@@ -1,9 +1,15 @@
 import React from 'react';
 import { graphql } from 'msw';
+import { within, userEvent, findByText, getByText, getAllByRole, findAllByRole } from '@storybook/testing-library';
+import { expect } from '@storybook/jest';
 
-import LeaderboardTable from './Leaderboard';
+import LeaderboardTable, { ROWS_PER_PAGE } from './Leaderboard';
 import { defaultLeaderboardData } from './Leaderboard.testData';
 import { renderWithProviders } from '../../../common/testsHelper';
+import { leaderboard as leaderboardNames } from '../../../../public/locales/en/translation.json';
+
+const ranks = defaultLeaderboardData.ids.map((id) => defaultLeaderboardData.entities[id].rank);
+const points = defaultLeaderboardData.ids.map((id) => defaultLeaderboardData.entities[id].points);
 
 const ARTIFICIAL_DELAY_MS = 600;
 
@@ -39,7 +45,28 @@ Default.parameters = {
     ],
   },
 };
-Default.play = async ({ canvasElement }) => {};
+Default.play = async ({ canvasElement, step }) => {
+  const canvas = within(canvasElement);
+  await step('Sorting ranks ascending', async () => {
+    await testRankOrder(canvas, true);
+  });
+
+  await step('Sorting ranks descending', async () => {
+    await testRankOrder(canvas, false);
+  });
+
+  await step('Sorting points ascending', async () => {
+    await testPointsOrder(canvas, true);
+  });
+
+  await step('Sorting points descending', async () => {
+    await testPointsOrder(canvas, false);
+  });
+
+  await step('Pagination', async () => {
+    await testPagination(canvas);
+  });
+};
 
 const UnselectedGuild = Template.bind({});
 UnselectedGuild.args = {
@@ -61,7 +88,10 @@ UnselectedGuild.parameters = {
     ],
   },
 };
-UnselectedGuild.play = async ({ canvasElement }) => {};
+UnselectedGuild.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await canvas.findByTestId('CastleOutlinedIcon');
+};
 
 const Loading = Template.bind({});
 Loading.args = {
@@ -84,7 +114,10 @@ Loading.parameters = {
     ],
   },
 };
-Loading.play = async ({ canvasElement }) => {};
+Loading.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await canvas.findByTestId('loading');
+};
 
 const Error = Template.bind({});
 Error.args = {
@@ -110,7 +143,10 @@ Error.parameters = {
     ],
   },
 };
-Error.play = async ({ canvasElement }) => {};
+Error.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await canvas.findByTestId('error');
+};
 
 const stories = {
   title: 'Components/Leaderboard',
@@ -118,6 +154,55 @@ const stories = {
   parameters: { actions: { argTypesRegex: '^on.*' } },
   argTypes: {},
 };
+
+async function getColumnValues(canvas, columnHeader) {
+  const headers = (await canvas.findAllByRole('columnheader')).map((th) => th.textContent);
+  const colNumber = headers.indexOf(columnHeader);
+  const rows = (await canvas.findAllByRole('row')).slice(1);
+  return rows.map((row) => getAllByRole(row, 'cell')[colNumber].textContent);
+}
+
+async function testPointsOrder(canvas, isAsc) {
+  const header = await canvas.findByText(leaderboardNames.columns.points);
+  await userEvent.click(header);
+  const pointTexts = await getColumnValues(canvas, leaderboardNames.columns.points);
+  const pointNumbers = pointTexts.map((rank) => Number(rank));
+  const sortedPoints = [...points].sort((a, b) => (isAsc ? a - b : b - a));
+  expect(pointNumbers).toEqual(sortedPoints.slice(0, ROWS_PER_PAGE));
+}
+
+async function testRankOrder(canvas, isAsc) {
+  const header = await canvas.findByText(leaderboardNames.columns.rank);
+  await userEvent.click(header);
+  const rankTexts = await getColumnValues(canvas, leaderboardNames.columns.rank);
+  const rankNumbers = rankTexts.map((rank) => Number(rank.replace('#', '')));
+  const sortedRanks = [...ranks].sort((a, b) => (isAsc ? a - b : b - a));
+  expect(rankNumbers).toEqual(sortedRanks.slice(0, ROWS_PER_PAGE));
+}
+
+async function pointsPagination(canvas, pageNumber) {
+  const pointTexts = await getColumnValues(canvas, leaderboardNames.columns.points);
+  const pointNumbers = pointTexts.map((rank) => Number(rank));
+  const sortedPoints = [...points].sort((a, b) => b - a);
+  expect(pointNumbers).toEqual(sortedPoints.slice(ROWS_PER_PAGE * (pageNumber - 1), ROWS_PER_PAGE * pageNumber));
+}
+
+async function testPagination(canvas) {
+  const prev = (await canvas.findByText(leaderboardNames.controls.prev)).closest('button');
+  const next = (await canvas.findByText(leaderboardNames.controls.next)).closest('button');
+  expect(prev).toBeDisabled();
+  if (defaultLeaderboardData.ids.length <= ROWS_PER_PAGE) {
+    expect(next).toBeDisabled();
+    return;
+  }
+  expect(next).toBeEnabled();
+  await pointsPagination(canvas, 1);
+  await userEvent.click(next);
+  expect(prev).toBeEnabled();
+  await pointsPagination(canvas, 2);
+  await userEvent.click(prev);
+  await pointsPagination(canvas, 1);
+}
 
 export {
   Default,

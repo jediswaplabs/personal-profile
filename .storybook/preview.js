@@ -6,6 +6,8 @@ import { MemoryRouter } from "react-router-dom";
 
 import {jediSwapDarkTheme} from '../src/resources/themes';
 import i18n from '../src/app/i18next';
+import { configure } from '@storybook/testing-library';
+configure({asyncUtilTimeout: 2000});
 
 initialize();
 

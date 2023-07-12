@@ -1,11 +1,14 @@
 import React from 'react';
 import { graphql } from 'msw';
+import { userEvent, waitForElementToBeRemoved, within } from '@storybook/testing-library';
+import { expect } from '@storybook/jest';
 
 import ProfileCard from './ProfileCard';
 import { defaultUserData, userDataWithoutAvatar } from './ProfileCard.testData';
 import { defaultCurrenciesList } from '../../wallet/WalletBalance/WalletBalance.testData';
 import { renderWithProviders } from '../../../common/testsHelper';
 import { zeroAddress } from '../../../common/contansts';
+import { profileCard as profileCardNames } from '../../../../public/locales/en/translation.json';
 
 const ARTIFICIAL_DELAY_MS = 600;
 
@@ -47,7 +50,12 @@ Default.parameters = {
     ],
   },
 };
-Default.play = async ({ canvasElement }) => {};
+Default.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  const btn = await canvas.findByText(profileCardNames.controls.copyAddress);
+  await userEvent.click(btn);
+  await canvas.findByText(profileCardNames.controls.copied);
+};
 
 const NoAvatar = Template.bind({});
 NoAvatar.args = {
@@ -75,7 +83,11 @@ NoAvatar.parameters = {
     ],
   },
 };
-NoAvatar.play = async ({ canvasElement }) => {};
+NoAvatar.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await waitForElementToBeRemoved(() => canvas.queryByTestId('loading_account'));
+  expect(canvasElement.querySelector('svg')).toBeInTheDocument();
+};
 
 const ReadOnly = Template.bind({});
 ReadOnly.args = {
@@ -103,7 +115,12 @@ ReadOnly.parameters = {
     ],
   },
 };
-ReadOnly.play = async ({ canvasElement }) => {};
+ReadOnly.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await waitForElementToBeRemoved(() => canvas.queryByTestId('loading_account'));
+  expect(canvas.queryByText(profileCardNames.controls.copyAddress)).toBeNull();
+  expect(canvas.queryByText(profileCardNames.controls.editProfile)).toBeNull();
+};
 
 const Error = Template.bind({});
 Error.args = {
@@ -135,7 +152,10 @@ Error.parameters = {
     ],
   },
 };
-Error.play = async ({ canvasElement }) => {};
+Error.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await canvas.findByTestId('error_account');
+};
 
 const Loading = Template.bind({});
 Loading.args = {
@@ -161,7 +181,10 @@ Loading.parameters = {
     ],
   },
 };
-Loading.play = async ({ canvasElement }) => {};
+Loading.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await canvas.findByTestId('loading_account');
+};
 
 const stories = {
   title: 'Components/ProfileCard',
